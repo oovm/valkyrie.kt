@@ -53,9 +53,9 @@ import com.oracle.truffle.api.interop.*;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.builtins.*;
 import org.graalvm.polyglot.Context;
+import valkyrie.language.SLLanguage;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

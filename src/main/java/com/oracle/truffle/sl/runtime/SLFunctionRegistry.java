@@ -45,8 +45,8 @@ import com.oracle.truffle.api.RootCallTarget;
 import com.oracle.truffle.api.interop.TruffleObject;
 import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.parser.SimpleLanguageParser;
+import valkyrie.language.SLLanguage;
 
 import java.util.*;
 
@@ -125,7 +125,7 @@ public final class SLFunctionRegistry {
         Collections.sort(result, new Comparator<SLFunction>() {
             public int compare(SLFunction f1, SLFunction f2) {
                 assert SLLanguage.STRING_ENCODING == TruffleString.Encoding.UTF_16 : "SLLanguage.ENCODING changed, string comparison method must be adjusted accordingly!";
-                return f1.getName().compareCharsUTF16Uncached(f2.getName());
+                return f1.name.compareCharsUTF16Uncached(f2.name);
             }
         });
         return result;

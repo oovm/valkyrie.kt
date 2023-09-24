@@ -42,7 +42,6 @@ package com.oracle.truffle.sl.test;
 
 import com.oracle.truffle.api.instrumentation.EventBinding;
 import com.oracle.truffle.api.instrumentation.TruffleInstrument;
-import com.oracle.truffle.sl.SLLanguage;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Engine;
 import org.graalvm.polyglot.Instrument;
@@ -51,6 +50,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import valkyrie.language.SLLanguage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

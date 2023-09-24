@@ -48,12 +48,12 @@ import com.oracle.truffle.api.interop.UnsupportedMessageException;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.nodes.SLTypes;
 import com.oracle.truffle.sl.runtime.SLFunction;
 import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
 import com.oracle.truffle.sl.runtime.ValkyrieString;
+import valkyrie.language.SLLanguage;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -113,7 +113,7 @@ public abstract class SLToTruffleStringNode extends Node {
 
     @Specialization
     protected static TruffleString fromFunction(SLFunction value) {
-        return value.getName();
+        return value.name;
     }
 
     @Specialization(limit = "LIMIT")

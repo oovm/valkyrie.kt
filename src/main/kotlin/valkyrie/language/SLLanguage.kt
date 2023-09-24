@@ -1,4 +1,4 @@
-package com.oracle.truffle.sl
+package valkyrie.language
 
 import com.oracle.truffle.api.*
 import com.oracle.truffle.api.debug.DebuggerTags
@@ -25,6 +25,7 @@ import com.oracle.truffle.sl.runtime.SLContext
 import com.oracle.truffle.sl.runtime.SLLanguageView
 import com.oracle.truffle.sl.runtime.ValkyrieObject
 import com.oracle.truffle.sl.runtime.ValkyrieString
+import valkyrie.language.file_type.ValkyrieFileDetector
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.concurrent.Volatile
@@ -117,7 +118,7 @@ import kotlin.concurrent.Volatile
     defaultMimeType = SLLanguage.MIME_TYPE,
     characterMimeTypes = [SLLanguage.MIME_TYPE],
     contextPolicy = TruffleLanguage.ContextPolicy.SHARED,
-    fileTypeDetectors = [SLFileDetector::class],
+    fileTypeDetectors = [ValkyrieFileDetector::class],
     website = "https://www.graalvm.org/graalvm-as-a-platform/implement-language/"
 )
 @ProvidedTags(

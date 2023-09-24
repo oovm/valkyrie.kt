@@ -57,7 +57,7 @@ import com.oracle.truffle.api.`object`.DynamicObjectLibrary
 import com.oracle.truffle.api.`object`.Shape
 import com.oracle.truffle.api.strings.TruffleString
 import com.oracle.truffle.api.utilities.TriState
-import com.oracle.truffle.sl.SLLanguage
+import valkyrie.language.SLLanguage
 
 /**
  * Represents an SL object.

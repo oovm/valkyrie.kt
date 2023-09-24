@@ -40,12 +40,12 @@
  */
 package com.oracle.truffle.sl.test;
 
-import com.oracle.truffle.sl.SLLanguage;
 import org.graalvm.polyglot.*;
 import org.graalvm.polyglot.PolyglotException.StackFrame;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import valkyrie.language.SLLanguage;
 
 import java.util.Arrays;
 import java.util.Iterator;

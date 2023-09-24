@@ -43,9 +43,9 @@ package com.oracle.truffle.sl.runtime
 import com.oracle.truffle.api.CompilerDirectives
 import com.oracle.truffle.api.nodes.RootNode
 import com.oracle.truffle.api.strings.TruffleString
-import com.oracle.truffle.sl.SLLanguage
 import com.oracle.truffle.sl.nodes.SLEvalRootNode
 import com.oracle.truffle.sl.nodes.SLRootNode
+import valkyrie.language.SLLanguage
 
 object ValkyrieString {
     @JvmField

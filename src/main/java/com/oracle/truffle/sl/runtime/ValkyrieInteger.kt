@@ -47,7 +47,7 @@ import com.oracle.truffle.api.interop.TruffleObject
 import com.oracle.truffle.api.interop.UnsupportedMessageException
 import com.oracle.truffle.api.library.ExportLibrary
 import com.oracle.truffle.api.library.ExportMessage
-import com.oracle.truffle.sl.SLLanguage
+import valkyrie.language.SLLanguage
 import java.math.BigDecimal
 import java.math.BigInteger
 

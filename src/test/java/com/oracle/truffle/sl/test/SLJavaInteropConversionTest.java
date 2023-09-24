@@ -40,12 +40,12 @@
  */
 package com.oracle.truffle.sl.test;
 
-import com.oracle.truffle.sl.SLLanguage;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 import org.junit.Test;
+import valkyrie.language.SLLanguage;
 
 import java.util.List;
 import java.util.Map;

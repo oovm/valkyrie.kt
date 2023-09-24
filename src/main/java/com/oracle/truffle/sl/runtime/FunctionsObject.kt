@@ -38,128 +38,117 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.oracle.truffle.sl.runtime;
+package com.oracle.truffle.sl.runtime
 
-import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
-import com.oracle.truffle.api.TruffleLanguage;
-import com.oracle.truffle.api.dsl.Bind;
-import com.oracle.truffle.api.dsl.Cached;
-import com.oracle.truffle.api.interop.InteropLibrary;
-import com.oracle.truffle.api.interop.InvalidArrayIndexException;
-import com.oracle.truffle.api.interop.TruffleObject;
-import com.oracle.truffle.api.interop.UnknownIdentifierException;
-import com.oracle.truffle.api.library.ExportLibrary;
-import com.oracle.truffle.api.library.ExportMessage;
-import com.oracle.truffle.api.nodes.Node;
-import com.oracle.truffle.api.profiles.InlinedBranchProfile;
-import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.SLLanguage;
+import com.oracle.truffle.api.CompilerDirectives
+import com.oracle.truffle.api.TruffleLanguage
+import com.oracle.truffle.api.dsl.Bind
+import com.oracle.truffle.api.dsl.Cached
+import com.oracle.truffle.api.interop.InteropLibrary
+import com.oracle.truffle.api.interop.InvalidArrayIndexException
+import com.oracle.truffle.api.interop.TruffleObject
+import com.oracle.truffle.api.interop.UnknownIdentifierException
+import com.oracle.truffle.api.library.ExportLibrary
+import com.oracle.truffle.api.library.ExportMessage
+import com.oracle.truffle.api.nodes.Node
+import com.oracle.truffle.api.profiles.InlinedBranchProfile
+import com.oracle.truffle.api.strings.TruffleString
+import com.oracle.truffle.sl.runtime.ValkyrieString.fromJavaString
+import valkyrie.language.SLLanguage
 
-import java.util.HashMap;
-import java.util.Map;
+@ExportLibrary(InteropLibrary::class)
+internal class FunctionsObject : TruffleObject {
+    @JvmField
+    val functions: Map<TruffleString, SLFunction> = HashMap()
 
-@ExportLibrary(InteropLibrary.class)
-@SuppressWarnings("static-method")
-final class FunctionsObject implements TruffleObject {
+    @ExportMessage
+    fun hasLanguage(): Boolean {
+        return true
+    }
 
-    final Map<TruffleString, SLFunction> functions = new HashMap<>();
+    @get:ExportMessage
+    val language: Class<out TruffleLanguage<*>?>
+        get() = SLLanguage::class.java
 
-    FunctionsObject() {
+    @ExportMessage
+    fun hasMembers(): Boolean {
+        return true
     }
 
     @ExportMessage
-    boolean hasLanguage() {
-        return true;
-    }
-
-    @ExportMessage
-    Class<? extends TruffleLanguage<?>> getLanguage() {
-        return SLLanguage.class;
-    }
-
-    @ExportMessage
-    boolean hasMembers() {
-        return true;
-    }
-
-    @ExportMessage
-    @TruffleBoundary
-    Object readMember(String member) throws UnknownIdentifierException {
-        Object value = functions.get(ValkyrieString.fromJavaString(member));
+    @CompilerDirectives.TruffleBoundary
+    @Throws(
+        UnknownIdentifierException::class
+    )
+    fun readMember(member: String?): Any {
+        val value: Any? = functions[fromJavaString(member)]
         if (value != null) {
-            return value;
+            return value
         }
-        throw UnknownIdentifierException.create(member);
+        throw UnknownIdentifierException.create(member)
     }
 
     @ExportMessage
-    @TruffleBoundary
-    boolean isMemberReadable(String member) {
-        return functions.containsKey(ValkyrieString.fromJavaString(member));
+    @CompilerDirectives.TruffleBoundary
+    fun isMemberReadable(member: String?): Boolean {
+        return functions.containsKey(fromJavaString(member))
     }
 
     @ExportMessage
-    @TruffleBoundary
-    Object getMembers(@SuppressWarnings("unused") boolean includeInternal) {
-        return new FunctionNamesObject(functions.keySet().toArray());
+    @CompilerDirectives.TruffleBoundary
+    fun getMembers(@Suppress("unused") includeInternal: Boolean): Any {
+        return FunctionNamesObject(functions.keys.toTypedArray())
     }
 
     @ExportMessage
-    boolean hasMetaObject() {
-        return true;
+    fun hasMetaObject(): Boolean {
+        return true
     }
+
+    @get:ExportMessage
+    val metaObject: Any
+        get() = SLType.OBJECT
+
+    @get:ExportMessage
+    val isScope: Boolean
+        get() = true
 
     @ExportMessage
-    Object getMetaObject() {
-        return SLType.OBJECT;
+    @CompilerDirectives.TruffleBoundary
+    fun toDisplayString(@Suppress("unused") allowSideEffects: Boolean): Any {
+        return "global"
     }
 
-    @ExportMessage
-    boolean isScope() {
-        return true;
-    }
-
-    @ExportMessage
-    @TruffleBoundary
-    Object toDisplayString(@SuppressWarnings("unused") boolean allowSideEffects) {
-        return "global";
-    }
-
-    public static boolean isInstance(TruffleObject obj) {
-        return obj instanceof FunctionsObject;
-    }
-
-    @ExportLibrary(InteropLibrary.class)
-    static final class FunctionNamesObject implements TruffleObject {
-
-        private final Object[] names;
-
-        FunctionNamesObject(Object[] names) {
-            this.names = names;
+    @ExportLibrary(InteropLibrary::class)
+    internal class FunctionNamesObject(private val names: Array<Any>) : TruffleObject {
+        @ExportMessage
+        fun hasArrayElements(): Boolean {
+            return true
         }
 
         @ExportMessage
-        boolean hasArrayElements() {
-            return true;
+        fun isArrayElementReadable(index: Long): Boolean {
+            return index >= 0 && index < names.size
         }
 
-        @ExportMessage
-        boolean isArrayElementReadable(long index) {
-            return index >= 0 && index < names.length;
-        }
+        @get:ExportMessage
+        val arraySize: Long
+            get() = names.size.toLong()
 
         @ExportMessage
-        long getArraySize() {
-            return names.length;
-        }
-
-        @ExportMessage
-        Object readArrayElement(long index, @Bind("$node") Node node, @Cached InlinedBranchProfile error) throws InvalidArrayIndexException {
+        @Throws(InvalidArrayIndexException::class)
+        fun readArrayElement(index: Long, @Bind("\$node") node: Node?, @Cached error: InlinedBranchProfile): Any {
             if (!isArrayElementReadable(index)) {
-                error.enter(node);
-                throw InvalidArrayIndexException.create(index);
+                error.enter(node)
+                throw InvalidArrayIndexException.create(index)
             }
-            return names[(int) index];
+            return names[index.toInt()]
+        }
+    }
+
+    companion object {
+        fun isInstance(obj: TruffleObject?): Boolean {
+            return obj is FunctionsObject
         }
     }
 }

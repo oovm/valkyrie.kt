@@ -46,7 +46,6 @@ import com.oracle.truffle.api.frame.FrameSlotKind;
 import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.source.SourceSection;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLRootNode;
 import com.oracle.truffle.sl.nodes.SLStatementNode;
@@ -57,6 +56,7 @@ import com.oracle.truffle.sl.nodes.util.SLUnboxNodeGen;
 import com.oracle.truffle.sl.runtime.ValkyrieString;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Token;
+import valkyrie.language.SLLanguage;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

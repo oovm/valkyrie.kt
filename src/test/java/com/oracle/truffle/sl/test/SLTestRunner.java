@@ -41,7 +41,6 @@
 package com.oracle.truffle.sl.test;
 
 import com.oracle.truffle.api.dsl.NodeFactory;
-import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.builtins.SLBuiltinNode;
 import com.oracle.truffle.sl.test.SLTestRunner.TestCase;
 import org.graalvm.polyglot.Context;
@@ -60,6 +59,7 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
+import valkyrie.language.SLLanguage;
 
 import java.io.*;
 import java.net.URL;

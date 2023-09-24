@@ -166,7 +166,7 @@ public class SLInstrumentTest {
                 private void verifyRootInstance(Node node, Object rootInstance) throws UnsupportedMessageException {
                     assertNotNull(rootInstance);
                     SLFunction function = (SLFunction) rootInstance;
-                    assertEquals(node.getRootNode().getName(), InteropLibrary.getUncached().asString(function.getName()));
+                    assertEquals(node.getRootNode().getName(), InteropLibrary.getUncached().asString(function.name));
                 }
 
                 private Object findArguments(Node node, VirtualFrame frame) throws UnsupportedMessageException {

@@ -41,12 +41,12 @@
 package com.oracle.truffle.sl.test;
 
 import com.oracle.truffle.api.Truffle;
-import com.oracle.truffle.sl.SLLanguage;
 import org.graalvm.polyglot.Engine;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
+import valkyrie.language.SLLanguage;
 
 import java.net.URL;
 import java.net.URLClassLoader;

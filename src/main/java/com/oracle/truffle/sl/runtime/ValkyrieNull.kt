@@ -6,7 +6,7 @@ import com.oracle.truffle.api.interop.TruffleObject
 import com.oracle.truffle.api.library.ExportLibrary
 import com.oracle.truffle.api.library.ExportMessage
 import com.oracle.truffle.api.utilities.TriState
-import com.oracle.truffle.sl.SLLanguage
+import valkyrie.language.SLLanguage
 
 /**
  * The SL type for a `null` (i.e., undefined) value. In Truffle, it is generally discouraged

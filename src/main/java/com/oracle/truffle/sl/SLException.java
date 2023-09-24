@@ -48,6 +48,7 @@ import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.source.SourceSection;
 import com.oracle.truffle.sl.runtime.SLLanguageView;
+import valkyrie.language.SLLanguage;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 

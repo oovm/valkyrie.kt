@@ -10,8 +10,8 @@ import com.oracle.truffle.api.interop.TruffleObject
 import com.oracle.truffle.api.library.CachedLibrary
 import com.oracle.truffle.api.library.ExportLibrary
 import com.oracle.truffle.api.library.ExportMessage
-import com.oracle.truffle.sl.SLLanguage
 import com.oracle.truffle.sl.runtime.SLType.TypeCheck
+import valkyrie.language.SLLanguage
 
 /**
  * The builtin type definitions for SimpleLanguage. SL has no custom types, so it is not possible

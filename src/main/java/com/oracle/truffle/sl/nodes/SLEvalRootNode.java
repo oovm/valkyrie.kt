@@ -48,10 +48,10 @@ import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.DirectCallNode;
 import com.oracle.truffle.api.nodes.RootNode;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.runtime.SLContext;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
 import com.oracle.truffle.sl.runtime.ValkyrieString;
+import valkyrie.language.SLLanguage;
 
 import java.util.Collections;
 import java.util.Map;

@@ -9,7 +9,7 @@ import com.oracle.truffle.api.library.CachedLibrary
 import com.oracle.truffle.api.library.ExportLibrary
 import com.oracle.truffle.api.library.ExportMessage
 import com.oracle.truffle.api.nodes.ExplodeLoop
-import com.oracle.truffle.sl.SLLanguage
+import valkyrie.language.SLLanguage
 
 /**
  * Language views are needed in order to allow tools to have a consistent perspective on primitive
