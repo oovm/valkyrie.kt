@@ -38,11 +38,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.oracle.truffle.sl.runtime
+package valkyrie.runtime.exceptions
 
 import com.oracle.truffle.api.CompilerDirectives
 import com.oracle.truffle.api.nodes.Node
-import com.oracle.truffle.sl.ValkyrieException
 
 class ValkyrieUndefinedNameException : ValkyrieException {
     private constructor(message: String, node: Node) : super(message, node)

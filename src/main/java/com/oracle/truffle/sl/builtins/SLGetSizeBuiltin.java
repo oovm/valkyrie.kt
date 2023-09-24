@@ -45,7 +45,7 @@ import com.oracle.truffle.api.interop.InteropLibrary;
 import com.oracle.truffle.api.interop.UnsupportedMessageException;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import com.oracle.truffle.sl.ValkyrieException;
+import valkyrie.runtime.exceptions.ValkyrieException;
 
 /**
  * Built-in function that queries the size property of a foreign object. See

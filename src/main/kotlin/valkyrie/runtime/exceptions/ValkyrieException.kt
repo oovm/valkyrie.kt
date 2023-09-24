@@ -1,4 +1,4 @@
-package com.oracle.truffle.sl
+package valkyrie.runtime.exceptions
 
 import com.oracle.truffle.api.CompilerDirectives
 import com.oracle.truffle.api.exception.AbstractTruffleException

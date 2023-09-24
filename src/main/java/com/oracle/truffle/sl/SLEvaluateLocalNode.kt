@@ -38,35 +38,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.oracle.truffle.sl;
+package com.oracle.truffle.sl
 
-import com.oracle.truffle.api.frame.FrameDescriptor;
-import com.oracle.truffle.api.frame.MaterializedFrame;
-import com.oracle.truffle.api.frame.VirtualFrame;
-import com.oracle.truffle.api.nodes.RootNode;
-import com.oracle.truffle.api.strings.TruffleString;
-import valkyrie.language.ValkyrieLanguage;
+import com.oracle.truffle.api.frame.MaterializedFrame
+import com.oracle.truffle.api.frame.VirtualFrame
+import com.oracle.truffle.api.nodes.RootNode
+import com.oracle.truffle.api.strings.TruffleString
+import valkyrie.language.ValkyrieLanguage
 
-final class SLEvaluateLocalNode extends RootNode {
+internal class SLEvaluateLocalNode(
+    language: ValkyrieLanguage?,
+    private val variable: TruffleString,
+    private val inspectFrame: MaterializedFrame,
+) : RootNode(language) {
+    override fun execute(currentFrame: VirtualFrame): Any {
+        val frameDescriptor = inspectFrame.frameDescriptor
 
-    private final TruffleString variable;
-    private final MaterializedFrame inspectFrame;
-
-    SLEvaluateLocalNode(ValkyrieLanguage language, TruffleString variableName, MaterializedFrame frame) {
-        super(language);
-        this.variable = variableName;
-        this.inspectFrame = frame;
-    }
-
-    @Override
-    public Object execute(VirtualFrame currentFrame) {
-        FrameDescriptor frameDescriptor = inspectFrame.getFrameDescriptor();
-
-        for (int i = 0; i < frameDescriptor.getNumberOfSlots(); i++) {
-            if (variable.equals(frameDescriptor.getSlotName(i))) {
-                return inspectFrame.getValue(i);
+        for (i in 0 until frameDescriptor.numberOfSlots) {
+            if (variable == frameDescriptor.getSlotName(i)) {
+                return inspectFrame.getValue(i)
             }
         }
-        return null;
+        return null
     }
 }

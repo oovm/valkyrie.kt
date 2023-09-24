@@ -44,8 +44,8 @@ import com.oracle.truffle.api.dsl.Fallback;
 import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import com.oracle.truffle.sl.ValkyrieException;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
+import valkyrie.runtime.exceptions.ValkyrieException;
 
 /**
  * Example of a simple unary node that uses type specialization. See {@link SLAddNode} for

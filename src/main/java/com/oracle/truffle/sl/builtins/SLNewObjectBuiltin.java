@@ -52,8 +52,8 @@ import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.runtime.SLContext;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
-import com.oracle.truffle.sl.runtime.ValkyrieUndefinedNameException;
 import valkyrie.language.ValkyrieLanguage;
+import valkyrie.runtime.exceptions.ValkyrieUndefinedNameException;
 
 /**
  * Built-in function to create a new object. Objects in SL are simply made up of name/value pairs.

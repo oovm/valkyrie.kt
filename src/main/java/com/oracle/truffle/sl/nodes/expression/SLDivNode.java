@@ -47,9 +47,9 @@ import com.oracle.truffle.api.interop.InteropLibrary;
 import com.oracle.truffle.api.interop.UnsupportedMessageException;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import com.oracle.truffle.sl.ValkyrieException;
 import com.oracle.truffle.sl.nodes.SLBinaryNode;
 import com.oracle.truffle.sl.runtime.ValkyrieInteger;
+import valkyrie.runtime.exceptions.ValkyrieException;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 

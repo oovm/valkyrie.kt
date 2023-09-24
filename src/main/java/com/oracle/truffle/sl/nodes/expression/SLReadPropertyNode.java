@@ -57,7 +57,7 @@ import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.util.SLToMemberNode;
 import com.oracle.truffle.sl.nodes.util.SLToTruffleStringNode;
 import com.oracle.truffle.sl.runtime.ValkyrieObject;
-import com.oracle.truffle.sl.runtime.ValkyrieUndefinedNameException;
+import valkyrie.runtime.exceptions.ValkyrieUndefinedNameException;
 
 /**
  * The node for reading a property of an object. When executed, this node:

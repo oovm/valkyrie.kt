@@ -43,8 +43,8 @@ package com.oracle.truffle.sl.nodes.expression;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import com.oracle.truffle.api.profiles.CountingConditionProfile;
-import com.oracle.truffle.sl.ValkyrieException;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
+import valkyrie.runtime.exceptions.ValkyrieException;
 
 /**
  * Logical operations in SL use short circuit evaluation: if the evaluation of the left operand
