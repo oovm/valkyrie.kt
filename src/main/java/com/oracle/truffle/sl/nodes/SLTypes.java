@@ -47,7 +47,7 @@ import com.oracle.truffle.api.dsl.TypeCheck;
 import com.oracle.truffle.api.dsl.TypeSystem;
 import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.runtime.SLBigInteger;
-import com.oracle.truffle.sl.runtime.SLNull;
+import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 import java.math.BigInteger;
 
@@ -62,24 +62,24 @@ public abstract class SLTypes {
 
     /**
      * Example of a manually specified type check that replaces the automatically generated type
-     * check that the Truffle DSL would generate. For {@link SLNull}, we do not need an
-     * {@code instanceof} check, because we know that there is only a {@link SLNull#SINGLETON
+     * check that the Truffle DSL would generate. For {@link ValkyrieNull}, we do not need an
+     * {@code instanceof} check, because we know that there is only a {@link ValkyrieNull#SINGLETON
      * singleton} instance.
      */
-    @TypeCheck(SLNull.class)
+    @TypeCheck(ValkyrieNull.class)
     public static boolean isSLNull(Object value) {
-        return value == SLNull.SINGLETON;
+        return value == ValkyrieNull.SINGLETON;
     }
 
     /**
      * Example of a manually specified type cast that replaces the automatically generated type cast
-     * that the Truffle DSL would generate. For {@link SLNull}, we do not need an actual cast,
-     * because we know that there is only a {@link SLNull#SINGLETON singleton} instance.
+     * that the Truffle DSL would generate. For {@link ValkyrieNull}, we do not need an actual cast,
+     * because we know that there is only a {@link ValkyrieNull#SINGLETON singleton} instance.
      */
-    @TypeCast(SLNull.class)
-    public static SLNull asSLNull(Object value) {
+    @TypeCast(ValkyrieNull.class)
+    public static ValkyrieNull asSLNull(Object value) {
         assert isSLNull(value);
-        return SLNull.SINGLETON;
+        return ValkyrieNull.SINGLETON;
     }
 
     /**

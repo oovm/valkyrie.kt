@@ -48,7 +48,7 @@ import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.SLNull;
+import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 /**
  * Builtin function that performs context exit.
@@ -60,7 +60,7 @@ public abstract class SLAddToHostClassPathBuiltin extends SLBuiltinNode {
     protected Object doDefault(TruffleString classPath,
                                @Cached TruffleString.ToJavaStringNode toJavaStringNode) {
         addToHostClassPath(toJavaStringNode.execute(classPath));
-        return SLNull.SINGLETON;
+        return ValkyrieNull.SINGLETON;
     }
 
     @CompilerDirectives.TruffleBoundary

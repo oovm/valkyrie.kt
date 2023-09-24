@@ -52,8 +52,8 @@ import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.nodes.SLTypes;
 import com.oracle.truffle.sl.runtime.SLBigInteger;
 import com.oracle.truffle.sl.runtime.SLFunction;
-import com.oracle.truffle.sl.runtime.SLNull;
 import com.oracle.truffle.sl.runtime.SLStrings;
+import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -76,7 +76,7 @@ public abstract class SLToTruffleStringNode extends Node {
     public abstract TruffleString execute(Node node, Object value);
 
     @Specialization
-    protected static TruffleString fromNull(@SuppressWarnings("unused") SLNull value) {
+    protected static TruffleString fromNull(@SuppressWarnings("unused") ValkyrieNull value) {
         return SLStrings.NULL;
     }
 

@@ -25,11 +25,15 @@ dependencies {
     annotationProcessor("org.graalvm.truffle:truffle-dsl-processor:${graalVM}")
 
     testImplementation(kotlin("test"))
-    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.13.1")
     testImplementation("org.graalvm.truffle:truffle-tck:${graalVM}")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+//    testImplementation("org.junit.platform:junit-platform-launcher")
 }
+configurations {
+    runtimeOnly {
 
+    }
+}
 tasks.test {
     useJUnitPlatform()
 }
@@ -56,6 +60,9 @@ graal {
     languageName = "Valkyrie Language"
 }
 graalvmNative {
+    agent {
+
+    }
 
     binaries {
         named("main") {

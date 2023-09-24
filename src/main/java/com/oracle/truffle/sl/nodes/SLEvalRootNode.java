@@ -50,8 +50,8 @@ import com.oracle.truffle.api.nodes.RootNode;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.SLNull;
 import com.oracle.truffle.sl.runtime.SLStrings;
+import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 import java.util.Collections;
 import java.util.Map;
@@ -135,7 +135,7 @@ public final class SLEvalRootNode extends RootNode {
         }
         if (mainCallNode == null) {
             /* The source code did not have a "main" function, so nothing to execute. */
-            return SLNull.SINGLETON;
+            return ValkyrieNull.SINGLETON;
         } else {
             /* Conversion of arguments to types understood by SL. */
             Object[] arguments = frame.getArguments();

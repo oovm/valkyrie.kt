@@ -53,7 +53,7 @@ import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLTypes;
 import com.oracle.truffle.sl.runtime.SLBigInteger;
 import com.oracle.truffle.sl.runtime.SLFunction;
-import com.oracle.truffle.sl.runtime.SLNull;
+import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -99,7 +99,7 @@ public abstract class SLUnboxNode extends SLExpressionNode {
     }
 
     @Specialization
-    protected static SLNull fromFunction(SLNull value) {
+    protected static ValkyrieNull fromFunction(ValkyrieNull value) {
         return value;
     }
 

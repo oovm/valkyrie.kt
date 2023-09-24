@@ -52,7 +52,7 @@ import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.nodes.SLBinaryNode;
 import com.oracle.truffle.sl.runtime.SLBigInteger;
 import com.oracle.truffle.sl.runtime.SLFunction;
-import com.oracle.truffle.sl.runtime.SLNull;
+import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -95,7 +95,7 @@ public abstract class SLEqualNode extends SLBinaryNode {
     }
 
     @Specialization
-    protected boolean doNull(SLNull left, SLNull right) {
+    protected boolean doNull(ValkyrieNull left, ValkyrieNull right) {
         /* There is only the singleton instance of SLNull, so we do not need equals(). */
         return left == right;
     }

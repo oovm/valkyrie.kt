@@ -44,7 +44,7 @@ import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.profiles.BranchProfile;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.parser.SLNodeFactory;
-import com.oracle.truffle.sl.runtime.SLNull;
+import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 /**
  * Reads a function argument. Arguments are passed in as an object array.
@@ -79,7 +79,7 @@ public class SLReadArgumentNode extends SLExpressionNode {
             /* In the interpreter, record profiling information that the branch was used. */
             outOfBoundsTaken.enter();
             /* Use the default null value. */
-            return SLNull.SINGLETON;
+            return ValkyrieNull.SINGLETON;
         }
     }
 }

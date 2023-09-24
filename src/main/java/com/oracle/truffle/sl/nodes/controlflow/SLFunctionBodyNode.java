@@ -46,14 +46,14 @@ import com.oracle.truffle.api.profiles.BranchProfile;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLRootNode;
 import com.oracle.truffle.sl.nodes.SLStatementNode;
-import com.oracle.truffle.sl.runtime.SLNull;
+import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 /**
  * The body of a user-defined SL function. This is the node referenced by a {@link SLRootNode} for
  * user-defined functions. It handles the return value of a function: the {@link SLReturnNode return
  * statement} throws an {@link SLReturnException exception} with the return value. This node catches
  * the exception. If the method ends without an explicit {@code return}, return the
- * {@link SLNull#SINGLETON default null value}.
+ * {@link ValkyrieNull#SINGLETON default null value}.
  */
 @NodeInfo(shortName = "body")
 public final class SLFunctionBodyNode extends SLExpressionNode {
@@ -99,6 +99,6 @@ public final class SLFunctionBodyNode extends SLExpressionNode {
          */
         nullTaken.enter();
         /* Return the default null value. */
-        return SLNull.SINGLETON;
+        return ValkyrieNull.SINGLETON;
     }
 }

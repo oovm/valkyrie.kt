@@ -50,7 +50,7 @@ import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.SLException;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.SLNull;
+import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 /**
  * Built-in function that goes through to import a symbol from the polyglot bindings.
@@ -65,7 +65,7 @@ public abstract class SLImportBuiltin extends SLBuiltinNode {
         try {
             return arrays.readMember(SLContext.get(this).getPolyglotBindings(), toJavaStringNode.execute(symbol));
         } catch (UnsupportedMessageException | UnknownIdentifierException e) {
-            return SLNull.SINGLETON;
+            return ValkyrieNull.SINGLETON;
         } catch (SecurityException e) {
             throw new SLException("No polyglot access allowed.", this);
         }

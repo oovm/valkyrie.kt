@@ -52,8 +52,8 @@ import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.SLNull;
 import com.oracle.truffle.sl.runtime.SLUndefinedNameException;
+import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 /**
  * Built-in function to create a new object. Objects in SL are simply made up of name/value pairs.
@@ -64,7 +64,7 @@ public abstract class SLNewObjectBuiltin extends SLBuiltinNode {
 
     @Specialization
     @SuppressWarnings("unused")
-    public Object newObject(SLNull o,
+    public Object newObject(ValkyrieNull o,
                             @Cached(value = "lookup()", neverDefault = true) AllocationReporter reporter) {
         return SLLanguage.get(this).createObject(reporter);
     }

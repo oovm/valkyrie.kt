@@ -62,8 +62,8 @@ import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLRootNode;
 import com.oracle.truffle.sl.nodes.controlflow.SLBlockNode;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.SLNull;
 import com.oracle.truffle.sl.runtime.SLStrings;
+import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 /**
  * The SL implementation of {@link NodeLibrary} provides fast access to local variables. It's used
@@ -409,7 +409,7 @@ public abstract class SLScopedNode extends Node {
                 if (receiver.frame != null) {
                     return receiver.frame.getArguments()[index];
                 } else {
-                    return SLNull.SINGLETON;
+                    return ValkyrieNull.SINGLETON;
                 }
             }
         }
@@ -713,7 +713,7 @@ public abstract class SLScopedNode extends Node {
                 if (receiver.frame != null) {
                     return receiver.frame.getValue(slot);
                 } else {
-                    return SLNull.SINGLETON;
+                    return ValkyrieNull.SINGLETON;
                 }
             }
         }
