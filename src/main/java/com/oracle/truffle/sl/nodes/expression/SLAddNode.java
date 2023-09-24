@@ -48,7 +48,7 @@ import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.SLException;
+import com.oracle.truffle.sl.ValkyrieException;
 import com.oracle.truffle.sl.nodes.SLBinaryNode;
 import com.oracle.truffle.sl.nodes.SLTypes;
 import com.oracle.truffle.sl.nodes.util.SLToTruffleStringNode;
@@ -161,6 +161,6 @@ public abstract class SLAddNode extends SLBinaryNode {
 
     @Fallback
     protected Object typeError(Object left, Object right) {
-        throw SLException.typeError(this, left, right);
+        throw ValkyrieException.typeError(this, left, right);
     }
 }

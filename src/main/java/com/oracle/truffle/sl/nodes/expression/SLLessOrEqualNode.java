@@ -47,7 +47,7 @@ import com.oracle.truffle.api.interop.InteropLibrary;
 import com.oracle.truffle.api.interop.UnsupportedMessageException;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import com.oracle.truffle.sl.SLException;
+import com.oracle.truffle.sl.ValkyrieException;
 import com.oracle.truffle.sl.nodes.SLBinaryNode;
 import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 
@@ -84,6 +84,6 @@ public abstract class SLLessOrEqualNode extends SLBinaryNode {
 
     @Fallback
     protected Object typeError(Object left, Object right) {
-        throw SLException.typeError(this, left, right);
+        throw ValkyrieException.typeError(this, left, right);
     }
 }

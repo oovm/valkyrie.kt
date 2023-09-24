@@ -44,7 +44,7 @@ import com.oracle.truffle.api.dsl.Fallback;
 import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import com.oracle.truffle.sl.SLException;
+import com.oracle.truffle.sl.ValkyrieException;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 
 /**
@@ -62,7 +62,7 @@ public abstract class SLLogicalNotNode extends SLExpressionNode {
 
     @Fallback
     protected Object typeError(Object value) {
-        throw SLException.typeError(this, value);
+        throw ValkyrieException.typeError(this, value);
     }
 
 }

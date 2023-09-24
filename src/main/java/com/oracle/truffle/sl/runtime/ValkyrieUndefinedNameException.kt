@@ -38,27 +38,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.oracle.truffle.sl.runtime;
+package com.oracle.truffle.sl.runtime
 
-import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
-import com.oracle.truffle.api.nodes.Node;
-import com.oracle.truffle.sl.SLException;
+import com.oracle.truffle.api.CompilerDirectives
+import com.oracle.truffle.api.nodes.Node
+import com.oracle.truffle.sl.ValkyrieException
 
-public final class SLUndefinedNameException extends SLException {
+class ValkyrieUndefinedNameException : ValkyrieException {
+    private constructor(message: String, node: Node) : super(message, node)
 
-    private static final long serialVersionUID = 1L;
+    companion object {
+        private const val serialVersionUID = 1L
 
-    @TruffleBoundary
-    public static SLUndefinedNameException undefinedFunction(Node location, Object name) {
-        throw new SLUndefinedNameException("Undefined function: " + name, location);
-    }
+        @JvmStatic
+        @CompilerDirectives.TruffleBoundary
+        fun undefinedFunction(location: Node, name: Any): ValkyrieUndefinedNameException {
+            throw ValkyrieUndefinedNameException("Undefined function: $name", location)
+        }
 
-    @TruffleBoundary
-    public static SLUndefinedNameException undefinedProperty(Node location, Object name) {
-        throw new SLUndefinedNameException("Undefined property: " + name, location);
-    }
-
-    private SLUndefinedNameException(String message, Node node) {
-        super(message, node);
+        @JvmStatic
+        @CompilerDirectives.TruffleBoundary
+        fun undefinedProperty(location: Node, name: Any): ValkyrieUndefinedNameException {
+            throw ValkyrieUndefinedNameException("Undefined property: $name", location)
+        }
     }
 }

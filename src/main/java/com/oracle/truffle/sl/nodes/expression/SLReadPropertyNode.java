@@ -56,8 +56,8 @@ import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.util.SLToMemberNode;
 import com.oracle.truffle.sl.nodes.util.SLToTruffleStringNode;
-import com.oracle.truffle.sl.runtime.SLUndefinedNameException;
 import com.oracle.truffle.sl.runtime.ValkyrieObject;
+import com.oracle.truffle.sl.runtime.ValkyrieUndefinedNameException;
 
 /**
  * The node for reading a property of an object. When executed, this node:
@@ -82,7 +82,7 @@ public abstract class SLReadPropertyNode extends SLExpressionNode {
             return arrays.readArrayElement(receiver, numbers.asLong(index));
         } catch (UnsupportedMessageException | InvalidArrayIndexException e) {
             // read was not successful. In SL we only have basic support for errors.
-            throw SLUndefinedNameException.undefinedProperty(this, index);
+            throw ValkyrieUndefinedNameException.undefinedProperty(this, index);
         }
     }
 
@@ -95,7 +95,7 @@ public abstract class SLReadPropertyNode extends SLExpressionNode {
         Object result = objectLibrary.getOrDefault(receiver, nameTS, null);
         if (result == null) {
             // read was not successful. In SL we only have basic support for errors.
-            throw SLUndefinedNameException.undefinedProperty(node, nameTS);
+            throw ValkyrieUndefinedNameException.undefinedProperty(node, nameTS);
         }
         return result;
     }
@@ -109,7 +109,7 @@ public abstract class SLReadPropertyNode extends SLExpressionNode {
             return objects.readMember(receiver, asMember.execute(node, name));
         } catch (UnsupportedMessageException | UnknownIdentifierException e) {
             // read was not successful. In SL we only have basic support for errors.
-            throw SLUndefinedNameException.undefinedProperty(node, name);
+            throw ValkyrieUndefinedNameException.undefinedProperty(node, name);
         }
     }
 

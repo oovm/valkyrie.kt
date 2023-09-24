@@ -51,8 +51,8 @@ import com.oracle.truffle.api.interop.UnsupportedTypeException;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.SLUndefinedNameException;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
+import com.oracle.truffle.sl.runtime.ValkyrieUndefinedNameException;
 import valkyrie.language.ValkyrieLanguage;
 
 /**
@@ -79,7 +79,7 @@ public abstract class SLNewObjectBuiltin extends SLBuiltinNode {
             return values.instantiate(obj);
         } catch (UnsupportedTypeException | ArityException | UnsupportedMessageException e) {
             /* Foreign access was not successful. */
-            throw SLUndefinedNameException.undefinedFunction(this, obj);
+            throw ValkyrieUndefinedNameException.undefinedFunction(this, obj);
         }
     }
 }

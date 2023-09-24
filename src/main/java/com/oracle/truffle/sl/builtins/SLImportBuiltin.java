@@ -48,7 +48,7 @@ import com.oracle.truffle.api.interop.UnsupportedMessageException;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.SLException;
+import com.oracle.truffle.sl.ValkyrieException;
 import com.oracle.truffle.sl.runtime.SLContext;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
@@ -67,7 +67,7 @@ public abstract class SLImportBuiltin extends SLBuiltinNode {
         } catch (UnsupportedMessageException | UnknownIdentifierException e) {
             return ValkyrieNull.SINGLETON;
         } catch (SecurityException e) {
-            throw new SLException("No polyglot access allowed.", this);
+            throw new ValkyrieException("No polyglot access allowed.", this);
         }
     }
 

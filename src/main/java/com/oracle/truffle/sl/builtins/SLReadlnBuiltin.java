@@ -45,7 +45,7 @@ import com.oracle.truffle.api.dsl.Cached;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.SLException;
+import com.oracle.truffle.sl.ValkyrieException;
 import com.oracle.truffle.sl.runtime.SLContext;
 import com.oracle.truffle.sl.runtime.ValkyrieString;
 import valkyrie.language.ValkyrieLanguage;
@@ -78,7 +78,7 @@ public abstract class SLReadlnBuiltin extends SLBuiltinNode {
         try {
             return in.readLine();
         } catch (IOException ex) {
-            throw new SLException(ex.getMessage(), this);
+            throw new ValkyrieException(ex.getMessage(), this);
         }
     }
 }

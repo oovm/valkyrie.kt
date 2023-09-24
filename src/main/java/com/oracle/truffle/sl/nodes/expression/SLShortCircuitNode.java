@@ -43,7 +43,7 @@ package com.oracle.truffle.sl.nodes.expression;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import com.oracle.truffle.api.profiles.CountingConditionProfile;
-import com.oracle.truffle.sl.SLException;
+import com.oracle.truffle.sl.ValkyrieException;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 
 /**
@@ -80,7 +80,7 @@ public abstract class SLShortCircuitNode extends SLExpressionNode {
         try {
             leftValue = left.executeBoolean(frame);
         } catch (UnexpectedResultException e) {
-            throw SLException.typeError(this, e.getResult(), null);
+            throw ValkyrieException.typeError(this, e.getResult(), null);
         }
         boolean rightValue;
         try {
@@ -90,7 +90,7 @@ public abstract class SLShortCircuitNode extends SLExpressionNode {
                 rightValue = false;
             }
         } catch (UnexpectedResultException e) {
-            throw SLException.typeError(this, leftValue, e.getResult());
+            throw ValkyrieException.typeError(this, leftValue, e.getResult());
         }
         return execute(leftValue, rightValue);
     }

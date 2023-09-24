@@ -45,7 +45,7 @@ import com.oracle.truffle.api.interop.InteropLibrary;
 import com.oracle.truffle.api.interop.UnsupportedMessageException;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import com.oracle.truffle.sl.SLException;
+import com.oracle.truffle.sl.ValkyrieException;
 import com.oracle.truffle.sl.runtime.SLContext;
 
 /**
@@ -65,7 +65,7 @@ public abstract class SLJavaTypeBuiltin extends SLBuiltinNode {
              */
             return SLContext.get(this).getEnv().lookupHostSymbol(interop.asString(symbolName));
         } catch (UnsupportedMessageException e) {
-            throw new SLException("The java builtin expected a String argument, but a non-string argument was provided.", this);
+            throw new ValkyrieException("The java builtin expected a String argument, but a non-string argument was provided.", this);
         }
     }
 

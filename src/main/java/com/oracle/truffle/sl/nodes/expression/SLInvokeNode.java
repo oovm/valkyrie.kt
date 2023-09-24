@@ -52,7 +52,7 @@ import com.oracle.truffle.api.nodes.ExplodeLoop;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.runtime.SLFunction;
-import com.oracle.truffle.sl.runtime.SLUndefinedNameException;
+import com.oracle.truffle.sl.runtime.ValkyrieUndefinedNameException;
 
 /**
  * The node for function invocation in SL. Since SL has first class functions, the {@link SLFunction
@@ -100,7 +100,7 @@ public final class SLInvokeNode extends SLExpressionNode {
             return library.execute(function, argumentValues);
         } catch (ArityException | UnsupportedTypeException | UnsupportedMessageException e) {
             /* Execute was not successful. */
-            throw SLUndefinedNameException.undefinedFunction(this, function);
+            throw ValkyrieUndefinedNameException.undefinedFunction(this, function);
         }
     }
 

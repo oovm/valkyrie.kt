@@ -38,59 +38,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.oracle.truffle.sl.runtime;
+package com.oracle.truffle.sl.runtime
 
-import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
-import com.oracle.truffle.api.RootCallTarget;
-import com.oracle.truffle.api.interop.TruffleObject;
-import com.oracle.truffle.api.source.Source;
-import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.parser.SimpleLanguageParser;
-import valkyrie.language.ValkyrieLanguage;
-
-import java.util.*;
+import com.oracle.truffle.api.CompilerDirectives
+import com.oracle.truffle.api.RootCallTarget
+import com.oracle.truffle.api.interop.TruffleObject
+import com.oracle.truffle.api.source.Source
+import com.oracle.truffle.api.strings.TruffleString
+import com.oracle.truffle.sl.parser.SimpleLanguageParser
+import valkyrie.language.ValkyrieLanguage
+import java.util.*
 
 /**
- * Manages the mapping from function names to {@link SLFunction function objects}.
+ * Manages the mapping from function names to [function objects][SLFunction].
  */
-public final class SLFunctionRegistry {
-
-    private final ValkyrieLanguage language;
-    private final FunctionsObject functionsObject = new FunctionsObject();
-    private final Map<Map<TruffleString, RootCallTarget>, Void> registeredFunctions = new IdentityHashMap<>();
-
-    public SLFunctionRegistry(ValkyrieLanguage language) {
-        this.language = language;
-    }
+class SLFunctionRegistry(private val language: ValkyrieLanguage) {
+    internal val functionsObject = FunctionsObject()
+    private val registeredFunctions: MutableMap<Map<TruffleString, RootCallTarget>, Void?> = IdentityHashMap()
 
     /**
-     * Returns the canonical {@link SLFunction} object for the given name. If it does not exist yet,
+     * Returns the canonical [SLFunction] object for the given name. If it does not exist yet,
      * it is created.
      */
-    @TruffleBoundary
-    public SLFunction lookup(TruffleString name, boolean createIfNotPresent) {
-        SLFunction result = functionsObject.functions.get(name);
+    @CompilerDirectives.TruffleBoundary
+    fun lookup(name: TruffleString, createIfNotPresent: Boolean): SLFunction? {
+        var result = functionsObject.functions[name]
         if (result == null && createIfNotPresent) {
-            result = new SLFunction(language, name);
-            functionsObject.functions.put(name, result);
+            result = SLFunction(language, name!!)
+            functionsObject.functions[name] = result;
         }
-        return result;
+        return result
     }
 
     /**
-     * Associates the {@link SLFunction} with the given name with the given implementation root
+     * Associates the [SLFunction] with the given name with the given implementation root
      * node. If the function did not exist before, it defines the function. If the function existed
      * before, it redefines the function and the old implementation is discarded.
      */
-    SLFunction register(TruffleString name, RootCallTarget callTarget) {
-        SLFunction result = functionsObject.functions.get(name);
+    fun register(name: TruffleString?, callTarget: RootCallTarget?): SLFunction {
+        var result = functionsObject.functions[name]
         if (result == null) {
-            result = new SLFunction(name, callTarget);
-            functionsObject.functions.put(name, result);
+            result = SLFunction(name!!, callTarget)
+            functionsObject.functions[name] = result
         } else {
-            result.setCallTarget(callTarget);
+            result.callTarget = callTarget
         }
-        return result;
+        return result
     }
 
     /**
@@ -98,41 +91,39 @@ public final class SLFunctionRegistry {
      * cache the registration for the entire map. If the map is changed after registration the
      * functions might not get registered.
      */
-    @TruffleBoundary
-    public void register(Map<TruffleString, RootCallTarget> newFunctions) {
+    @CompilerDirectives.TruffleBoundary
+    fun register(newFunctions: Map<TruffleString, RootCallTarget>) {
         if (registeredFunctions.containsKey(newFunctions)) {
-            return;
+            return
         }
-        for (Map.Entry<TruffleString, RootCallTarget> entry : newFunctions.entrySet()) {
-            register(entry.getKey(), entry.getValue());
+        for ((key, value) in newFunctions) {
+            register(key, value)
         }
-        registeredFunctions.put(newFunctions, null);
+        registeredFunctions[newFunctions] = null
     }
 
-    public void register(Source newFunctions) {
-        register(SimpleLanguageParser.parseSL(language, newFunctions));
+    fun register(newFunctions: Source?) {
+        register(SimpleLanguageParser.parseSL(language, newFunctions))
     }
 
-    public SLFunction getFunction(TruffleString name) {
-        return functionsObject.functions.get(name);
+    fun getFunction(name: TruffleString?): SLFunction? {
+        return functionsObject.functions[name]
     }
 
-    /**
-     * Returns the sorted list of all functions, for printing purposes only.
-     */
-    public List<SLFunction> getFunctions() {
-        List<SLFunction> result = new ArrayList<>(functionsObject.functions.values());
-        Collections.sort(result, new Comparator<SLFunction>() {
-            public int compare(SLFunction f1, SLFunction f2) {
-                assert ValkyrieLanguage.STRING_ENCODING == TruffleString.Encoding.UTF_16 : "SLLanguage.ENCODING changed, string comparison method must be adjusted accordingly!";
-                return f1.name.compareCharsUTF16Uncached(f2.name);
+    val functions: List<SLFunction>
+        /**
+         * Returns the sorted list of all functions, for printing purposes only.
+         */
+        get() {
+            val result: List<SLFunction> = ArrayList(functionsObject.functions.values)
+            Collections.sort(result) { f1, f2 ->
+                assert(ValkyrieLanguage.STRING_ENCODING == TruffleString.Encoding.UTF_16) { "SLLanguage.ENCODING changed, string comparison method must be adjusted accordingly!" }
+                f1.name.compareCharsUTF16Uncached(f2.name)
             }
-        });
-        return result;
-    }
+            return result
+        }
 
-    public TruffleObject getFunctionsObject() {
-        return functionsObject;
+    fun getFunctionsObject(): TruffleObject {
+        return functionsObject
     }
-
 }

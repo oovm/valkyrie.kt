@@ -59,7 +59,7 @@ import valkyrie.language.ValkyrieLanguage
 @ExportLibrary(InteropLibrary::class)
 internal class FunctionsObject : TruffleObject {
     @JvmField
-    val functions: Map<TruffleString, SLFunction> = HashMap()
+    val functions: MutableMap<TruffleString, SLFunction> = HashMap()
 
     @ExportMessage
     fun hasLanguage(): Boolean {

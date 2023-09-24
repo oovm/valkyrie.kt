@@ -45,7 +45,7 @@ import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.UnsupportedSpecializationException;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
-import com.oracle.truffle.sl.SLException;
+import com.oracle.truffle.sl.ValkyrieException;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.runtime.SLContext;
 import com.oracle.truffle.sl.runtime.SLFunctionRegistry;
@@ -67,7 +67,7 @@ public abstract class SLBuiltinNode extends SLExpressionNode {
         try {
             return execute(frame);
         } catch (UnsupportedSpecializationException e) {
-            throw SLException.typeError(e.getNode(), e.getSuppliedValues());
+            throw ValkyrieException.typeError(e.getNode(), e.getSuppliedValues());
         }
     }
 

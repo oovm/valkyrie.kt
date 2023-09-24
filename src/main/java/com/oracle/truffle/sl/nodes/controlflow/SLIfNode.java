@@ -44,7 +44,7 @@ import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import com.oracle.truffle.api.profiles.CountingConditionProfile;
-import com.oracle.truffle.sl.SLException;
+import com.oracle.truffle.sl.ValkyrieException;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLStatementNode;
 import com.oracle.truffle.sl.nodes.util.SLUnboxNodeGen;
@@ -116,7 +116,7 @@ public final class SLIfNode extends SLStatementNode {
              * The condition evaluated to a non-boolean result. This is a type error in the SL
              * program.
              */
-            throw SLException.typeError(this, ex.getResult());
+            throw ValkyrieException.typeError(this, ex.getResult());
         }
     }
 }
