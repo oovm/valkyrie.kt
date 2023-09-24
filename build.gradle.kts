@@ -17,8 +17,8 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    implementation("org.graalvm.truffle:truffle-api:22.1.0")
-    annotationProcessor("org.graalvm.truffle:truffle-dsl-processor:22.1.0")
+    implementation("org.graalvm.truffle:truffle-api:23.1.0")
+    annotationProcessor("org.graalvm.truffle:truffle-dsl-processor:23.1.0")
 }
 
 tasks.test {
