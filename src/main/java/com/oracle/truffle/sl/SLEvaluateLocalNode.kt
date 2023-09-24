@@ -51,10 +51,10 @@ internal class SLEvaluateLocalNode(
     private val variable: TruffleString,
     private val inspectFrame: MaterializedFrame,
 ) : RootNode(language) {
-    override fun execute(currentFrame: VirtualFrame): Any {
+    override fun execute(currentFrame: VirtualFrame): Any? {
         val frameDescriptor = inspectFrame.frameDescriptor
 
-        for (i in 0 until frameDescriptor.numberOfSlots) {
+        for (i in 0..<frameDescriptor.numberOfSlots) {
             if (variable == frameDescriptor.getSlotName(i)) {
                 return inspectFrame.getValue(i)
             }
