@@ -53,7 +53,7 @@ import com.oracle.truffle.sl.nodes.SLTypes;
 import com.oracle.truffle.sl.runtime.SLFunction;
 import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -70,7 +70,7 @@ public abstract class SLUnboxNode extends SLExpressionNode {
     @Specialization
     protected static TruffleString fromString(String value,
                                               @Cached TruffleString.FromJavaStringNode fromJavaStringNode) {
-        return fromJavaStringNode.execute(value, SLLanguage.STRING_ENCODING);
+        return fromJavaStringNode.execute(value, ValkyrieLanguage.STRING_ENCODING);
     }
 
     @Specialization

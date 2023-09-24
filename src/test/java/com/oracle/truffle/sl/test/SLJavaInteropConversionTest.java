@@ -45,7 +45,7 @@ import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 import org.junit.Test;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 import java.util.List;
 import java.util.Map;
@@ -107,9 +107,9 @@ public class SLJavaInteropConversionTest {
                 "  obj.b = new();\n" +
                 "  return validator.validateObject(obj, obj);\n" +
                 "}";
-        try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
-            context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
-            Value test = context.getBindings(SLLanguage.ID).getMember("test");
+        try (Context context = Context.newBuilder(ValkyrieLanguage.ID).build()) {
+            context.eval(Source.newBuilder(ValkyrieLanguage.ID, sourceText, "Test").build());
+            Value test = context.getBindings(ValkyrieLanguage.ID).getMember("test");
             Value res = test.execute(new Validator());
             assertTrue(res.isNumber() && res.asInt() == 42);
         }
@@ -123,9 +123,9 @@ public class SLJavaInteropConversionTest {
                 "  obj.b = new();\n" +
                 "  return validator.validateMap(obj, obj);\n" +
                 "}";
-        try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
-            context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
-            Value test = context.getBindings(SLLanguage.ID).getMember("test");
+        try (Context context = Context.newBuilder(ValkyrieLanguage.ID).build()) {
+            context.eval(Source.newBuilder(ValkyrieLanguage.ID, sourceText, "Test").build());
+            Value test = context.getBindings(ValkyrieLanguage.ID).getMember("test");
             Value res = test.execute(new Validator());
             assertTrue(res.isNumber() && res.asInt() == 42);
         }
@@ -138,9 +138,9 @@ public class SLJavaInteropConversionTest {
                 "  array[1] = new();\n" +
                 "  return validator.validateList(array, array);\n" +
                 "}";
-        try (Context context = Context.newBuilder(SLLanguage.ID).allowHostAccess(HostAccess.ALL).build()) {
-            context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
-            Value test = context.getBindings(SLLanguage.ID).getMember("test");
+        try (Context context = Context.newBuilder(ValkyrieLanguage.ID).allowHostAccess(HostAccess.ALL).build()) {
+            context.eval(Source.newBuilder(ValkyrieLanguage.ID, sourceText, "Test").build());
+            Value test = context.getBindings(ValkyrieLanguage.ID).getMember("test");
             Value res = test.execute(new Validator(), new Object[2]);
             assertTrue(res.isNumber() && res.asInt() == 42);
         }

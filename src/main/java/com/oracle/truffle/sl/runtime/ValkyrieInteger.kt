@@ -47,7 +47,7 @@ import com.oracle.truffle.api.interop.TruffleObject
 import com.oracle.truffle.api.interop.UnsupportedMessageException
 import com.oracle.truffle.api.library.ExportLibrary
 import com.oracle.truffle.api.library.ExportMessage
-import valkyrie.language.SLLanguage
+import valkyrie.language.ValkyrieLanguage
 import java.math.BigDecimal
 import java.math.BigInteger
 
@@ -245,7 +245,7 @@ class ValkyrieInteger : TruffleObject, Comparable<ValkyrieInteger> {
 
     @get:ExportMessage
     val language: Class<out TruffleLanguage<*>?>
-        get() = SLLanguage::class.java
+        get() = ValkyrieLanguage::class.java
 
     @ExportMessage
     fun hasMetaObject(): Boolean {

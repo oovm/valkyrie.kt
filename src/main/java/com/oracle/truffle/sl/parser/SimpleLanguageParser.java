@@ -56,7 +56,7 @@ import org.antlr.v4.runtime.atn.ParserATNSimulator;
 import org.antlr.v4.runtime.atn.PredictionContextCache;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -179,7 +179,7 @@ public class SimpleLanguageParser extends Parser {
 	    throw new SLParseError(source, line, col, length, String.format("Error(s) parsing script:%n" + location + message));
 	}
 
-	public static Map<TruffleString, RootCallTarget> parseSL(SLLanguage language, Source source) {
+	public static Map<TruffleString, RootCallTarget> parseSL(ValkyrieLanguage language, Source source) {
 	    SimpleLanguageLexer lexer = new SimpleLanguageLexer(CharStreams.fromString(source.getCharacters().toString()));
 	    SimpleLanguageParser parser = new SimpleLanguageParser(new CommonTokenStream(lexer));
 	    lexer.removeErrorListeners();

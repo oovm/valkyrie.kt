@@ -51,7 +51,7 @@ import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.runtime.SLContext;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
 import com.oracle.truffle.sl.runtime.ValkyrieString;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 import java.util.Collections;
 import java.util.Map;
@@ -77,9 +77,9 @@ public final class SLEvalRootNode extends RootNode {
 
     @Child
     private DirectCallNode mainCallNode;
-    private final SLLanguage language;
+    private final ValkyrieLanguage language;
 
-    public SLEvalRootNode(SLLanguage language, RootCallTarget rootFunction, Map<TruffleString, RootCallTarget> functions) {
+    public SLEvalRootNode(ValkyrieLanguage language, RootCallTarget rootFunction, Map<TruffleString, RootCallTarget> functions) {
         super(language);
         this.language = language;
         this.functions = Collections.unmodifiableMap(functions);

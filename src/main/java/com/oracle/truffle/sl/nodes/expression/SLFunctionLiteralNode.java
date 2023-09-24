@@ -51,7 +51,7 @@ import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.runtime.SLContext;
 import com.oracle.truffle.sl.runtime.SLFunction;
 import com.oracle.truffle.sl.runtime.SLFunctionRegistry;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 /**
  * Constant literal for a {@link SLFunction function} value, created when a function name occurs as
@@ -82,7 +82,7 @@ public final class SLFunctionLiteralNode extends SLExpressionNode {
 
     @Override
     public SLFunction executeGeneric(VirtualFrame frame) {
-        SLLanguage l = SLLanguage.get(this);
+        ValkyrieLanguage l = ValkyrieLanguage.get(this);
         CompilerAsserts.partialEvaluationConstant(l);
 
         SLFunction function;

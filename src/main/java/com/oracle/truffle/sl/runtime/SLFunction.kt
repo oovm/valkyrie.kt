@@ -55,7 +55,7 @@ import com.oracle.truffle.api.source.SourceSection
 import com.oracle.truffle.api.strings.TruffleString
 import com.oracle.truffle.api.utilities.CyclicAssumption
 import com.oracle.truffle.api.utilities.TriState
-import valkyrie.language.SLLanguage
+import valkyrie.language.ValkyrieLanguage
 import java.util.logging.Level
 
 /**
@@ -108,7 +108,10 @@ class SLFunction(
      */
     private val callTargetStable = CyclicAssumption(name.toJavaStringUncached())
 
-    constructor(language: SLLanguage, name: TruffleString) : this(name, language.getOrCreateUndefinedFunction(name))
+    constructor(language: ValkyrieLanguage, name: TruffleString) : this(
+        name,
+        language.getOrCreateUndefinedFunction(name)
+    )
 
     init {
         this.callTarget = callTarget
@@ -133,7 +136,7 @@ class SLFunction(
 
     @get:ExportMessage
     val language: Class<out TruffleLanguage<*>?>
-        get() = SLLanguage::class.java
+        get() = ValkyrieLanguage::class.java
 
     @get:CompilerDirectives.TruffleBoundary
     @get:ExportMessage
@@ -289,7 +292,7 @@ class SLFunction(
     companion object {
         const val INLINE_CACHE_SIZE: Int = 2
 
-        private val LOG: TruffleLogger = TruffleLogger.getLogger(SLLanguage.ID, SLFunction::class.java)
+        private val LOG: TruffleLogger = TruffleLogger.getLogger(ValkyrieLanguage.ID, SLFunction::class.java)
 
         @JvmStatic
         @ExportMessage

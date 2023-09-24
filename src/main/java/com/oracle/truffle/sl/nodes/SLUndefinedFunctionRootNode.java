@@ -45,7 +45,7 @@ import com.oracle.truffle.api.nodes.RootNode;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.runtime.SLFunction;
 import com.oracle.truffle.sl.runtime.SLUndefinedNameException;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 /**
  * The initial {@link RootNode} of {@link SLFunction functions} when they are created, i.e., when
@@ -53,7 +53,7 @@ import valkyrie.language.SLLanguage;
  * {@link SLUndefinedNameException#undefinedFunction exception}.
  */
 public class SLUndefinedFunctionRootNode extends SLRootNode {
-    public SLUndefinedFunctionRootNode(SLLanguage language, TruffleString name) {
+    public SLUndefinedFunctionRootNode(ValkyrieLanguage language, TruffleString name) {
         super(language, null, null, null, name);
     }
 

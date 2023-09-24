@@ -53,7 +53,7 @@ import com.oracle.truffle.sl.runtime.SLFunction;
 import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
 import com.oracle.truffle.sl.runtime.ValkyrieString;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -84,7 +84,7 @@ public abstract class SLToTruffleStringNode extends Node {
     protected static TruffleString fromString(String value,
                                               // TruffleString nodes cannot be inlined yet
                                               @Shared("fromJava") @Cached(inline = false) TruffleString.FromJavaStringNode fromJavaStringNode) {
-        return fromJavaStringNode.execute(value, SLLanguage.STRING_ENCODING);
+        return fromJavaStringNode.execute(value, ValkyrieLanguage.STRING_ENCODING);
     }
 
     @Specialization
@@ -101,14 +101,14 @@ public abstract class SLToTruffleStringNode extends Node {
     @TruffleBoundary
     protected static TruffleString fromLong(long value,
                                             @Shared("fromLong") @Cached(inline = false) TruffleString.FromLongNode fromLongNode) {
-        return fromLongNode.execute(value, SLLanguage.STRING_ENCODING, true);
+        return fromLongNode.execute(value, ValkyrieLanguage.STRING_ENCODING, true);
     }
 
     @Specialization
     @TruffleBoundary
     protected static TruffleString fromBigNumber(ValkyrieInteger value,
                                                  @Shared("fromJava") @Cached(inline = false) TruffleString.FromJavaStringNode fromJavaStringNode) {
-        return fromJavaStringNode.execute(value.toString(), SLLanguage.STRING_ENCODING);
+        return fromJavaStringNode.execute(value.toString(), ValkyrieLanguage.STRING_ENCODING);
     }
 
     @Specialization
@@ -123,11 +123,11 @@ public abstract class SLToTruffleStringNode extends Node {
                                                @Shared("fromJava") @Cached(inline = false) TruffleString.FromJavaStringNode fromJavaStringNode) {
         try {
             if (interop.fitsInLong(value)) {
-                return fromLongNode.execute(interop.asLong(value), SLLanguage.STRING_ENCODING, true);
+                return fromLongNode.execute(interop.asLong(value), ValkyrieLanguage.STRING_ENCODING, true);
             } else if (interop.isString(value)) {
-                return fromJavaStringNode.execute(interop.asString(value), SLLanguage.STRING_ENCODING);
+                return fromJavaStringNode.execute(interop.asString(value), ValkyrieLanguage.STRING_ENCODING);
             } else if (interop.isNumber(value) && value instanceof ValkyrieInteger) {
-                return fromJavaStringNode.execute(bigNumberToString((ValkyrieInteger) value), SLLanguage.STRING_ENCODING);
+                return fromJavaStringNode.execute(bigNumberToString((ValkyrieInteger) value), ValkyrieLanguage.STRING_ENCODING);
             } else if (interop.isNull(value)) {
                 return ValkyrieString.NULL_LC;
             } else {

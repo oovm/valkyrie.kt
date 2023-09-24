@@ -59,7 +59,7 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 import java.io.*;
 import java.net.URL;
@@ -283,7 +283,7 @@ public class SLTestRunner extends ParentRunner<TestCase> {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             for (NodeFactory<? extends SLBuiltinNode> builtin : builtins) {
-                SLLanguage.installBuiltin(builtin);
+                ValkyrieLanguage.installBuiltin(builtin);
             }
 
             Context.Builder builder = Context.newBuilder().allowExperimentalOptions(true).allowHostClassLookup((s) -> true).allowHostAccess(HostAccess.ALL).in(
@@ -311,7 +311,7 @@ public class SLTestRunner extends ParentRunner<TestCase> {
     private static void run(Context context, Path path, PrintWriter out) throws IOException {
         try {
             /* Parse the SL source file. */
-            Source source = Source.newBuilder(SLLanguage.ID, path.toFile()).interactive(true).build();
+            Source source = Source.newBuilder(ValkyrieLanguage.ID, path.toFile()).interactive(true).build();
 
             /* Call the main entry point, without any arguments. */
             context.eval(source);

@@ -9,7 +9,7 @@ import com.oracle.truffle.api.library.CachedLibrary
 import com.oracle.truffle.api.library.ExportLibrary
 import com.oracle.truffle.api.library.ExportMessage
 import com.oracle.truffle.api.nodes.ExplodeLoop
-import valkyrie.language.SLLanguage
+import valkyrie.language.ValkyrieLanguage
 
 /**
  * Language views are needed in order to allow tools to have a consistent perspective on primitive
@@ -34,7 +34,7 @@ class SLLanguageView internal constructor(@JvmField val delegate: Any) : Truffle
         /*
      * Language views must always associate with the language they were created for. This allows
      * tooling to take a primitive or foreign value and create a value of simple language of it.
-     */ get() = SLLanguage::class.java
+     */ get() = ValkyrieLanguage::class.java
 
     @ExportMessage
     @ExplodeLoop
@@ -124,7 +124,7 @@ class SLLanguageView internal constructor(@JvmField val delegate: Any) : Truffle
         private fun isPrimitiveOrFromOtherLanguage(value: Any): Boolean {
             val interop = InteropLibrary.getFactory().getUncached(value)
             try {
-                return !interop.hasLanguage(value) || interop.getLanguage(value) != SLLanguage::class.java
+                return !interop.hasLanguage(value) || interop.getLanguage(value) != ValkyrieLanguage::class.java
             } catch (e: UnsupportedMessageException) {
                 throw CompilerDirectives.shouldNotReachHere(e)
             }
@@ -143,7 +143,7 @@ class SLLanguageView internal constructor(@JvmField val delegate: Any) : Truffle
             }
             val lib = InteropLibrary.getFactory().getUncached(value)
             try {
-                return if (lib.hasLanguage(value) && lib.getLanguage(value) == SLLanguage::class.java) {
+                return if (lib.hasLanguage(value) && lib.getLanguage(value) == ValkyrieLanguage::class.java) {
                     value
                 } else {
                     create(value)

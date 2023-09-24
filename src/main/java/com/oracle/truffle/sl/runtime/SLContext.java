@@ -55,7 +55,7 @@ import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.builtins.*;
 import org.graalvm.polyglot.Context;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -66,7 +66,7 @@ import java.util.List;
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
 /**
- * The run-time state of SL during execution. The context is created by the {@link SLLanguage}. It
+ * The run-time state of SL during execution. The context is created by the {@link ValkyrieLanguage}. It
  * is used, for example, by {@link SLBuiltinNode#getContext() builtin functions}.
  * <p>
  * It would be an error to have two different context instances during the execution of one script.
@@ -75,7 +75,7 @@ import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
  */
 public final class SLContext {
 
-    private final SLLanguage language;
+    private final ValkyrieLanguage language;
     @CompilationFinal
     private Env env;
     private final BufferedReader input;
@@ -84,7 +84,7 @@ public final class SLContext {
     private final AllocationReporter allocationReporter;
     private final List<SLFunction> shutdownHooks = new ArrayList<>();
 
-    public SLContext(SLLanguage language, TruffleLanguage.Env env, List<NodeFactory<? extends SLBuiltinNode>> externalBuiltins) {
+    public SLContext(ValkyrieLanguage language, TruffleLanguage.Env env, List<NodeFactory<? extends SLBuiltinNode>> externalBuiltins) {
         this.env = env;
         this.input = new BufferedReader(new InputStreamReader(env.in()));
         this.output = new PrintWriter(env.out(), true);
@@ -218,7 +218,7 @@ public final class SLContext {
         return (TruffleObject) env.getPolyglotBindings();
     }
 
-    private static final ContextReference<SLContext> REFERENCE = ContextReference.create(SLLanguage.class);
+    private static final ContextReference<SLContext> REFERENCE = ContextReference.create(ValkyrieLanguage.class);
 
     public static SLContext get(Node node) {
         return REFERENCE.get(node);

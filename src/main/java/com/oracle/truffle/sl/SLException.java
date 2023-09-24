@@ -48,7 +48,7 @@ import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.source.SourceSection;
 import com.oracle.truffle.sl.runtime.SLLanguageView;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -85,7 +85,7 @@ public class SLException extends AbstractTruffleException {
 
         result.append(": operation");
         if (operation != null) {
-            NodeInfo nodeInfo = SLLanguage.lookupNodeInfo(operation.getClass());
+            NodeInfo nodeInfo = ValkyrieLanguage.lookupNodeInfo(operation.getClass());
             if (nodeInfo != null) {
                 result.append(" \"").append(nodeInfo.shortName()).append("\"");
             }

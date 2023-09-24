@@ -57,7 +57,7 @@ import com.oracle.truffle.api.`object`.DynamicObjectLibrary
 import com.oracle.truffle.api.`object`.Shape
 import com.oracle.truffle.api.strings.TruffleString
 import com.oracle.truffle.api.utilities.TriState
-import valkyrie.language.SLLanguage
+import valkyrie.language.ValkyrieLanguage
 
 /**
  * Represents an SL object.
@@ -92,7 +92,7 @@ class ValkyrieObject(shape: Shape?) : DynamicObject(shape), TruffleObject {
 
     @get:ExportMessage
     val language: Class<out TruffleLanguage<*>?>
-        get() = SLLanguage::class.java
+        get() = ValkyrieLanguage::class.java
 
     @ExportMessage
     @Suppress("unused")
@@ -143,7 +143,7 @@ class ValkyrieObject(shape: Shape?) : DynamicObject(shape), TruffleObject {
         @Cached @Cached.Shared("fromJavaStringNode") fromJavaStringNode: TruffleString.FromJavaStringNode,
         @CachedLibrary("this") objectLibrary: DynamicObjectLibrary,
     ) {
-        val memberTS = fromJavaStringNode.execute(member, SLLanguage.STRING_ENCODING)
+        val memberTS = fromJavaStringNode.execute(member, ValkyrieLanguage.STRING_ENCODING)
         if (objectLibrary.containsKey(this, memberTS)) {
             objectLibrary.removeKey(this, memberTS)
         } else {
@@ -167,7 +167,7 @@ class ValkyrieObject(shape: Shape?) : DynamicObject(shape), TruffleObject {
         @Cached @Cached.Shared("fromJavaStringNode") fromJavaStringNode: TruffleString.FromJavaStringNode,
         @CachedLibrary("this") objectLibrary: DynamicObjectLibrary,
     ): Boolean {
-        return objectLibrary.containsKey(this, fromJavaStringNode.execute(member, SLLanguage.STRING_ENCODING))
+        return objectLibrary.containsKey(this, fromJavaStringNode.execute(member, ValkyrieLanguage.STRING_ENCODING))
     }
 
     @ExportMessage
@@ -215,7 +215,7 @@ class ValkyrieObject(shape: Shape?) : DynamicObject(shape), TruffleObject {
         @CachedLibrary("this") objectLibrary: DynamicObjectLibrary,
     ): Any {
         val result =
-            objectLibrary.getOrDefault(this, fromJavaStringNode.execute(name, SLLanguage.STRING_ENCODING), null)
+            objectLibrary.getOrDefault(this, fromJavaStringNode.execute(name, ValkyrieLanguage.STRING_ENCODING), null)
                 ?: /* Property does not exist. */
                 throw UnknownIdentifierException.create(name)
         return result
@@ -230,7 +230,7 @@ class ValkyrieObject(shape: Shape?) : DynamicObject(shape), TruffleObject {
         @Cached @Cached.Shared("fromJavaStringNode") fromJavaStringNode: TruffleString.FromJavaStringNode,
         @CachedLibrary("this") objectLibrary: DynamicObjectLibrary,
     ) {
-        objectLibrary.put(this, fromJavaStringNode.execute(name, SLLanguage.STRING_ENCODING), value)
+        objectLibrary.put(this, fromJavaStringNode.execute(name, ValkyrieLanguage.STRING_ENCODING), value)
     }
 
     companion object {

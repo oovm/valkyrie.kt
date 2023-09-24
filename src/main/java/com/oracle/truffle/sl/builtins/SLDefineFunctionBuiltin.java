@@ -46,7 +46,7 @@ import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.runtime.SLContext;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 /**
  * Builtin function to define (or redefine) functions. The provided source code is parsed the same
@@ -59,7 +59,7 @@ public abstract class SLDefineFunctionBuiltin extends SLBuiltinNode {
     @Specialization
     public TruffleString defineFunction(TruffleString code) {
         // @formatter:off
-        Source source = Source.newBuilder(SLLanguage.ID, code.toJavaStringUncached(), "[defineFunction]").
+        Source source = Source.newBuilder(ValkyrieLanguage.ID, code.toJavaStringUncached(), "[defineFunction]").
             build();
         // @formatter:on
         /* The same parsing code as for parsing the initial source. */

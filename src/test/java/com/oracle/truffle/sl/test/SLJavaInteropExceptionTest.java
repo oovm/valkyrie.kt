@@ -45,7 +45,7 @@ import org.graalvm.polyglot.PolyglotException.StackFrame;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -72,9 +72,9 @@ public class SLJavaInteropExceptionTest {
             String sourceText = "function test(validator) {\n" +
                     "  return validator.validateException();\n" +
                     "}";
-            try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
-                context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
-                Value test = context.getBindings(SLLanguage.ID).getMember("test");
+            try (Context context = Context.newBuilder(ValkyrieLanguage.ID).build()) {
+                context.eval(Source.newBuilder(ValkyrieLanguage.ID, sourceText, "Test").build());
+                Value test = context.getBindings(ValkyrieLanguage.ID).getMember("test");
                 test.execute(Validator.this);
             }
         }
@@ -110,9 +110,9 @@ public class SLJavaInteropExceptionTest {
         String sourceText = "function test(validator) {\n" +
                 "  return validator.validateException();\n" +
                 "}";
-        try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
-            context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
-            Value test = context.getBindings(SLLanguage.ID).getMember("test");
+        try (Context context = Context.newBuilder(ValkyrieLanguage.ID).build()) {
+            context.eval(Source.newBuilder(ValkyrieLanguage.ID, sourceText, "Test").build());
+            Value test = context.getBindings(ValkyrieLanguage.ID).getMember("test");
             try {
                 test.execute(new Validator());
                 fail("expected a PolyglotException but did not throw");
@@ -129,9 +129,9 @@ public class SLJavaInteropExceptionTest {
         String sourceText = "function test(validator) {\n" +
                 "  return validator.validateNested();\n" +
                 "}";
-        try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
-            context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
-            Value test = context.getBindings(SLLanguage.ID).getMember("test");
+        try (Context context = Context.newBuilder(ValkyrieLanguage.ID).build()) {
+            context.eval(Source.newBuilder(ValkyrieLanguage.ID, sourceText, "Test").build());
+            Value test = context.getBindings(ValkyrieLanguage.ID).getMember("test");
             try {
                 test.execute(new Validator());
                 fail("expected a PolyglotException but did not throw");
@@ -156,9 +156,9 @@ public class SLJavaInteropExceptionTest {
                 "function doCall(validator, x) {\n" +
                 "    doMultiCallback(validator, x - 1);\n" +
                 "}";
-        try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
-            context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
-            Value doMultiCallback = context.getBindings(SLLanguage.ID).getMember("doMultiCallback");
+        try (Context context = Context.newBuilder(ValkyrieLanguage.ID).build()) {
+            context.eval(Source.newBuilder(ValkyrieLanguage.ID, sourceText, "Test").build());
+            Value doMultiCallback = context.getBindings(ValkyrieLanguage.ID).getMember("doMultiCallback");
             int numCalbacks = 3;
             try {
                 doMultiCallback.execute(new Validator(), numCalbacks);
@@ -192,9 +192,9 @@ public class SLJavaInteropExceptionTest {
                 "function doCall(validator, x) {\n" +
                 "    doMultiCallback(validator, x - 1);\n" +
                 "}";
-        try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
-            context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
-            Value doMultiCallback = context.getBindings(SLLanguage.ID).getMember("doMultiCallback");
+        try (Context context = Context.newBuilder(ValkyrieLanguage.ID).build()) {
+            context.eval(Source.newBuilder(ValkyrieLanguage.ID, sourceText, "Test").build());
+            Value doMultiCallback = context.getBindings(ValkyrieLanguage.ID).getMember("doMultiCallback");
             int numCalbacks = 3;
             try {
                 doMultiCallback.execute(new Validator(), numCalbacks);
@@ -231,9 +231,9 @@ public class SLJavaInteropExceptionTest {
                 "function test(validator) {\n" +
                 "  return validator." + javaMethod + "(supplier);\n" +
                 "}";
-        try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
-            context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
-            Value test = context.getBindings(SLLanguage.ID).getMember("test");
+        try (Context context = Context.newBuilder(ValkyrieLanguage.ID).build()) {
+            context.eval(Source.newBuilder(ValkyrieLanguage.ID, sourceText, "Test").build());
+            Value test = context.getBindings(ValkyrieLanguage.ID).getMember("test");
             try {
                 test.execute(new Validator());
                 fail("expected a PolyglotException but did not throw");
@@ -261,9 +261,9 @@ public class SLJavaInteropExceptionTest {
                 "function test(validator) {\n" +
                 "  return validator." + javaMethod + "(new());\n" +
                 "}";
-        try (Context context = Context.newBuilder(SLLanguage.ID).build()) {
-            context.eval(Source.newBuilder(SLLanguage.ID, sourceText, "Test").build());
-            Value test = context.getBindings(SLLanguage.ID).getMember("test");
+        try (Context context = Context.newBuilder(ValkyrieLanguage.ID).build()) {
+            context.eval(Source.newBuilder(ValkyrieLanguage.ID, sourceText, "Test").build());
+            Value test = context.getBindings(ValkyrieLanguage.ID).getMember("test");
             test.execute(new Validator());
         }
     }

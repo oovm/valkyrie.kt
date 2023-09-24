@@ -11,7 +11,7 @@ import com.oracle.truffle.api.library.CachedLibrary
 import com.oracle.truffle.api.library.ExportLibrary
 import com.oracle.truffle.api.library.ExportMessage
 import com.oracle.truffle.sl.runtime.SLType.TypeCheck
-import valkyrie.language.SLLanguage
+import valkyrie.language.ValkyrieLanguage
 
 /**
  * The builtin type definitions for SimpleLanguage. SL has no custom types, so it is not possible
@@ -31,7 +31,7 @@ import valkyrie.language.SLLanguage
  * In order to assign types to guest language values, SL values implement
  * [InteropLibrary.getMetaObject]. The interop contracts for primitive values cannot
  * be overriden, so in order to assign meta-objects to primitive values, the primitive values are
- * assigned using language views. See [SLLanguage.getLanguageView].
+ * assigned using language views. See [ValkyrieLanguage.getLanguageView].
  */
 @ExportLibrary(InteropLibrary::class)
 class SLType /*
@@ -54,7 +54,7 @@ class SLType /*
 
     @get:ExportMessage
     val language: Class<out TruffleLanguage<*>?>
-        get() = SLLanguage::class.java
+        get() = ValkyrieLanguage::class.java
 
     @get:ExportMessage
     val isMetaObject: Boolean

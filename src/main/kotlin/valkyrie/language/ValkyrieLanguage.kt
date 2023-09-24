@@ -113,10 +113,10 @@ import kotlin.concurrent.Volatile
  *
  */
 @TruffleLanguage.Registration(
-    id = SLLanguage.ID,
-    name = "SL",
-    defaultMimeType = SLLanguage.MIME_TYPE,
-    characterMimeTypes = [SLLanguage.MIME_TYPE],
+    id = ValkyrieLanguage.ID,
+    name = ValkyrieLanguage.DisplayName,
+    defaultMimeType = ValkyrieLanguage.MIME_TYPE,
+    characterMimeTypes = [ValkyrieLanguage.MIME_TYPE],
     contextPolicy = TruffleLanguage.ContextPolicy.SHARED,
     fileTypeDetectors = [ValkyrieFileDetector::class],
     website = "https://www.graalvm.org/graalvm-as-a-platform/implement-language/"
@@ -131,7 +131,7 @@ import kotlin.concurrent.Volatile
     StandardTags.ReadVariableTag::class,
     StandardTags.WriteVariableTag::class
 )
-class SLLanguage : TruffleLanguage<SLContext>() {
+class ValkyrieLanguage : TruffleLanguage<SLContext>() {
     private val singleContext: Assumption = Truffle.getRuntime().createAssumption("Single SL context.")
 
     private val builtinTargets: MutableMap<NodeFactory<out SLBuiltinNode>, RootCallTarget> = ConcurrentHashMap()
@@ -339,12 +339,12 @@ class SLLanguage : TruffleLanguage<SLContext>() {
             return info ?: lookupNodeInfo(clazz.superclass)
         }
 
-        private val REFERENCE: LanguageReference<SLLanguage> = LanguageReference.create(
-            SLLanguage::class.java
+        private val REFERENCE: LanguageReference<ValkyrieLanguage> = LanguageReference.create(
+            ValkyrieLanguage::class.java
         )
 
         @JvmStatic
-        fun get(node: Node?): SLLanguage {
+        fun get(node: Node?): ValkyrieLanguage {
             return REFERENCE[node]
         }
 

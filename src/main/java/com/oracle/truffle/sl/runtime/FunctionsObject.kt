@@ -54,7 +54,7 @@ import com.oracle.truffle.api.nodes.Node
 import com.oracle.truffle.api.profiles.InlinedBranchProfile
 import com.oracle.truffle.api.strings.TruffleString
 import com.oracle.truffle.sl.runtime.ValkyrieString.fromJavaString
-import valkyrie.language.SLLanguage
+import valkyrie.language.ValkyrieLanguage
 
 @ExportLibrary(InteropLibrary::class)
 internal class FunctionsObject : TruffleObject {
@@ -68,7 +68,7 @@ internal class FunctionsObject : TruffleObject {
 
     @get:ExportMessage
     val language: Class<out TruffleLanguage<*>?>
-        get() = SLLanguage::class.java
+        get() = ValkyrieLanguage::class.java
 
     @ExportMessage
     fun hasMembers(): Boolean {

@@ -1,12 +1,12 @@
 import org.graalvm.polyglot.Context
 import org.graalvm.polyglot.PolyglotException
 import org.graalvm.polyglot.Source
-import valkyrie.language.SLLanguage
+import valkyrie.language.ValkyrieLanguage
 import java.io.*
 import kotlin.system.exitProcess
 
 object Main {
-    private const val Language = SLLanguage.ID
+    private const val Language = ValkyrieLanguage.ID
 
     /**
      * The main entry point.

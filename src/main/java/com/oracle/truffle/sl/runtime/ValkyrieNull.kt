@@ -6,7 +6,7 @@ import com.oracle.truffle.api.interop.TruffleObject
 import com.oracle.truffle.api.library.ExportLibrary
 import com.oracle.truffle.api.library.ExportMessage
 import com.oracle.truffle.api.utilities.TriState
-import valkyrie.language.SLLanguage
+import valkyrie.language.ValkyrieLanguage
 
 /**
  * The SL type for a `null` (i.e., undefined) value. In Truffle, it is generally discouraged
@@ -38,7 +38,7 @@ private constructor() : TruffleObject {
 
     @get:ExportMessage
     val language: Class<out TruffleLanguage<*>?>
-        get() = SLLanguage::class.java
+        get() = ValkyrieLanguage::class.java
 
     @get:ExportMessage
     val isNull: Boolean

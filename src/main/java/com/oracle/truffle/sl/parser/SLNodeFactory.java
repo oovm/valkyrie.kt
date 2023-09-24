@@ -56,7 +56,7 @@ import com.oracle.truffle.sl.nodes.util.SLUnboxNodeGen;
 import com.oracle.truffle.sl.runtime.ValkyrieString;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Token;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -111,9 +111,9 @@ public class SLNodeFactory {
 
     /* State while parsing a block. */
     private LexicalScope lexicalScope;
-    private final SLLanguage language;
+    private final ValkyrieLanguage language;
 
-    public SLNodeFactory(SLLanguage language, Source source) {
+    public SLNodeFactory(ValkyrieLanguage language, Source source) {
         this.language = language;
         this.source = source;
         this.sourceString = ValkyrieString.fromJavaString(source.getCharacters().toString());
@@ -505,7 +505,7 @@ public class SLNodeFactory {
             fromIndex += 1;
             length -= 2;
         }
-        return sourceString.substringByteIndexUncached(fromIndex * 2, length * 2, SLLanguage.STRING_ENCODING, true);
+        return sourceString.substringByteIndexUncached(fromIndex * 2, length * 2, ValkyrieLanguage.STRING_ENCODING, true);
     }
 
     public SLExpressionNode createNumericLiteral(Token literalToken) {

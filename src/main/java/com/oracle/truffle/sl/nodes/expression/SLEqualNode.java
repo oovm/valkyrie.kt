@@ -52,7 +52,7 @@ import com.oracle.truffle.sl.nodes.SLBinaryNode;
 import com.oracle.truffle.sl.runtime.SLFunction;
 import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -91,7 +91,7 @@ public abstract class SLEqualNode extends SLBinaryNode {
     @Specialization
     protected boolean doTruffleString(TruffleString left, TruffleString right,
                                       @Cached TruffleString.EqualNode equalNode) {
-        return equalNode.execute(left, right, SLLanguage.STRING_ENCODING);
+        return equalNode.execute(left, right, ValkyrieLanguage.STRING_ENCODING);
     }
 
     @Specialization

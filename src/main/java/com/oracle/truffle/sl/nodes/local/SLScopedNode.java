@@ -63,7 +63,7 @@ import com.oracle.truffle.sl.nodes.controlflow.SLBlockNode;
 import com.oracle.truffle.sl.runtime.SLContext;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
 import com.oracle.truffle.sl.runtime.ValkyrieString;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 /**
  * The SL implementation of {@link NodeLibrary} provides fast access to local variables. It's used
@@ -260,7 +260,7 @@ public abstract class SLScopedNode extends Node {
         @ExportMessage
         @SuppressWarnings("static-method")
         Class<? extends TruffleLanguage<?>> getLanguage() {
-            return SLLanguage.class;
+            return ValkyrieLanguage.class;
         }
 
         /**
@@ -468,7 +468,7 @@ public abstract class SLScopedNode extends Node {
             SLWriteLocalVariableNode[] writeNodes = root.getDeclaredArguments();
             for (int i = 0; i < writeNodes.length; i++) {
                 SLWriteLocalVariableNode writeNode = writeNodes[i];
-                if (memberTS.equalsUncached(writeNode.getSlotName(), SLLanguage.STRING_ENCODING)) {
+                if (memberTS.equalsUncached(writeNode.getSlotName(), ValkyrieLanguage.STRING_ENCODING)) {
                     return i;
                 }
             }
@@ -533,7 +533,7 @@ public abstract class SLScopedNode extends Node {
         @ExportMessage
         @SuppressWarnings("static-method")
         Class<? extends TruffleLanguage<?>> getLanguage() {
-            return SLLanguage.class;
+            return ValkyrieLanguage.class;
         }
 
         /**
@@ -803,13 +803,13 @@ public abstract class SLScopedNode extends Node {
             int index = getVisibleVariablesIndex();
             for (int i = 0; i < index; i++) {
                 SLWriteLocalVariableNode writeNode = writeNodes[i];
-                if (memberTS.equalsUncached(writeNode.getSlotName(), SLLanguage.STRING_ENCODING)) {
+                if (memberTS.equalsUncached(writeNode.getSlotName(), ValkyrieLanguage.STRING_ENCODING)) {
                     return writeNode;
                 }
             }
             for (int i = parentBlockIndex; i < writeNodes.length; i++) {
                 SLWriteLocalVariableNode writeNode = writeNodes[i];
-                if (memberTS.equalsUncached(writeNode.getSlotName(), SLLanguage.STRING_ENCODING)) {
+                if (memberTS.equalsUncached(writeNode.getSlotName(), ValkyrieLanguage.STRING_ENCODING)) {
                     return writeNode;
                 }
             }

@@ -1,7 +1,7 @@
 package valkyrie.language.file_type
 
 import com.oracle.truffle.api.TruffleFile
-import valkyrie.language.SLLanguage
+import valkyrie.language.ValkyrieLanguage
 import java.nio.charset.Charset
 
 class ValkyrieFileDetector : TruffleFile.FileTypeDetector {
@@ -9,7 +9,7 @@ class ValkyrieFileDetector : TruffleFile.FileTypeDetector {
         val name = file.name
         if (name != null) {
             if (name.endsWith(".vk") || name.endsWith(".valkyrie")) {
-                return SLLanguage.MIME_TYPE
+                return ValkyrieLanguage.MIME_TYPE
             }
         }
         return null

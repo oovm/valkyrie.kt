@@ -57,7 +57,7 @@ import com.oracle.truffle.api.strings.TruffleStringBuilder;
 import com.oracle.truffle.sl.nodes.SLEvalRootNode;
 import com.oracle.truffle.sl.nodes.SLRootNode;
 import com.oracle.truffle.sl.runtime.ValkyrieString;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 /**
  * Returns a string representation of the current stack. This includes the {@link CallTarget}s and
@@ -77,7 +77,7 @@ public abstract class SLStackTraceBuiltin extends SLBuiltinNode {
 
     @TruffleBoundary
     private static TruffleString createStackTrace() {
-        final TruffleStringBuilder str = TruffleStringBuilder.create(SLLanguage.STRING_ENCODING);
+        final TruffleStringBuilder str = TruffleStringBuilder.create(ValkyrieLanguage.STRING_ENCODING);
 
         Truffle.getRuntime().iterateFrames(new FrameInstanceVisitor<Integer>() {
             private int skip = 1; // skip stack trace builtin

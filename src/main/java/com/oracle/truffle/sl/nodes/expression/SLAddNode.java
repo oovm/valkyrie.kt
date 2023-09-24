@@ -53,7 +53,7 @@ import com.oracle.truffle.sl.nodes.SLBinaryNode;
 import com.oracle.truffle.sl.nodes.SLTypes;
 import com.oracle.truffle.sl.nodes.util.SLToTruffleStringNode;
 import com.oracle.truffle.sl.runtime.ValkyrieInteger;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -148,7 +148,7 @@ public abstract class SLAddNode extends SLBinaryNode {
                                             @Cached SLToTruffleStringNode toTruffleStringNodeLeft,
                                             @Cached SLToTruffleStringNode toTruffleStringNodeRight,
                                             @Cached TruffleString.ConcatNode concatNode) {
-        return concatNode.execute(toTruffleStringNodeLeft.execute(node, left), toTruffleStringNodeRight.execute(node, right), SLLanguage.STRING_ENCODING, true);
+        return concatNode.execute(toTruffleStringNodeLeft.execute(node, left), toTruffleStringNodeRight.execute(node, right), ValkyrieLanguage.STRING_ENCODING, true);
     }
 
     /**

@@ -45,7 +45,7 @@ import com.oracle.truffle.api.nodes.RootNode
 import com.oracle.truffle.api.strings.TruffleString
 import com.oracle.truffle.sl.nodes.SLEvalRootNode
 import com.oracle.truffle.sl.nodes.SLRootNode
-import valkyrie.language.SLLanguage
+import valkyrie.language.ValkyrieLanguage
 
 object ValkyrieString {
     @JvmField
@@ -71,7 +71,7 @@ object ValkyrieString {
 
     @JvmStatic
     fun fromJavaString(s: String?): TruffleString {
-        return TruffleString.fromJavaStringUncached(s, SLLanguage.STRING_ENCODING)
+        return TruffleString.fromJavaStringUncached(s, ValkyrieLanguage.STRING_ENCODING)
     }
 
     @JvmStatic

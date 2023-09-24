@@ -50,7 +50,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -81,7 +81,7 @@ public class SLSharedCodeSeparatedEnvTest {
         os1 = new ByteArrayOutputStream();
         os2 = new ByteArrayOutputStream();
 
-        int instances = SLLanguage.counter;
+        int instances = ValkyrieLanguage.counter;
         // @formatter:off
         e1 = Context.newBuilder("sl").engine(engine).out(os1).allowPolyglotAccess(PolyglotAccess.ALL).build();
         e1.getPolyglotBindings().putMember("extra", 1);
@@ -89,7 +89,7 @@ public class SLSharedCodeSeparatedEnvTest {
         e2.getPolyglotBindings().putMember("extra", 2);
         e1.initialize("sl");
         e2.initialize("sl");
-        assertEquals("One SLLanguage instance created", instances + 1, SLLanguage.counter);
+        assertEquals("One SLLanguage instance created", instances + 1, ValkyrieLanguage.counter);
     }
 
     @After

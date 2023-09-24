@@ -49,7 +49,7 @@ import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.runtime.SLContext;
-import valkyrie.language.SLLanguage;
+import valkyrie.language.ValkyrieLanguage;
 
 /**
  * Builtin function to evaluate source code in any supported language.
@@ -87,6 +87,6 @@ public abstract class SLEvalBuiltin extends SLBuiltinNode {
 
     /* Work around findbugs warning in generate code. */
     protected static boolean stringsEqual(TruffleString.EqualNode node, TruffleString a, TruffleString b) {
-        return node.execute(a, b, SLLanguage.STRING_ENCODING);
+        return node.execute(a, b, ValkyrieLanguage.STRING_ENCODING);
     }
 }
