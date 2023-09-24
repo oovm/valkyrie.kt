@@ -48,7 +48,7 @@ import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.SLException;
 import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.SLStrings;
+import com.oracle.truffle.sl.runtime.ValkyrieString;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -68,7 +68,7 @@ public abstract class SLReadlnBuiltin extends SLBuiltinNode {
              * a reasonable alternative. Note that the Java null value should never be used, since
              * it can interfere with the specialization logic in generated source code.
              */
-            result = SLStrings.EMPTY_STRING;
+            result = ValkyrieString.EMPTY_STRING;
         }
         return result;
     }

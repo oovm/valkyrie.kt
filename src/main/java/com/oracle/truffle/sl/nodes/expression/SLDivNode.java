@@ -49,7 +49,7 @@ import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.SLException;
 import com.oracle.truffle.sl.nodes.SLBinaryNode;
-import com.oracle.truffle.sl.runtime.SLBigInteger;
+import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -75,17 +75,17 @@ public abstract class SLDivNode extends SLBinaryNode {
 
     @Specialization
     @TruffleBoundary
-    protected SLBigInteger doSLBigInteger(SLBigInteger left, SLBigInteger right) {
-        return new SLBigInteger(left.getValue().divide(right.getValue()));
+    protected ValkyrieInteger doSLBigInteger(ValkyrieInteger left, ValkyrieInteger right) {
+        return new ValkyrieInteger(left.value.divide(right.value));
     }
 
     @Specialization(replaces = "doSLBigInteger", guards = {"leftLibrary.fitsInBigInteger(left)", "rightLibrary.fitsInBigInteger(right)"}, limit = "3")
     @TruffleBoundary
-    protected SLBigInteger doInteropBigInteger(Object left, Object right,
-                                               @CachedLibrary("left") InteropLibrary leftLibrary,
-                                               @CachedLibrary("right") InteropLibrary rightLibrary) {
+    protected ValkyrieInteger doInteropBigInteger(Object left, Object right,
+                                                  @CachedLibrary("left") InteropLibrary leftLibrary,
+                                                  @CachedLibrary("right") InteropLibrary rightLibrary) {
         try {
-            return new SLBigInteger(leftLibrary.asBigInteger(left).divide(rightLibrary.asBigInteger(right)));
+            return new ValkyrieInteger(leftLibrary.asBigInteger(left).divide(rightLibrary.asBigInteger(right)));
         } catch (UnsupportedMessageException e) {
             throw shouldNotReachHere(e);
         }

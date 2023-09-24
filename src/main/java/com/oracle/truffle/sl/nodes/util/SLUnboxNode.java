@@ -51,8 +51,8 @@ import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLTypes;
-import com.oracle.truffle.sl.runtime.SLBigInteger;
 import com.oracle.truffle.sl.runtime.SLFunction;
+import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
@@ -89,7 +89,7 @@ public abstract class SLUnboxNode extends SLExpressionNode {
     }
 
     @Specialization
-    protected static SLBigInteger fromBigNumber(SLBigInteger value) {
+    protected static ValkyrieInteger fromBigNumber(ValkyrieInteger value) {
         return value;
     }
 

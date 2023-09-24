@@ -14,7 +14,6 @@ import com.oracle.truffle.api.nodes.RootNode
 import com.oracle.truffle.api.`object`.Shape
 import com.oracle.truffle.api.source.Source
 import com.oracle.truffle.api.strings.TruffleString
-import com.oracle.truffle.sl.SLLanguage
 import com.oracle.truffle.sl.builtins.SLBuiltinNode
 import com.oracle.truffle.sl.nodes.SLEvalRootNode
 import com.oracle.truffle.sl.nodes.SLExpressionNode
@@ -25,7 +24,7 @@ import com.oracle.truffle.sl.parser.SimpleLanguageParser
 import com.oracle.truffle.sl.runtime.SLContext
 import com.oracle.truffle.sl.runtime.SLLanguageView
 import com.oracle.truffle.sl.runtime.SLObject
-import com.oracle.truffle.sl.runtime.SLStrings
+import com.oracle.truffle.sl.runtime.ValkyrieString
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.concurrent.Volatile
@@ -185,7 +184,7 @@ class SLLanguage : TruffleLanguage<SLContext>() {
         val builtinBodyNode = factory.createNode(argumentNodes as Any)
         builtinBodyNode.addRootTag()
         /* The name of the builtin function is specified via an annotation on the node class. */
-        val name = SLStrings.fromJavaString(
+        val name = ValkyrieString.fromJavaString(
             lookupNodeInfo(builtinBodyNode.javaClass)!!.shortName
         )
         builtinBodyNode.setUnavailableSourceSection()
@@ -232,7 +231,7 @@ class SLLanguage : TruffleLanguage<SLContext>() {
             functions = SimpleLanguageParser.parseSL(this, decoratedSource)
         }
 
-        val main = functions[SLStrings.MAIN]
+        val main = functions[ValkyrieString.MAIN]
         val evalMain: RootNode = if (main != null) {
             /*
              * We have a main function, so "evaluating" the parsed source means invoking that main
@@ -320,8 +319,9 @@ class SLLanguage : TruffleLanguage<SLContext>() {
         @Volatile
         var counter: Int = 0
 
-        const val ID: String = "sl"
-        const val MIME_TYPE: String = "application/x-sl"
+        const val ID = "valkyrie";
+        const val DisplayName = "Valkyrie Language"
+        const val MIME_TYPE: String = "application/x-valkyrie"
         private val BUILTIN_SOURCE: Source = Source.newBuilder(ID, "", "SL builtin").build()
 
         @JvmField

@@ -62,8 +62,8 @@ import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLRootNode;
 import com.oracle.truffle.sl.nodes.controlflow.SLBlockNode;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.SLStrings;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
+import com.oracle.truffle.sl.runtime.ValkyrieString;
 
 /**
  * The SL implementation of {@link NodeLibrary} provides fast access to local variables. It's used
@@ -132,7 +132,7 @@ public abstract class SLScopedNode extends Node {
     @TruffleBoundary
     private boolean hasRootInstanceSlowPath() {
         // The instance of the current RootNode is a function of the same name.
-        return SLContext.get(this).getFunctionRegistry().getFunction(SLStrings.getSLRootName(getRootNode())) != null;
+        return SLContext.get(this).getFunctionRegistry().getFunction(ValkyrieString.getSLRootName(getRootNode())) != null;
     }
 
     /**
@@ -147,7 +147,7 @@ public abstract class SLScopedNode extends Node {
     @TruffleBoundary
     private Object getRootInstanceSlowPath() throws UnsupportedMessageException {
         // The instance of the current RootNode is a function of the same name.
-        Object function = SLContext.get(this).getFunctionRegistry().getFunction(SLStrings.getSLRootName(getRootNode()));
+        Object function = SLContext.get(this).getFunctionRegistry().getFunction(ValkyrieString.getSLRootName(getRootNode()));
         if (function != null) {
             return function;
         } else {
@@ -464,7 +464,7 @@ public abstract class SLScopedNode extends Node {
         }
 
         int findArgumentIndex(String member) {
-            TruffleString memberTS = SLStrings.fromJavaString(member);
+            TruffleString memberTS = ValkyrieString.fromJavaString(member);
             SLWriteLocalVariableNode[] writeNodes = root.getDeclaredArguments();
             for (int i = 0; i < writeNodes.length; i++) {
                 SLWriteLocalVariableNode writeNode = writeNodes[i];
@@ -797,7 +797,7 @@ public abstract class SLScopedNode extends Node {
          * @param member the variable name
          */
         SLWriteLocalVariableNode findWriteNode(String member) {
-            TruffleString memberTS = SLStrings.fromJavaString(member);
+            TruffleString memberTS = ValkyrieString.fromJavaString(member);
             SLWriteLocalVariableNode[] writeNodes = block.getDeclaredLocalVariables();
             int parentBlockIndex = block.getParentBlockIndex();
             int index = getVisibleVariablesIndex();

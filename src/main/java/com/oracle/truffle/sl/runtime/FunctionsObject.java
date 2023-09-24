@@ -85,7 +85,7 @@ final class FunctionsObject implements TruffleObject {
     @ExportMessage
     @TruffleBoundary
     Object readMember(String member) throws UnknownIdentifierException {
-        Object value = functions.get(SLStrings.fromJavaString(member));
+        Object value = functions.get(ValkyrieString.fromJavaString(member));
         if (value != null) {
             return value;
         }
@@ -95,7 +95,7 @@ final class FunctionsObject implements TruffleObject {
     @ExportMessage
     @TruffleBoundary
     boolean isMemberReadable(String member) {
-        return functions.containsKey(SLStrings.fromJavaString(member));
+        return functions.containsKey(ValkyrieString.fromJavaString(member));
     }
 
     @ExportMessage

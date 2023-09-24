@@ -53,7 +53,7 @@ import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.nodes.SLBinaryNode;
 import com.oracle.truffle.sl.nodes.SLTypes;
 import com.oracle.truffle.sl.nodes.util.SLToTruffleStringNode;
-import com.oracle.truffle.sl.runtime.SLBigInteger;
+import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -73,7 +73,7 @@ public abstract class SLAddNode extends SLBinaryNode {
     /**
      * Specialization for primitive {@code long} values. This is the fast path of the
      * arbitrary-precision arithmetic. We need to check for overflows of the addition, and switch to
-     * the {@link #add(SLBigInteger, SLBigInteger) slow path}. Therefore, we use an
+     * the {@link #add(ValkyrieInteger, ValkyrieInteger) slow path}. Therefore, we use an
      * {@link Math#addExact(long, long) addition method that throws an exception on overflow}. The
      * {@code rewriteOn} attribute on the {@link Specialization} annotation automatically triggers
      * the node rewriting on the exception.
@@ -91,12 +91,12 @@ public abstract class SLAddNode extends SLBinaryNode {
     }
 
     /**
-     * This is the slow path of the arbitrary-precision arithmetic. The {@link SLBigInteger} type of
+     * This is the slow path of the arbitrary-precision arithmetic. The {@link ValkyrieInteger} type of
      * Java is doing everything we need.
      * <p>
      * This specialization is automatically selected by the Truffle DSL if both the left and right
-     * operand are {@link SLBigInteger} values. Because the type system defines an
-     * {@link ImplicitCast implicit conversion} from {@code long} to {@link SLBigInteger} in
+     * operand are {@link ValkyrieInteger} values. Because the type system defines an
+     * {@link ImplicitCast implicit conversion} from {@code long} to {@link ValkyrieInteger} in
      * {@link SLTypes#castBigNumber(long)}, this specialization is also taken if the left or the
      * right operand is a {@code long} value. Because the {@link #add(long, long) long}
      * specialization} has the {@code rewriteOn} attribute, this specialization is also taken if
@@ -104,30 +104,30 @@ public abstract class SLAddNode extends SLBinaryNode {
      */
     @Specialization
     @TruffleBoundary
-    protected SLBigInteger doSLBigInteger(SLBigInteger left, SLBigInteger right) {
-        return new SLBigInteger(left.getValue().add(right.getValue()));
+    protected ValkyrieInteger doSLBigInteger(ValkyrieInteger left, ValkyrieInteger right) {
+        return new ValkyrieInteger(left.value.add(right.value));
     }
 
     /**
      * This is the most general slow path of the arbitrary-precision arithmetic. In addition to what
-     * {@link #doSLBigInteger(SLBigInteger, SLBigInteger)} can handle, it also handles foreign
+     * {@link #doSLBigInteger(ValkyrieInteger, ValkyrieInteger)} can handle, it also handles foreign
      * objects that fit into {@link java.math.BigInteger}, e.g. host objects representing
      * {@link java.math.BigInteger} instances or big integer representations from other languages.
      * <p>
      * This specialization is automatically selected by the Truffle DSL if both the left and the
      * right operand {@link InteropLibrary#fitsInBigInteger(Object) fit} into
      * {@link java.math.BigInteger}, but at least one of them cannot be coverted to
-     * {@link SLBigInteger} by {@link ImplicitCast implicit conversion}. Once this specialization
-     * has been selected, it replaces the {@link #doSLBigInteger(SLBigInteger, SLBigInteger)}
+     * {@link ValkyrieInteger} by {@link ImplicitCast implicit conversion}. Once this specialization
+     * has been selected, it replaces the {@link #doSLBigInteger(ValkyrieInteger, ValkyrieInteger)}
      * specialization which is then never used again.
      */
     @Specialization(replaces = "doSLBigInteger", guards = {"leftLibrary.fitsInBigInteger(left)", "rightLibrary.fitsInBigInteger(right)"}, limit = "3")
     @TruffleBoundary
-    protected SLBigInteger doInteropBigInteger(Object left, Object right,
-                                               @CachedLibrary("left") InteropLibrary leftLibrary,
-                                               @CachedLibrary("right") InteropLibrary rightLibrary) {
+    protected ValkyrieInteger doInteropBigInteger(Object left, Object right,
+                                                  @CachedLibrary("left") InteropLibrary leftLibrary,
+                                                  @CachedLibrary("right") InteropLibrary rightLibrary) {
         try {
-            return new SLBigInteger(leftLibrary.asBigInteger(left).add(rightLibrary.asBigInteger(right)));
+            return new ValkyrieInteger(leftLibrary.asBigInteger(left).add(rightLibrary.asBigInteger(right)));
         } catch (UnsupportedMessageException e) {
             throw shouldNotReachHere(e);
         }

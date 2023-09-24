@@ -48,7 +48,7 @@ import com.oracle.truffle.api.frame.FrameInstance.FrameAccess;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.SLLanguage;
-import com.oracle.truffle.sl.runtime.SLStrings;
+import com.oracle.truffle.sl.runtime.ValkyrieString;
 
 /**
  * This builtin sets the variable named "hello" in the caller frame to the string "world".
@@ -63,12 +63,12 @@ public abstract class SLHelloEqualsWorldBuiltin extends SLBuiltinNode {
             Frame frame = f.getFrame(FrameAccess.READ_WRITE);
             int count = frame.getFrameDescriptor().getNumberOfSlots();
             for (int i = 0; i < count; i++) {
-                if (SLStrings.HELLO.equalsUncached((TruffleString) frame.getFrameDescriptor().getSlotName(i), SLLanguage.STRING_ENCODING)) {
-                    frame.setObject(i, SLStrings.WORLD);
+                if (ValkyrieString.HELLO.equalsUncached((TruffleString) frame.getFrameDescriptor().getSlotName(i), SLLanguage.STRING_ENCODING)) {
+                    frame.setObject(i, ValkyrieString.WORLD);
                     break;
                 }
             }
-            return SLStrings.WORLD;
+            return ValkyrieString.WORLD;
         }, 1);
     }
 }

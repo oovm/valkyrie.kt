@@ -50,8 +50,8 @@ import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.nodes.SLBinaryNode;
-import com.oracle.truffle.sl.runtime.SLBigInteger;
 import com.oracle.truffle.sl.runtime.SLFunction;
+import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
@@ -74,7 +74,7 @@ public abstract class SLEqualNode extends SLBinaryNode {
 
     @Specialization
     @TruffleBoundary
-    protected boolean doBigNumber(SLBigInteger left, SLBigInteger right) {
+    protected boolean doBigNumber(ValkyrieInteger left, ValkyrieInteger right) {
         return left.equals(right);
     }
 
@@ -144,8 +144,8 @@ public abstract class SLEqualNode extends SLBinaryNode {
                 return true;
             } else if (leftInterop.fitsInLong(left) && rightInterop.fitsInLong(right)) {
                 return doLong(leftInterop.asLong(left), (rightInterop.asLong(right)));
-            } else if (left instanceof SLBigInteger && right instanceof SLBigInteger) {
-                return doBigNumber((SLBigInteger) left, (SLBigInteger) right);
+            } else if (left instanceof ValkyrieInteger && right instanceof ValkyrieInteger) {
+                return doBigNumber((ValkyrieInteger) left, (ValkyrieInteger) right);
             } else if (leftInterop.hasIdentity(left) && rightInterop.hasIdentity(right)) {
                 return leftInterop.isIdentical(left, right, rightInterop);
             } else {

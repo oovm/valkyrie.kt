@@ -57,7 +57,7 @@ import com.oracle.truffle.api.strings.TruffleStringBuilder;
 import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.nodes.SLEvalRootNode;
 import com.oracle.truffle.sl.nodes.SLRootNode;
-import com.oracle.truffle.sl.runtime.SLStrings;
+import com.oracle.truffle.sl.runtime.ValkyrieString;
 
 /**
  * Returns a string representation of the current stack. This includes the {@link CallTarget}s and
@@ -66,9 +66,9 @@ import com.oracle.truffle.sl.runtime.SLStrings;
 @NodeInfo(shortName = "stacktrace")
 public abstract class SLStackTraceBuiltin extends SLBuiltinNode {
 
-    public static final TruffleString FRAME = SLStrings.constant("Frame: root ");
-    public static final TruffleString SEPARATOR = SLStrings.constant(", ");
-    public static final TruffleString EQUALS = SLStrings.constant("=");
+    public static final TruffleString FRAME = ValkyrieString.constant("Frame: root ");
+    public static final TruffleString SEPARATOR = ValkyrieString.constant(", ");
+    public static final TruffleString EQUALS = ValkyrieString.constant("=");
 
     @Specialization
     public TruffleString trace() {
@@ -96,7 +96,7 @@ public abstract class SLStackTraceBuiltin extends SLBuiltinNode {
                     return 1;
                 }
                 if (str.byteLength() > 0) {
-                    str.appendStringUncached(SLStrings.fromJavaString(System.getProperty("line.separator")));
+                    str.appendStringUncached(ValkyrieString.fromJavaString(System.getProperty("line.separator")));
                 }
                 str.appendStringUncached(FRAME);
                 str.appendStringUncached(getRootNodeName(rn));
@@ -106,7 +106,7 @@ public abstract class SLStackTraceBuiltin extends SLBuiltinNode {
                     str.appendStringUncached(SEPARATOR);
                     str.appendStringUncached((TruffleString) frameDescriptor.getSlotName(i));
                     str.appendStringUncached(EQUALS);
-                    str.appendStringUncached(SLStrings.fromObject(frame.getValue(i)));
+                    str.appendStringUncached(ValkyrieString.fromObject(frame.getValue(i)));
                 }
                 return null;
             }
@@ -120,7 +120,7 @@ public abstract class SLStackTraceBuiltin extends SLBuiltinNode {
         } else if (rootNode instanceof SLEvalRootNode) {
             return SLEvalRootNode.getTSName();
         } else {
-            return SLStrings.fromJavaString(rootNode.getName());
+            return ValkyrieString.fromJavaString(rootNode.getName());
         }
     }
 }

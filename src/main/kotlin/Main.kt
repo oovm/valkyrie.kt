@@ -1,3 +1,4 @@
+import com.oracle.truffle.sl.SLLanguage
 import org.graalvm.polyglot.Context
 import org.graalvm.polyglot.PolyglotException
 import org.graalvm.polyglot.Source
@@ -5,7 +6,7 @@ import java.io.*
 import kotlin.system.exitProcess
 
 object Main {
-    private const val SL = "sl"
+    private const val Language = SLLanguage.ID
 
     /**
      * The main entry point.
@@ -29,10 +30,10 @@ object Main {
 
         source = if (file == null) {
 
-            Source.newBuilder(SL, InputStreamReader(System.`in`), "<stdin>").build()
+            Source.newBuilder(Language, InputStreamReader(System.`in`), "<stdin>").build()
 
         } else {
-            Source.newBuilder(SL, File(file)).build()
+            Source.newBuilder(Language, File(file)).build()
         }
 
         exitProcess(executeSource(source, System.`in`, System.out, options))
@@ -42,7 +43,7 @@ object Main {
         val context: Context
         val err = System.err
         try {
-            context = Context.newBuilder(SL).`in`(`in`).out(out).options(options).build()
+            context = Context.newBuilder(Language).`in`(`in`).out(out).options(options).build()
         } catch (e: IllegalArgumentException) {
             err.println(e.message)
             return 1
@@ -51,7 +52,7 @@ object Main {
 
         try {
             val result = context.eval(source)
-            if (context.getBindings(SL).getMember("main") == null) {
+            if (context.getBindings(Language).getMember("main") == null) {
                 err.println("No function main() defined in SL source file.")
                 return 1
             }

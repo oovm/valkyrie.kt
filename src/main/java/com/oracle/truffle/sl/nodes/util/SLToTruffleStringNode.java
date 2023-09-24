@@ -50,10 +50,10 @@ import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.SLLanguage;
 import com.oracle.truffle.sl.nodes.SLTypes;
-import com.oracle.truffle.sl.runtime.SLBigInteger;
 import com.oracle.truffle.sl.runtime.SLFunction;
-import com.oracle.truffle.sl.runtime.SLStrings;
+import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
+import com.oracle.truffle.sl.runtime.ValkyrieString;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -69,15 +69,15 @@ public abstract class SLToTruffleStringNode extends Node {
 
     static final int LIMIT = 5;
 
-    private static final TruffleString TRUE = SLStrings.constant("true");
-    private static final TruffleString FALSE = SLStrings.constant("false");
-    private static final TruffleString FOREIGN_OBJECT = SLStrings.constant("[foreign object]");
+    private static final TruffleString TRUE = ValkyrieString.constant("true");
+    private static final TruffleString FALSE = ValkyrieString.constant("false");
+    private static final TruffleString FOREIGN_OBJECT = ValkyrieString.constant("[foreign object]");
 
     public abstract TruffleString execute(Node node, Object value);
 
     @Specialization
     protected static TruffleString fromNull(@SuppressWarnings("unused") ValkyrieNull value) {
-        return SLStrings.NULL;
+        return ValkyrieString.NULL;
     }
 
     @Specialization
@@ -106,7 +106,7 @@ public abstract class SLToTruffleStringNode extends Node {
 
     @Specialization
     @TruffleBoundary
-    protected static TruffleString fromBigNumber(SLBigInteger value,
+    protected static TruffleString fromBigNumber(ValkyrieInteger value,
                                                  @Shared("fromJava") @Cached(inline = false) TruffleString.FromJavaStringNode fromJavaStringNode) {
         return fromJavaStringNode.execute(value.toString(), SLLanguage.STRING_ENCODING);
     }
@@ -126,10 +126,10 @@ public abstract class SLToTruffleStringNode extends Node {
                 return fromLongNode.execute(interop.asLong(value), SLLanguage.STRING_ENCODING, true);
             } else if (interop.isString(value)) {
                 return fromJavaStringNode.execute(interop.asString(value), SLLanguage.STRING_ENCODING);
-            } else if (interop.isNumber(value) && value instanceof SLBigInteger) {
-                return fromJavaStringNode.execute(bigNumberToString((SLBigInteger) value), SLLanguage.STRING_ENCODING);
+            } else if (interop.isNumber(value) && value instanceof ValkyrieInteger) {
+                return fromJavaStringNode.execute(bigNumberToString((ValkyrieInteger) value), SLLanguage.STRING_ENCODING);
             } else if (interop.isNull(value)) {
-                return SLStrings.NULL_LC;
+                return ValkyrieString.NULL_LC;
             } else {
                 return FOREIGN_OBJECT;
             }
@@ -139,7 +139,7 @@ public abstract class SLToTruffleStringNode extends Node {
     }
 
     @TruffleBoundary
-    private static String bigNumberToString(SLBigInteger value) {
+    private static String bigNumberToString(ValkyrieInteger value) {
         return value.toString();
     }
 }

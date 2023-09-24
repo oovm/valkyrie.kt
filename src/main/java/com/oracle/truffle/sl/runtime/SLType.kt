@@ -131,7 +131,7 @@ class SLType /*
      */
         @JvmField
         val NUMBER: SLType =
-            SLType("Number", TypeCheck { l: InteropLibrary, v: Any? -> l.fitsInLong(v) || v is SLBigInteger })
+            SLType("Number", TypeCheck { l: InteropLibrary, v: Any? -> l.fitsInLong(v) || v is ValkyrieInteger })
         val NULL: SLType = SLType("NULL", TypeCheck { l: InteropLibrary, v: Any? -> l.isNull(v) })
 
         @JvmField

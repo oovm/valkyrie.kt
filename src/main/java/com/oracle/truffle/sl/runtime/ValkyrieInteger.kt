@@ -38,224 +38,227 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.oracle.truffle.sl.runtime;
+package com.oracle.truffle.sl.runtime
 
-import com.oracle.truffle.api.CompilerDirectives;
-import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
-import com.oracle.truffle.api.TruffleLanguage;
-import com.oracle.truffle.api.interop.InteropLibrary;
-import com.oracle.truffle.api.interop.TruffleObject;
-import com.oracle.truffle.api.interop.UnsupportedMessageException;
-import com.oracle.truffle.api.library.ExportLibrary;
-import com.oracle.truffle.api.library.ExportMessage;
-import com.oracle.truffle.sl.SLLanguage;
+import com.oracle.truffle.api.CompilerDirectives
+import com.oracle.truffle.api.TruffleLanguage
+import com.oracle.truffle.api.interop.InteropLibrary
+import com.oracle.truffle.api.interop.TruffleObject
+import com.oracle.truffle.api.interop.UnsupportedMessageException
+import com.oracle.truffle.api.library.ExportLibrary
+import com.oracle.truffle.api.library.ExportMessage
+import com.oracle.truffle.sl.SLLanguage
+import java.math.BigDecimal
+import java.math.BigInteger
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+@ExportLibrary(InteropLibrary::class)
+class ValkyrieInteger : TruffleObject, Comparable<ValkyrieInteger> {
+    @JvmField
+    val value: BigInteger
 
-@ExportLibrary(InteropLibrary.class)
-@SuppressWarnings("static-method")
-public final class SLBigInteger implements TruffleObject, Comparable<SLBigInteger> {
-
-    private final BigInteger value;
-
-    public SLBigInteger(BigInteger value) {
-        this.value = value;
+    constructor(value: BigInteger) {
+        this.value = value
     }
 
-    public SLBigInteger(long value) {
-        this.value = BigInteger.valueOf(value);
+    constructor(value: Long) {
+        this.value = BigInteger.valueOf(value)
     }
 
-    public BigInteger getValue() {
-        return value;
+    @CompilerDirectives.TruffleBoundary
+    override fun compareTo(o: ValkyrieInteger): Int {
+        return value.compareTo(o.value)
     }
 
-    @TruffleBoundary
-    public int compareTo(SLBigInteger o) {
-        return value.compareTo(o.getValue());
+    @CompilerDirectives.TruffleBoundary
+    override fun toString(): String {
+        return value.toString()
     }
 
-    @Override
-    @TruffleBoundary
-    public String toString() {
-        return value.toString();
-    }
-
-    @Override
-    @TruffleBoundary
-    public boolean equals(Object obj) {
-        if (obj instanceof SLBigInteger) {
-            return value.equals(((SLBigInteger) obj).getValue());
+    @CompilerDirectives.TruffleBoundary
+    override fun equals(obj: Any?): Boolean {
+        if (obj is ValkyrieInteger) {
+            return value == obj.value
         }
-        return false;
+        return false
     }
 
-    @Override
-    public int hashCode() {
-        return value.hashCode();
+    override fun hashCode(): Int {
+        return value.hashCode()
     }
 
-    @SuppressWarnings("static-method")
-    @ExportMessage
-    boolean isNumber() {
-        return true;
-    }
+    @get:ExportMessage
+    val isNumber: Boolean
+        get() = true
 
     @ExportMessage
-    @TruffleBoundary
-    boolean fitsInByte() {
-        return value.bitLength() < 8;
+    @CompilerDirectives.TruffleBoundary
+    fun fitsInByte(): Boolean {
+        return value.bitLength() < 8
     }
 
     @ExportMessage
-    @TruffleBoundary
-    boolean fitsInShort() {
-        return value.bitLength() < 16;
+    @CompilerDirectives.TruffleBoundary
+    fun fitsInShort(): Boolean {
+        return value.bitLength() < 16
     }
 
     @ExportMessage
-    @TruffleBoundary
-    boolean fitsInFloat() {
+    @CompilerDirectives.TruffleBoundary
+    fun fitsInFloat(): Boolean {
         if (value.bitLength() <= 24) { // 24 = size of float mantissa + 1
-            return true;
+            return true
         } else {
-            float floatValue = value.floatValue();
-            if (!Float.isFinite(floatValue)) {
-                return false;
+            val floatValue = value.toFloat()
+            if (!java.lang.Float.isFinite(floatValue)) {
+                return false
             }
             try {
-                return new BigDecimal(floatValue).toBigIntegerExact().equals(value);
-            } catch (ArithmeticException e) {
-                throw CompilerDirectives.shouldNotReachHere(e);
+                return BigDecimal(floatValue.toDouble()).toBigIntegerExact() == value
+            } catch (e: ArithmeticException) {
+                throw CompilerDirectives.shouldNotReachHere(e)
             }
         }
     }
 
     @ExportMessage
-    @TruffleBoundary
-    boolean fitsInLong() {
-        return value.bitLength() < 64;
+    @CompilerDirectives.TruffleBoundary
+    fun fitsInLong(): Boolean {
+        return value.bitLength() < 64
     }
 
     @ExportMessage
-    @TruffleBoundary
-    boolean fitsInInt() {
-        return value.bitLength() < 32;
+    @CompilerDirectives.TruffleBoundary
+    fun fitsInInt(): Boolean {
+        return value.bitLength() < 32
     }
 
     @ExportMessage
-    @TruffleBoundary
-    boolean fitsInDouble() {
+    @CompilerDirectives.TruffleBoundary
+    fun fitsInDouble(): Boolean {
         if (value.bitLength() <= 53) { // 53 = size of double mantissa + 1
-            return true;
+            return true
         } else {
-            double doubleValue = value.doubleValue();
-            if (!Double.isFinite(doubleValue)) {
-                return false;
+            val doubleValue = value.toDouble()
+            if (!java.lang.Double.isFinite(doubleValue)) {
+                return false
             }
             try {
-                return new BigDecimal(doubleValue).toBigIntegerExact().equals(value);
-            } catch (ArithmeticException e) {
-                throw CompilerDirectives.shouldNotReachHere(e);
+                return BigDecimal(doubleValue).toBigIntegerExact() == value
+            } catch (e: ArithmeticException) {
+                throw CompilerDirectives.shouldNotReachHere(e)
             }
         }
     }
 
     @ExportMessage
-    public boolean fitsInBigInteger() {
-        return true;
+    fun fitsInBigInteger(): Boolean {
+        return true
     }
 
     @ExportMessage
-    @TruffleBoundary
-    double asDouble() throws UnsupportedMessageException {
+    @CompilerDirectives.TruffleBoundary
+    @Throws(
+        UnsupportedMessageException::class
+    )
+    fun asDouble(): Double {
         if (fitsInDouble()) {
-            return value.doubleValue();
+            return value.toDouble()
         } else {
-            throw UnsupportedMessageException.create();
+            throw UnsupportedMessageException.create()
         }
     }
 
     @ExportMessage
-    @TruffleBoundary
-    long asLong() throws UnsupportedMessageException {
+    @CompilerDirectives.TruffleBoundary
+    @Throws(
+        UnsupportedMessageException::class
+    )
+    fun asLong(): Long {
         if (fitsInLong()) {
-            return value.longValue();
+            return value.toLong()
         } else {
-            throw UnsupportedMessageException.create();
+            throw UnsupportedMessageException.create()
         }
     }
 
     @ExportMessage
-    @TruffleBoundary
-    byte asByte() throws UnsupportedMessageException {
+    @CompilerDirectives.TruffleBoundary
+    @Throws(
+        UnsupportedMessageException::class
+    )
+    fun asByte(): Byte {
         if (fitsInByte()) {
-            return value.byteValue();
+            return value.toByte()
         } else {
-            throw UnsupportedMessageException.create();
+            throw UnsupportedMessageException.create()
         }
     }
 
     @ExportMessage
-    @TruffleBoundary
-    int asInt() throws UnsupportedMessageException {
+    @CompilerDirectives.TruffleBoundary
+    @Throws(
+        UnsupportedMessageException::class
+    )
+    fun asInt(): Int {
         if (fitsInInt()) {
-            return value.intValue();
+            return value.toInt()
         } else {
-            throw UnsupportedMessageException.create();
+            throw UnsupportedMessageException.create()
         }
     }
 
     @ExportMessage
-    @TruffleBoundary
-    float asFloat() throws UnsupportedMessageException {
+    @CompilerDirectives.TruffleBoundary
+    @Throws(
+        UnsupportedMessageException::class
+    )
+    fun asFloat(): Float {
         if (fitsInFloat()) {
-            return value.floatValue();
+            return value.toFloat()
         } else {
-            throw UnsupportedMessageException.create();
+            throw UnsupportedMessageException.create()
         }
     }
 
     @ExportMessage
-    @TruffleBoundary
-    short asShort() throws UnsupportedMessageException {
+    @CompilerDirectives.TruffleBoundary
+    @Throws(
+        UnsupportedMessageException::class
+    )
+    fun asShort(): Short {
         if (fitsInShort()) {
-            return value.shortValue();
+            return value.toShort()
         } else {
-            throw UnsupportedMessageException.create();
+            throw UnsupportedMessageException.create()
         }
     }
 
     @ExportMessage
-    BigInteger asBigInteger() {
-        return value;
+    fun asBigInteger(): BigInteger {
+        return value
     }
 
     @ExportMessage
-    boolean hasLanguage() {
-        return true;
+    fun hasLanguage(): Boolean {
+        return true
     }
+
+    @get:ExportMessage
+    val language: Class<out TruffleLanguage<*>?>
+        get() = SLLanguage::class.java
 
     @ExportMessage
-    Class<? extends TruffleLanguage<?>> getLanguage() {
-        return SLLanguage.class;
+    fun hasMetaObject(): Boolean {
+        return true
     }
+
+    @get:ExportMessage
+    val metaObject: Any
+        get() = SLType.NUMBER
 
     @ExportMessage
-    boolean hasMetaObject() {
-        return true;
+    @CompilerDirectives.TruffleBoundary
+    fun toDisplayString(@Suppress("unused") allowSideEffects: Boolean): Any {
+        return value.toString()
     }
-
-    @ExportMessage
-    Object getMetaObject() {
-        return SLType.NUMBER;
-    }
-
-    @ExportMessage
-    @TruffleBoundary
-    Object toDisplayString(@SuppressWarnings("unused") boolean allowSideEffects) {
-        return value.toString();
-    }
-
 }

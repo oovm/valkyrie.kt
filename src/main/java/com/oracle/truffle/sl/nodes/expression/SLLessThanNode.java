@@ -49,7 +49,7 @@ import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.SLException;
 import com.oracle.truffle.sl.nodes.SLBinaryNode;
-import com.oracle.truffle.sl.runtime.SLBigInteger;
+import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -67,7 +67,7 @@ public abstract class SLLessThanNode extends SLBinaryNode {
 
     @Specialization
     @TruffleBoundary
-    protected boolean doSLBigInteger(SLBigInteger left, SLBigInteger right) {
+    protected boolean doSLBigInteger(ValkyrieInteger left, ValkyrieInteger right) {
         return left.compareTo(right) < 0;
     }
 

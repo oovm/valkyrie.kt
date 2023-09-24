@@ -54,7 +54,7 @@ import com.oracle.truffle.sl.nodes.controlflow.*;
 import com.oracle.truffle.sl.nodes.expression.*;
 import com.oracle.truffle.sl.nodes.local.*;
 import com.oracle.truffle.sl.nodes.util.SLUnboxNodeGen;
-import com.oracle.truffle.sl.runtime.SLStrings;
+import com.oracle.truffle.sl.runtime.ValkyrieString;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Token;
 
@@ -116,7 +116,7 @@ public class SLNodeFactory {
     public SLNodeFactory(SLLanguage language, Source source) {
         this.language = language;
         this.source = source;
-        this.sourceString = SLStrings.fromJavaString(source.getCharacters().toString());
+        this.sourceString = ValkyrieString.fromJavaString(source.getCharacters().toString());
         this.allFunctions = new HashMap<>();
     }
 

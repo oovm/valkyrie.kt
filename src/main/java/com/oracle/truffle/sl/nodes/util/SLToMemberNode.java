@@ -49,7 +49,7 @@ import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.nodes.SLTypes;
-import com.oracle.truffle.sl.runtime.SLBigInteger;
+import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -92,7 +92,7 @@ public abstract class SLToMemberNode extends Node {
 
     @Specialization
     @TruffleBoundary
-    protected static String fromBigNumber(SLBigInteger value) {
+    protected static String fromBigNumber(ValkyrieInteger value) {
         return value.toString();
     }
 
@@ -103,8 +103,8 @@ public abstract class SLToMemberNode extends Node {
                 return longToString(interop.asLong(value));
             } else if (interop.isString(value)) {
                 return interop.asString(value);
-            } else if (interop.isNumber(value) && value instanceof SLBigInteger) {
-                return bigNumberToString((SLBigInteger) value);
+            } else if (interop.isNumber(value) && value instanceof ValkyrieInteger) {
+                return bigNumberToString((ValkyrieInteger) value);
             } else {
                 throw error(value);
             }
@@ -119,7 +119,7 @@ public abstract class SLToMemberNode extends Node {
     }
 
     @TruffleBoundary
-    private static String bigNumberToString(SLBigInteger value) {
+    private static String bigNumberToString(ValkyrieInteger value) {
         return value.toString();
     }
 

@@ -168,7 +168,7 @@ public final class SLContext {
     public void installBuiltin(NodeFactory<? extends SLBuiltinNode> factory) {
         /* Register the builtin function in our function registry. */
         RootCallTarget target = language.lookupBuiltin(factory);
-        getFunctionRegistry().register(SLStrings.getSLRootName(target.getRootNode()), target);
+        getFunctionRegistry().register(ValkyrieString.getSLRootName(target.getRootNode()), target);
     }
 
     /*
@@ -182,7 +182,7 @@ public final class SLContext {
      * Methods for language interoperability.
      */
     public static Object fromForeignValue(Object a) {
-        if (a instanceof Long || a instanceof SLBigInteger || a instanceof String || a instanceof TruffleString || a instanceof Boolean) {
+        if (a instanceof Long || a instanceof ValkyrieInteger || a instanceof String || a instanceof TruffleString || a instanceof Boolean) {
             return a;
         } else if (a instanceof Character) {
             return fromForeignCharacter((Character) a);

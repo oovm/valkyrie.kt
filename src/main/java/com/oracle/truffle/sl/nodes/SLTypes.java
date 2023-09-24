@@ -46,7 +46,7 @@ import com.oracle.truffle.api.dsl.TypeCast;
 import com.oracle.truffle.api.dsl.TypeCheck;
 import com.oracle.truffle.api.dsl.TypeSystem;
 import com.oracle.truffle.sl.SLLanguage;
-import com.oracle.truffle.sl.runtime.SLBigInteger;
+import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
 
 import java.math.BigInteger;
@@ -84,14 +84,14 @@ public abstract class SLTypes {
 
     /**
      * Informs the Truffle DSL that a primitive {@code long} value can be used in all
-     * specializations where a {@link SLBigInteger} is expected. This models the semantic of SL: It
-     * only has an arbitrary precision Number type (implemented as {@link SLBigInteger}, and
+     * specializations where a {@link ValkyrieInteger} is expected. This models the semantic of SL: It
+     * only has an arbitrary precision Number type (implemented as {@link ValkyrieInteger}, and
      * {@code long} is only used as a performance optimization to avoid the costly
-     * {@link SLBigInteger} arithmetic for values that fit into a 64-bit primitive value.
+     * {@link ValkyrieInteger} arithmetic for values that fit into a 64-bit primitive value.
      */
     @ImplicitCast
     @TruffleBoundary
-    public static SLBigInteger castBigNumber(long value) {
-        return new SLBigInteger(BigInteger.valueOf(value));
+    public static ValkyrieInteger castBigNumber(long value) {
+        return new ValkyrieInteger(BigInteger.valueOf(value));
     }
 }

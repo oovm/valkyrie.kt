@@ -38,49 +38,61 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.oracle.truffle.sl.runtime;
+package com.oracle.truffle.sl.runtime
 
-import com.oracle.truffle.api.CompilerDirectives;
-import com.oracle.truffle.api.nodes.RootNode;
-import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.SLLanguage;
-import com.oracle.truffle.sl.nodes.SLEvalRootNode;
-import com.oracle.truffle.sl.nodes.SLRootNode;
+import com.oracle.truffle.api.CompilerDirectives
+import com.oracle.truffle.api.nodes.RootNode
+import com.oracle.truffle.api.strings.TruffleString
+import com.oracle.truffle.sl.SLLanguage
+import com.oracle.truffle.sl.nodes.SLEvalRootNode
+import com.oracle.truffle.sl.nodes.SLRootNode
 
-public final class SLStrings {
+object ValkyrieString {
+    @JvmField
+    val EMPTY_STRING: TruffleString = constant("")
 
-    public static final TruffleString EMPTY_STRING = constant("");
-    public static final TruffleString NULL = constant("NULL");
-    public static final TruffleString NULL_LC = constant("null");
-    public static final TruffleString MAIN = constant("main");
-    public static final TruffleString HELLO = constant("hello");
-    public static final TruffleString WORLD = constant("world");
+    @JvmField
+    val NULL: TruffleString = constant("NULL")
 
-    public static TruffleString constant(String s) {
-        return fromJavaString(s);
+    @JvmField
+    val NULL_LC: TruffleString = constant("null")
+    val MAIN: TruffleString = constant("main")
+
+    @JvmField
+    val HELLO: TruffleString = constant("hello")
+
+    @JvmField
+    val WORLD: TruffleString = constant("world")
+
+    @JvmStatic
+    fun constant(s: String?): TruffleString {
+        return fromJavaString(s)
     }
 
-    public static TruffleString fromJavaString(String s) {
-        return TruffleString.fromJavaStringUncached(s, SLLanguage.STRING_ENCODING);
+    @JvmStatic
+    fun fromJavaString(s: String?): TruffleString {
+        return TruffleString.fromJavaStringUncached(s, SLLanguage.STRING_ENCODING)
     }
 
-    public static TruffleString fromObject(Object o) {
+    @JvmStatic
+    fun fromObject(o: Any?): TruffleString {
         if (o == null) {
-            return NULL_LC;
+            return NULL_LC
         }
-        if (o instanceof TruffleString) {
-            return (TruffleString) o;
+        if (o is TruffleString) {
+            return o
         }
-        return fromJavaString(o.toString());
+        return fromJavaString(o.toString())
     }
 
-    public static TruffleString getSLRootName(RootNode rootNode) {
-        if (rootNode instanceof SLRootNode) {
-            return ((SLRootNode) rootNode).getTSName();
-        } else if (rootNode instanceof SLEvalRootNode) {
-            return SLEvalRootNode.getTSName();
+    @JvmStatic
+    fun getSLRootName(rootNode: RootNode?): TruffleString {
+        return if (rootNode is SLRootNode) {
+            rootNode.tsName
+        } else if (rootNode is SLEvalRootNode) {
+            SLEvalRootNode.getTSName()
         } else {
-            throw CompilerDirectives.shouldNotReachHere();
+            throw CompilerDirectives.shouldNotReachHere()
         }
     }
 }

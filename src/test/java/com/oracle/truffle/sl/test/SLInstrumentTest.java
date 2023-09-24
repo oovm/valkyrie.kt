@@ -53,9 +53,8 @@ import com.oracle.truffle.api.library.ExportMessage;
 import com.oracle.truffle.api.library.LibraryFactory;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.RootNode;
-import com.oracle.truffle.api.source.SourceSection;
-import com.oracle.truffle.sl.runtime.SLBigInteger;
 import com.oracle.truffle.sl.runtime.SLFunction;
+import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 import com.oracle.truffle.tck.DebuggerTester;
 import org.graalvm.polyglot.*;
 import org.junit.BeforeClass;
@@ -352,8 +351,8 @@ public class SLInstrumentTest {
     private static void checkRootNode(Object scope, String name, Node node, MaterializedFrame frame) throws UnsupportedMessageException {
         assertEquals(name, InteropLibrary.getUncached().asString(InteropLibrary.getUncached().toDisplayString(scope)));
         assertTrue(InteropLibrary.getUncached().hasSourceLocation(scope));
-        SourceSection section = InteropLibrary.getUncached().getSourceLocation(scope);
-        Node scopeNode = findScopeNode(node, section);
+        var section = InteropLibrary.getUncached().getSourceLocation(scope);
+        var scopeNode = findScopeNode(node, section);
         assertTrue(scopeNode.getClass().getName(), scopeNode instanceof RootNode);
         assertEquals(name, ((RootNode) scopeNode).getName());
         assertEquals(frame.getFrameDescriptor(), ((RootNode) scopeNode).getFrameDescriptor());
@@ -368,13 +367,13 @@ public class SLInstrumentTest {
     private static void checkBlock(Object scope, Node node) throws UnsupportedMessageException {
         assertEquals("block", InteropLibrary.getUncached().toDisplayString(scope));
         assertTrue(InteropLibrary.getUncached().hasSourceLocation(scope));
-        SourceSection section = InteropLibrary.getUncached().getSourceLocation(scope);
+        var section = InteropLibrary.getUncached().getSourceLocation(scope);
         // Test that ls.getNode() does not return the current root node, it ought to be a block node
-        Node scopeNode = findScopeNode(node, section);
+        var scopeNode = findScopeNode(node, section);
         assertFalse(scopeNode.getClass().getName(), scopeNode instanceof RootNode);
     }
 
-    private static Node findScopeNode(Node node, SourceSection section) {
+    private static Node findScopeNode(Node node, com.oracle.truffle.api.source.SourceSection section) {
         RootNode root = node.getRootNode();
         if (section.equals(root.getSourceSection())) {
             return root;
@@ -584,7 +583,7 @@ public class SLInstrumentTest {
     }
 
     @TruffleBoundary
-    private static CharSequence getSourceSectionCharacters(SourceSection section) {
+    private static CharSequence getSourceSectionCharacters(com.oracle.truffle.api.source.SourceSection section) {
         return section.getCharacters();
     }
 
@@ -601,7 +600,7 @@ public class SLInstrumentTest {
             env.getInstrumenter().attachExecutionEventListener(SourceSectionFilter.ANY, new ExecutionEventListener() {
                 @Override
                 public void onEnter(EventContext context, VirtualFrame frame) {
-                    if ("readln".equals(getSourceSectionCharacters(context.getInstrumentedSourceSection()))) {
+                    if ("readln".contentEquals(getSourceSectionCharacters(context.getInstrumentedSourceSection()))) {
                         CompilerDirectives.transferToInterpreter();
                         // Interrupt the I/O
                         final Thread thread = Thread.currentThread();
@@ -707,7 +706,7 @@ public class SLInstrumentTest {
         }
         assertTrue(interopFailure);
 
-        earlyReturn.returnValue = new SLBigInteger(new BigInteger("-42"));
+        earlyReturn.returnValue = new ValkyrieInteger(new BigInteger("-42"));
         ret = context.eval(source);
         assertTrue(ret.isNumber());
         assertEquals(-41L, ret.asLong());
@@ -783,7 +782,7 @@ public class SLInstrumentTest {
                 "  return b;\n" +
                 "}\n";
         final Source source = Source.newBuilder("sl", code, "testing").build();
-        SourceSection ss = DebuggerTester.getSourceImpl(source).createSection(24, 5);
+        var ss = DebuggerTester.getSourceImpl(source).createSection(24, 5);
         Context context = Context.create();
         NewReplacedInstrument replaced = context.getEngine().getInstruments().get("testNewNodeReplaced").lookup(NewReplacedInstrument.class);
         replaced.attachAt(ss);
@@ -805,7 +804,7 @@ public class SLInstrumentTest {
             env.registerService(this);
         }
 
-        void attachAt(SourceSection ss) {
+        void attachAt(com.oracle.truffle.api.source.SourceSection ss) {
             env.getInstrumenter().attachExecutionEventListener(SourceSectionFilter.newBuilder().sourceSectionEquals(ss).build(), new ExecutionEventListener() {
                 @Override
                 public void onEnter(EventContext context, VirtualFrame frame) {
@@ -960,7 +959,7 @@ public class SLInstrumentTest {
             env.getInstrumenter().attachExecutionEventListener(SourceSectionFilter.newBuilder().tagIs(StandardTags.StatementTag.class).build(), new ExecutionEventListener() {
                 @Override
                 public void onEnter(EventContext context, VirtualFrame frame) {
-                    SourceSection ss = context.getInstrumentedSourceSection();
+                    var ss = context.getInstrumentedSourceSection();
                     if (getSourceSectionCharacters(ss).toString().contains(error)) {
                         if (unwind == null) {
                             CompilerDirectives.transferToInterpreterAndInvalidate();

@@ -43,7 +43,7 @@ package com.oracle.truffle.sl.nodes.expression;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
-import com.oracle.truffle.sl.runtime.SLBigInteger;
+import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 
 import java.math.BigInteger;
 
@@ -54,14 +54,14 @@ import java.math.BigInteger;
 @NodeInfo(shortName = "const")
 public final class SLBigIntegerLiteralNode extends SLExpressionNode {
 
-    private final SLBigInteger value;
+    private final ValkyrieInteger value;
 
     public SLBigIntegerLiteralNode(BigInteger value) {
-        this.value = new SLBigInteger(value);
+        this.value = new ValkyrieInteger(value);
     }
 
     @Override
-    public SLBigInteger executeGeneric(VirtualFrame frame) {
+    public ValkyrieInteger executeGeneric(VirtualFrame frame) {
         return value;
     }
 }
