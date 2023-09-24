@@ -44,6 +44,7 @@ import org.graalvm.polyglot.Context
 import org.graalvm.polyglot.PolyglotException
 import org.graalvm.polyglot.Source
 import java.io.*
+import kotlin.system.exitProcess
 
 object SLMain {
     private const val SL = "sl"
@@ -68,14 +69,14 @@ object SLMain {
         }
 
         source = if (file == null) {
-            // @formatter:off
+
             Source.newBuilder(SL, InputStreamReader(System.`in`), "<stdin>").build()
-            // @formatter:on
+
         } else {
             Source.newBuilder(SL, File(file)).build()
         }
 
-        System.exit(executeSource(source, System.`in`, System.out, options))
+        exitProcess(executeSource(source, System.`in`, System.out, options))
     }
 
     private fun executeSource(source: Source, `in`: InputStream, out: PrintStream, options: Map<String, String>): Int {
