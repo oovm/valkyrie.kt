@@ -49,11 +49,11 @@ import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.nodes.SLTypes;
-import com.oracle.truffle.sl.runtime.ValkyrieInteger;
-import com.oracle.truffle.sl.runtime.ValkyrieNull;
-import com.oracle.truffle.sl.runtime.ValkyrieString;
 import valkyrie.language.ValkyrieLanguage;
-import valkyrie.runtime.functions.SLFunction;
+import valkyrie.runtime.ValkyrieNull;
+import valkyrie.runtime.ValkyrieString;
+import valkyrie.runtime.functions.ValkyrieFunction;
+import valkyrie.runtime.numbers.ValkyrieInteger;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -112,7 +112,7 @@ public abstract class SLToTruffleStringNode extends Node {
     }
 
     @Specialization
-    protected static TruffleString fromFunction(SLFunction value) {
+    protected static TruffleString fromFunction(ValkyrieFunction value) {
         return value.name;
     }
 

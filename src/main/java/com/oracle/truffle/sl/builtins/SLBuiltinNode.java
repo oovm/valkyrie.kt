@@ -48,14 +48,14 @@ import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.runtime.SLContext;
 import valkyrie.runtime.exceptions.ValkyrieException;
-import valkyrie.runtime.functions.SLFunctionRegistry;
+import valkyrie.runtime.functions.ValkyrieFunctionRegistry;
 
 /**
  * Base class for all builtin functions. It contains the Truffle DSL annotation {@link NodeChild}
  * that defines the function arguments.<br>
  * The builtin functions are registered in {@link SLContext#installBuiltins}. Every builtin node
  * subclass is instantiated there, wrapped into a function, and added to the
- * {@link SLFunctionRegistry}. This ensures that builtin functions can be called like user-defined
+ * {@link ValkyrieFunctionRegistry}. This ensures that builtin functions can be called like user-defined
  * functions; there is no special function lookup or call node for builtin functions.
  */
 @NodeChild(value = "arguments", type = SLExpressionNode[].class)

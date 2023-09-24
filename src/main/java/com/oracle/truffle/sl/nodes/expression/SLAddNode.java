@@ -51,9 +51,9 @@ import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.nodes.SLBinaryNode;
 import com.oracle.truffle.sl.nodes.SLTypes;
 import com.oracle.truffle.sl.nodes.util.SLToTruffleStringNode;
-import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 import valkyrie.language.ValkyrieLanguage;
 import valkyrie.runtime.exceptions.ValkyrieException;
+import valkyrie.runtime.numbers.ValkyrieInteger;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 

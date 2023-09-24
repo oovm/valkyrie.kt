@@ -53,7 +53,7 @@ import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.profiles.InlinedBranchProfile;
 import com.oracle.truffle.api.source.SourceSection;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.runtime.ValkyrieString;
+import valkyrie.runtime.ValkyrieString;
 
 /**
  * A container class used to store per-node attributes used by the instrumentation framework.

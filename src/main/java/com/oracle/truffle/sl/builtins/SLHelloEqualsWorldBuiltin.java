@@ -47,8 +47,8 @@ import com.oracle.truffle.api.frame.Frame;
 import com.oracle.truffle.api.frame.FrameInstance.FrameAccess;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.runtime.ValkyrieString;
 import valkyrie.language.ValkyrieLanguage;
+import valkyrie.runtime.ValkyrieString;
 
 /**
  * This builtin sets the variable named "hello" in the caller frame to the string "world".

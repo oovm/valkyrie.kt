@@ -44,7 +44,7 @@ import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLStatementNode;
-import com.oracle.truffle.sl.runtime.ValkyrieNull;
+import valkyrie.runtime.ValkyrieNull;
 
 /**
  * Implementation of the SL return statement. We need to unwind an unknown number of interpreter

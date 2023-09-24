@@ -45,8 +45,8 @@ import com.oracle.truffle.api.interop.InteropLibrary;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.ExplodeLoop;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import com.oracle.truffle.sl.runtime.SLType;
-import com.oracle.truffle.sl.runtime.ValkyrieNull;
+import valkyrie.runtime.SLType;
+import valkyrie.runtime.ValkyrieNull;
 
 /**
  * Built-in function that returns the type of a guest language value.

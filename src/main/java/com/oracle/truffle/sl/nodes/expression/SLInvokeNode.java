@@ -52,10 +52,10 @@ import com.oracle.truffle.api.nodes.ExplodeLoop;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import valkyrie.runtime.exceptions.ValkyrieUndefinedNameException;
-import valkyrie.runtime.functions.SLFunction;
+import valkyrie.runtime.functions.ValkyrieFunction;
 
 /**
- * The node for function invocation in SL. Since SL has first class functions, the {@link SLFunction
+ * The node for function invocation in SL. Since SL has first class functions, the {@link ValkyrieFunction
  * target function} can be computed by an arbitrary expression. This node is responsible for
  * evaluating this expression, as well as evaluating the {@link #argumentNodes arguments}. The
  * actual invocation is delegated to a {@link InteropLibrary} instance.

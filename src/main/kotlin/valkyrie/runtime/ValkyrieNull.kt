@@ -1,4 +1,4 @@
-package com.oracle.truffle.sl.runtime
+package valkyrie.runtime
 
 import com.oracle.truffle.api.TruffleLanguage
 import com.oracle.truffle.api.interop.InteropLibrary

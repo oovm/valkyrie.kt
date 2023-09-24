@@ -50,14 +50,14 @@ import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.runtime.SLContext;
 import valkyrie.language.ValkyrieLanguage;
-import valkyrie.runtime.functions.SLFunction;
-import valkyrie.runtime.functions.SLFunctionRegistry;
+import valkyrie.runtime.functions.ValkyrieFunction;
+import valkyrie.runtime.functions.ValkyrieFunctionRegistry;
 
 /**
- * Constant literal for a {@link SLFunction function} value, created when a function name occurs as
+ * Constant literal for a {@link ValkyrieFunction function} value, created when a function name occurs as
  * a literal in SL source code. Note that function redefinition can change the {@link CallTarget
- * call target} that is executed when calling the function, but the {@link SLFunction} for a name
- * never changes. This is guaranteed by the {@link SLFunctionRegistry}.
+ * call target} that is executed when calling the function, but the {@link ValkyrieFunction} for a name
+ * never changes. This is guaranteed by the {@link ValkyrieFunctionRegistry}.
  */
 @NodeInfo(shortName = "func")
 public final class SLFunctionLiteralNode extends SLExpressionNode {
@@ -74,18 +74,18 @@ public final class SLFunctionLiteralNode extends SLExpressionNode {
      * be constant folded during compilation.
      */
     @CompilationFinal
-    private SLFunction cachedFunction;
+    private ValkyrieFunction cachedFunction;
 
     public SLFunctionLiteralNode(TruffleString functionName) {
         this.functionName = functionName;
     }
 
     @Override
-    public SLFunction executeGeneric(VirtualFrame frame) {
+    public ValkyrieFunction executeGeneric(VirtualFrame frame) {
         ValkyrieLanguage l = ValkyrieLanguage.get(this);
         CompilerAsserts.partialEvaluationConstant(l);
 
-        SLFunction function;
+        ValkyrieFunction function;
         if (l.isSingleContext()) {
             function = this.cachedFunction;
             if (function == null) {

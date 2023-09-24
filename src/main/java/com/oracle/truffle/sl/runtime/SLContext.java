@@ -56,8 +56,10 @@ import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.builtins.*;
 import org.graalvm.polyglot.Context;
 import valkyrie.language.ValkyrieLanguage;
-import valkyrie.runtime.functions.SLFunction;
-import valkyrie.runtime.functions.SLFunctionRegistry;
+import valkyrie.runtime.ValkyrieString;
+import valkyrie.runtime.functions.ValkyrieFunction;
+import valkyrie.runtime.functions.ValkyrieFunctionRegistry;
+import valkyrie.runtime.numbers.ValkyrieInteger;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -82,9 +84,9 @@ public final class SLContext {
     private Env env;
     private final BufferedReader input;
     private final PrintWriter output;
-    private final SLFunctionRegistry functionRegistry;
+    private final ValkyrieFunctionRegistry functionRegistry;
     private final AllocationReporter allocationReporter;
-    private final List<SLFunction> shutdownHooks = new ArrayList<>();
+    private final List<ValkyrieFunction> shutdownHooks = new ArrayList<>();
 
     public SLContext(ValkyrieLanguage language, TruffleLanguage.Env env, List<NodeFactory<? extends SLBuiltinNode>> externalBuiltins) {
         this.env = env;
@@ -92,7 +94,7 @@ public final class SLContext {
         this.output = new PrintWriter(env.out(), true);
         this.language = language;
         this.allocationReporter = env.lookup(AllocationReporter.class);
-        this.functionRegistry = new SLFunctionRegistry(language);
+        this.functionRegistry = new ValkyrieFunctionRegistry(language);
         installBuiltins();
         for (NodeFactory<? extends SLBuiltinNode> builtin : externalBuiltins) {
             installBuiltin(builtin);
@@ -136,12 +138,12 @@ public final class SLContext {
     /**
      * Returns the registry of all functions that are currently defined.
      */
-    public SLFunctionRegistry getFunctionRegistry() {
+    public ValkyrieFunctionRegistry getFunctionRegistry() {
         return functionRegistry;
     }
 
     /**
-     * Adds all builtin functions to the {@link SLFunctionRegistry}. This method lists all
+     * Adds all builtin functions to the {@link ValkyrieFunctionRegistry}. This method lists all
      * {@link SLBuiltinNode builtin implementation classes}.
      */
     private void installBuiltins() {
@@ -232,7 +234,7 @@ public final class SLContext {
      * @param func no-parameter function to be registered as a shutdown hook
      */
     @TruffleBoundary
-    public void registerShutdownHook(SLFunction func) {
+    public void registerShutdownHook(ValkyrieFunction func) {
         shutdownHooks.add(func);
     }
 
@@ -242,7 +244,7 @@ public final class SLContext {
      */
     public void runShutdownHooks() {
         InteropLibrary interopLibrary = InteropLibrary.getUncached();
-        for (SLFunction shutdownHook : shutdownHooks) {
+        for (ValkyrieFunction shutdownHook : shutdownHooks) {
             try {
                 interopLibrary.execute(shutdownHook);
             } catch (UnsupportedTypeException | ArityException | UnsupportedMessageException e) {

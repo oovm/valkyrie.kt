@@ -46,8 +46,8 @@ import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.ValkyrieString;
 import valkyrie.language.ValkyrieLanguage;
+import valkyrie.runtime.ValkyrieString;
 import valkyrie.runtime.exceptions.ValkyrieException;
 
 import java.io.BufferedReader;

@@ -51,8 +51,8 @@ import com.oracle.truffle.api.interop.UnsupportedTypeException;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.ValkyrieNull;
 import valkyrie.language.ValkyrieLanguage;
+import valkyrie.runtime.ValkyrieNull;
 import valkyrie.runtime.exceptions.ValkyrieUndefinedNameException;
 
 /**

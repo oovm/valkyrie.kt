@@ -45,9 +45,9 @@ import com.oracle.truffle.api.dsl.ImplicitCast;
 import com.oracle.truffle.api.dsl.TypeCast;
 import com.oracle.truffle.api.dsl.TypeCheck;
 import com.oracle.truffle.api.dsl.TypeSystem;
-import com.oracle.truffle.sl.runtime.ValkyrieInteger;
-import com.oracle.truffle.sl.runtime.ValkyrieNull;
 import valkyrie.language.ValkyrieLanguage;
+import valkyrie.runtime.ValkyrieNull;
+import valkyrie.runtime.numbers.ValkyrieInteger;
 
 import java.math.BigInteger;
 

@@ -43,8 +43,8 @@ package com.oracle.truffle.sl.builtins;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.ValkyrieNull;
-import valkyrie.runtime.functions.SLFunction;
+import valkyrie.runtime.ValkyrieNull;
+import valkyrie.runtime.functions.ValkyrieFunction;
 
 /**
  * Builtin function that registers a function as a shutdown hook. Only no-parameter functions are
@@ -54,7 +54,7 @@ import valkyrie.runtime.functions.SLFunction;
 public abstract class SLRegisterShutdownHookBuiltin extends SLBuiltinNode {
 
     @Specialization
-    protected Object doDefault(SLFunction shutdownHook) {
+    protected Object doDefault(ValkyrieFunction shutdownHook) {
         SLContext.get(this).registerShutdownHook(shutdownHook);
         return ValkyrieNull.SINGLETON;
     }

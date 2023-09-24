@@ -45,10 +45,10 @@ import com.oracle.truffle.api.nodes.RootNode;
 import com.oracle.truffle.api.strings.TruffleString;
 import valkyrie.language.ValkyrieLanguage;
 import valkyrie.runtime.exceptions.ValkyrieUndefinedNameException;
-import valkyrie.runtime.functions.SLFunction;
+import valkyrie.runtime.functions.ValkyrieFunction;
 
 /**
- * The initial {@link RootNode} of {@link SLFunction functions} when they are created, i.e., when
+ * The initial {@link RootNode} of {@link ValkyrieFunction functions} when they are created, i.e., when
  * they are still undefined. Executing it throws an
  * {@link ValkyrieUndefinedNameException#undefinedFunction exception}.
  */

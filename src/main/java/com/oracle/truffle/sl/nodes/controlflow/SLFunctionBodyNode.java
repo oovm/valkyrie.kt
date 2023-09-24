@@ -46,7 +46,7 @@ import com.oracle.truffle.api.profiles.BranchProfile;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLRootNode;
 import com.oracle.truffle.sl.nodes.SLStatementNode;
-import com.oracle.truffle.sl.runtime.ValkyrieNull;
+import valkyrie.runtime.ValkyrieNull;
 
 /**
  * The body of a user-defined SL function. This is the node referenced by a {@link SLRootNode} for

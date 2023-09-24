@@ -38,7 +38,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.oracle.truffle.sl.runtime
+package valkyrie.runtime.numbers
 
 import com.oracle.truffle.api.CompilerDirectives
 import com.oracle.truffle.api.TruffleLanguage
@@ -48,6 +48,7 @@ import com.oracle.truffle.api.interop.UnsupportedMessageException
 import com.oracle.truffle.api.library.ExportLibrary
 import com.oracle.truffle.api.library.ExportMessage
 import valkyrie.language.ValkyrieLanguage
+import valkyrie.runtime.SLType
 import java.math.BigDecimal
 import java.math.BigInteger
 

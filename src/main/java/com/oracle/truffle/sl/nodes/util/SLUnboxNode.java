@@ -50,10 +50,10 @@ import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLTypes;
-import com.oracle.truffle.sl.runtime.ValkyrieInteger;
-import com.oracle.truffle.sl.runtime.ValkyrieNull;
 import valkyrie.language.ValkyrieLanguage;
-import valkyrie.runtime.functions.SLFunction;
+import valkyrie.runtime.ValkyrieNull;
+import valkyrie.runtime.functions.ValkyrieFunction;
+import valkyrie.runtime.numbers.ValkyrieInteger;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 
@@ -94,7 +94,7 @@ public abstract class SLUnboxNode extends SLExpressionNode {
     }
 
     @Specialization
-    protected static SLFunction fromFunction(SLFunction value) {
+    protected static ValkyrieFunction fromFunction(ValkyrieFunction value) {
         return value;
     }
 

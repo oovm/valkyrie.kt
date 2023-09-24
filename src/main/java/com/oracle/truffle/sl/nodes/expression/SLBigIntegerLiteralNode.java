@@ -43,7 +43,7 @@ package com.oracle.truffle.sl.nodes.expression;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
-import com.oracle.truffle.sl.runtime.ValkyrieInteger;
+import valkyrie.runtime.numbers.ValkyrieInteger;
 
 import java.math.BigInteger;
 

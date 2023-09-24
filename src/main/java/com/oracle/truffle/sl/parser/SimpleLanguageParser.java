@@ -57,6 +57,7 @@ import org.antlr.v4.runtime.atn.PredictionContextCache;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import valkyrie.language.ValkyrieLanguage;
+import valkyrie.runtime.exceptions.ValkyrieParseError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -176,7 +177,7 @@ public class SimpleLanguageParser extends Parser {
 	    int col = charPositionInLine + 1;
 	    String location = "-- line " + line + " col " + col + ": ";
 	    int length = token == null ? 1 : Math.max(token.getStopIndex() - token.getStartIndex(), 0);
-	    throw new SLParseError(source, line, col, length, String.format("Error(s) parsing script:%n" + location + message));
+	    throw new ValkyrieParseError(source, line, col, length, String.format("Error(s) parsing script:%n" + location + message));
 	}
 
 	public static Map<TruffleString, RootCallTarget> parseSL(ValkyrieLanguage language, Source source) {

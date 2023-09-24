@@ -52,7 +52,7 @@ import com.oracle.truffle.api.object.DynamicObjectLibrary;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.util.SLToMemberNode;
 import com.oracle.truffle.sl.nodes.util.SLToTruffleStringNode;
-import com.oracle.truffle.sl.runtime.ValkyrieObject;
+import valkyrie.runtime.ValkyrieObject;
 import valkyrie.runtime.exceptions.ValkyrieUndefinedNameException;
 
 /**

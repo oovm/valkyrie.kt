@@ -61,9 +61,9 @@ import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLRootNode;
 import com.oracle.truffle.sl.nodes.controlflow.SLBlockNode;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.ValkyrieNull;
-import com.oracle.truffle.sl.runtime.ValkyrieString;
 import valkyrie.language.ValkyrieLanguage;
+import valkyrie.runtime.ValkyrieNull;
+import valkyrie.runtime.ValkyrieString;
 
 /**
  * The SL implementation of {@link NodeLibrary} provides fast access to local variables. It's used

@@ -49,9 +49,9 @@ import com.oracle.truffle.api.nodes.DirectCallNode;
 import com.oracle.truffle.api.nodes.RootNode;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.ValkyrieNull;
-import com.oracle.truffle.sl.runtime.ValkyrieString;
 import valkyrie.language.ValkyrieLanguage;
+import valkyrie.runtime.ValkyrieNull;
+import valkyrie.runtime.ValkyrieString;
 
 import java.util.Collections;
 import java.util.Map;

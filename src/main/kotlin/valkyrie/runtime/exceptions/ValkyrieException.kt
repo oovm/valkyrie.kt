@@ -6,7 +6,7 @@ import com.oracle.truffle.api.interop.InteropLibrary
 import com.oracle.truffle.api.interop.UnsupportedMessageException
 import com.oracle.truffle.api.nodes.Node
 import valkyrie.language.ValkyrieLanguage.Companion.lookupNodeInfo
-import valkyrie.runtime.functions.SLLanguageView.Companion.forValue
+import valkyrie.runtime.SLLanguageView.Companion.forValue
 
 /**
  * SL does not need a sophisticated error checking and reporting mechanism, so all unexpected

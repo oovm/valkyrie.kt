@@ -53,10 +53,10 @@ import com.oracle.truffle.sl.nodes.controlflow.*;
 import com.oracle.truffle.sl.nodes.expression.*;
 import com.oracle.truffle.sl.nodes.local.*;
 import com.oracle.truffle.sl.nodes.util.SLUnboxNodeGen;
-import com.oracle.truffle.sl.runtime.ValkyrieString;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Token;
 import valkyrie.language.ValkyrieLanguage;
+import valkyrie.runtime.ValkyrieString;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
