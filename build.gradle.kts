@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    antlrVersion("org.antlr:antlr4:${antlrVersion}")
+    antlr("org.antlr:antlr4:${antlrVersion}")
     implementation("org.graalvm.truffle:truffle-api:${graalVM}")
     annotationProcessor("org.graalvm.truffle:truffle-dsl-processor:${graalVM}")
 }
