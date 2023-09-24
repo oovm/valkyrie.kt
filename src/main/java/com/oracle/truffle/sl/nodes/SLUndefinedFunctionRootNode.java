@@ -43,9 +43,9 @@ package com.oracle.truffle.sl.nodes;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.RootNode;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.runtime.SLFunction;
 import valkyrie.language.ValkyrieLanguage;
 import valkyrie.runtime.exceptions.ValkyrieUndefinedNameException;
+import valkyrie.runtime.functions.SLFunction;
 
 /**
  * The initial {@link RootNode} of {@link SLFunction functions} when they are created, i.e., when

@@ -49,9 +49,9 @@ import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.SLFunction;
-import com.oracle.truffle.sl.runtime.SLFunctionRegistry;
 import valkyrie.language.ValkyrieLanguage;
+import valkyrie.runtime.functions.SLFunction;
+import valkyrie.runtime.functions.SLFunctionRegistry;
 
 /**
  * Constant literal for a {@link SLFunction function} value, created when a function name occurs as

@@ -96,7 +96,7 @@ public class SLLoggerTest {
 
     @Test
     public void testLoggerSlFunctionLevelFine() {
-        final Context context = createContext(createLoggingOptions("sl", "com.oracle.truffle.sl.runtime.SLFunction", "FINE"));
+        final Context context = createContext(createLoggingOptions("sl", "valkyrie.runtime.functions.SLFunction", "FINE"));
         executeSlScript(context);
         Assert.assertFalse(functionNames(testHandler.getRecords()).isEmpty());
     }
@@ -118,15 +118,15 @@ public class SLLoggerTest {
     @Test
     public void testMultipleContextsExclusiveFineLevel() {
         final TestHandler handler1 = new TestHandler();
-        try (Context ctx = Context.newBuilder("sl").options(createLoggingOptions("sl", "com.oracle.truffle.sl.runtime.SLFunction", "FINE")).logHandler(handler1).build()) {
+        try (Context ctx = Context.newBuilder("sl").options(createLoggingOptions("sl", "valkyrie.runtime.functions.SLFunction", "FINE")).logHandler(handler1).build()) {
             executeSlScript(ctx, ADD_SL, 2);
         }
         final TestHandler handler2 = new TestHandler();
-        try (Context ctx = Context.newBuilder("sl").options(createLoggingOptions("sl", "com.oracle.truffle.sl.runtime.SLFunction", "FINE")).logHandler(handler2).build()) {
+        try (Context ctx = Context.newBuilder("sl").options(createLoggingOptions("sl", "valkyrie.runtime.functions.SLFunction", "FINE")).logHandler(handler2).build()) {
             executeSlScript(ctx, MUL_SL, 1);
         }
         final TestHandler handler3 = new TestHandler();
-        try (Context ctx = Context.newBuilder("sl").options(createLoggingOptions("sl", "com.oracle.truffle.sl.runtime.SLFunction", "FINE")).logHandler(handler3).build()) {
+        try (Context ctx = Context.newBuilder("sl").options(createLoggingOptions("sl", "valkyrie.runtime.functions.SLFunction", "FINE")).logHandler(handler3).build()) {
             executeSlScript(ctx, ADD_SL, 2);
         }
         Set<String> functionNames = functionNames(handler1.getRecords());
@@ -143,7 +143,7 @@ public class SLLoggerTest {
     @Test
     public void testMultipleContextsExclusiveDifferentLogLevel() {
         final TestHandler handler1 = new TestHandler();
-        try (Context ctx = Context.newBuilder("sl").options(createLoggingOptions("sl", "com.oracle.truffle.sl.runtime.SLFunction", "FINE")).logHandler(handler1).build()) {
+        try (Context ctx = Context.newBuilder("sl").options(createLoggingOptions("sl", "valkyrie.runtime.functions.SLFunction", "FINE")).logHandler(handler1).build()) {
             executeSlScript(ctx, ADD_SL, 2);
         }
         final TestHandler handler2 = new TestHandler();
@@ -151,7 +151,7 @@ public class SLLoggerTest {
             executeSlScript(ctx, MUL_SL, 1);
         }
         final TestHandler handler3 = new TestHandler();
-        try (Context ctx = Context.newBuilder("sl").options(createLoggingOptions("sl", "com.oracle.truffle.sl.runtime.SLFunction", "FINE")).logHandler(handler3).build()) {
+        try (Context ctx = Context.newBuilder("sl").options(createLoggingOptions("sl", "valkyrie.runtime.functions.SLFunction", "FINE")).logHandler(handler3).build()) {
             executeSlScript(ctx, ADD_SL, 2);
         }
         Set<String> functionNames = functionNames(handler1.getRecords());
@@ -169,9 +169,9 @@ public class SLLoggerTest {
         final TestHandler handler1 = new TestHandler();
         final TestHandler handler2 = new TestHandler();
         final TestHandler handler3 = new TestHandler();
-        try (Context ctx1 = Context.newBuilder("sl").options(createLoggingOptions("sl", "com.oracle.truffle.sl.runtime.SLFunction", "FINE")).logHandler(handler1).build()) {
-            try (Context ctx2 = Context.newBuilder("sl").options(createLoggingOptions("sl", "com.oracle.truffle.sl.runtime.SLFunction", "FINE")).logHandler(handler2).build()) {
-                try (Context ctx3 = Context.newBuilder("sl").options(createLoggingOptions("sl", "com.oracle.truffle.sl.runtime.SLFunction", "FINE")).logHandler(handler3).build()) {
+        try (Context ctx1 = Context.newBuilder("sl").options(createLoggingOptions("sl", "valkyrie.runtime.functions.SLFunction", "FINE")).logHandler(handler1).build()) {
+            try (Context ctx2 = Context.newBuilder("sl").options(createLoggingOptions("sl", "valkyrie.runtime.functions.SLFunction", "FINE")).logHandler(handler2).build()) {
+                try (Context ctx3 = Context.newBuilder("sl").options(createLoggingOptions("sl", "valkyrie.runtime.functions.SLFunction", "FINE")).logHandler(handler3).build()) {
                     executeSlScript(ctx1, ADD_SL, 2);
                     executeSlScript(ctx2, MUL_SL, 1);
                     executeSlScript(ctx3, ADD_SL, 2);
@@ -194,8 +194,8 @@ public class SLLoggerTest {
         final TestHandler handler1 = new TestHandler();
         final TestHandler handler2 = new TestHandler();
         final TestHandler handler3 = new TestHandler();
-        try (Context ctx1 = Context.newBuilder("sl").options(createLoggingOptions("sl", "com.oracle.truffle.sl.runtime.SLFunction", "FINE")).logHandler(handler1).build()) {
-            try (Context ctx2 = Context.newBuilder("sl").options(createLoggingOptions("sl", "com.oracle.truffle.sl.runtime.SLFunction", "FINE")).logHandler(handler2).build()) {
+        try (Context ctx1 = Context.newBuilder("sl").options(createLoggingOptions("sl", "valkyrie.runtime.functions.SLFunction", "FINE")).logHandler(handler1).build()) {
+            try (Context ctx2 = Context.newBuilder("sl").options(createLoggingOptions("sl", "valkyrie.runtime.functions.SLFunction", "FINE")).logHandler(handler2).build()) {
                 try (Context ctx3 = Context.newBuilder("sl").logHandler(handler3).build()) {
                     executeSlScript(ctx1, ADD_SL, 2);
                     executeSlScript(ctx2, MUL_SL, 1);
@@ -235,7 +235,7 @@ public class SLLoggerTest {
     }
 
     private static Set<String> functionNames(final List<? extends LogRecord> records) {
-        return records.stream().filter((lr) -> "sl.com.oracle.truffle.sl.runtime.SLFunction".equals(lr.getLoggerName())).map((lr) -> (String) lr.getParameters()[0]).collect(Collectors.toSet());
+        return records.stream().filter((lr) -> "sl.valkyrie.runtime.functions.SLFunction".equals(lr.getLoggerName())).map((lr) -> (String) lr.getParameters()[0]).collect(Collectors.toSet());
     }
 
     private static final class TestHandler extends Handler {

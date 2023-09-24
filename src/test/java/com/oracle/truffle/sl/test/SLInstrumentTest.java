@@ -53,12 +53,12 @@ import com.oracle.truffle.api.library.ExportMessage;
 import com.oracle.truffle.api.library.LibraryFactory;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.RootNode;
-import com.oracle.truffle.sl.runtime.SLFunction;
 import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 import com.oracle.truffle.tck.DebuggerTester;
 import org.graalvm.polyglot.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import valkyrie.runtime.functions.SLFunction;
 
 import java.io.*;
 import java.math.BigInteger;

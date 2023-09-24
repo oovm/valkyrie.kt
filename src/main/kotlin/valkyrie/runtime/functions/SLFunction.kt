@@ -38,7 +38,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.oracle.truffle.sl.runtime
+package valkyrie.runtime.functions
 
 import com.oracle.truffle.api.*
 import com.oracle.truffle.api.dsl.Cached
@@ -55,6 +55,7 @@ import com.oracle.truffle.api.source.SourceSection
 import com.oracle.truffle.api.strings.TruffleString
 import com.oracle.truffle.api.utilities.CyclicAssumption
 import com.oracle.truffle.api.utilities.TriState
+import com.oracle.truffle.sl.runtime.SLType
 import valkyrie.language.ValkyrieLanguage
 import java.util.logging.Level
 

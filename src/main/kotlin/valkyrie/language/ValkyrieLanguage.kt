@@ -22,10 +22,10 @@ import com.oracle.truffle.sl.nodes.SLUndefinedFunctionRootNode
 import com.oracle.truffle.sl.nodes.local.SLReadArgumentNode
 import com.oracle.truffle.sl.parser.SimpleLanguageParser
 import com.oracle.truffle.sl.runtime.SLContext
-import com.oracle.truffle.sl.runtime.SLLanguageView
 import com.oracle.truffle.sl.runtime.ValkyrieObject
 import com.oracle.truffle.sl.runtime.ValkyrieString
 import valkyrie.language.file_type.ValkyrieFileDetector
+import valkyrie.runtime.functions.SLLanguageView
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.concurrent.Volatile

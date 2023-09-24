@@ -1,4 +1,4 @@
-package com.oracle.truffle.sl.runtime
+package valkyrie.runtime.functions
 
 import com.oracle.truffle.api.CompilerDirectives
 import com.oracle.truffle.api.TruffleLanguage
@@ -9,6 +9,7 @@ import com.oracle.truffle.api.library.CachedLibrary
 import com.oracle.truffle.api.library.ExportLibrary
 import com.oracle.truffle.api.library.ExportMessage
 import com.oracle.truffle.api.nodes.ExplodeLoop
+import com.oracle.truffle.sl.runtime.SLType
 import valkyrie.language.ValkyrieLanguage
 
 /**

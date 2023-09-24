@@ -46,7 +46,7 @@ import com.oracle.truffle.api.interop.InteropLibrary;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.runtime.SLContext;
-import com.oracle.truffle.sl.runtime.SLLanguageView;
+import valkyrie.runtime.functions.SLLanguageView;
 
 /**
  * Builtin function to write a value to the {@link SLContext#getOutput() standard output}. The

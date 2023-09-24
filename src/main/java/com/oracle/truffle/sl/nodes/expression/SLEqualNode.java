@@ -49,10 +49,10 @@ import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.nodes.SLBinaryNode;
-import com.oracle.truffle.sl.runtime.SLFunction;
 import com.oracle.truffle.sl.runtime.ValkyrieInteger;
 import com.oracle.truffle.sl.runtime.ValkyrieNull;
 import valkyrie.language.ValkyrieLanguage;
+import valkyrie.runtime.functions.SLFunction;
 
 import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
 

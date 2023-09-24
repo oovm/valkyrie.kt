@@ -51,8 +51,8 @@ import com.oracle.truffle.api.interop.UnsupportedTypeException;
 import com.oracle.truffle.api.nodes.ExplodeLoop;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
-import com.oracle.truffle.sl.runtime.SLFunction;
 import valkyrie.runtime.exceptions.ValkyrieUndefinedNameException;
+import valkyrie.runtime.functions.SLFunction;
 
 /**
  * The node for function invocation in SL. Since SL has first class functions, the {@link SLFunction
