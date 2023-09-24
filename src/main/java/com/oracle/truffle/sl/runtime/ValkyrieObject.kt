@@ -38,196 +38,202 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.oracle.truffle.sl.runtime;
+package com.oracle.truffle.sl.runtime
 
-import com.oracle.truffle.api.CompilerDirectives.TruffleBoundary;
-import com.oracle.truffle.api.TruffleLanguage;
-import com.oracle.truffle.api.dsl.Cached;
-import com.oracle.truffle.api.dsl.Cached.Shared;
-import com.oracle.truffle.api.dsl.Fallback;
-import com.oracle.truffle.api.dsl.Specialization;
-import com.oracle.truffle.api.interop.InteropLibrary;
-import com.oracle.truffle.api.interop.InvalidArrayIndexException;
-import com.oracle.truffle.api.interop.TruffleObject;
-import com.oracle.truffle.api.interop.UnknownIdentifierException;
-import com.oracle.truffle.api.library.CachedLibrary;
-import com.oracle.truffle.api.library.ExportLibrary;
-import com.oracle.truffle.api.library.ExportMessage;
-import com.oracle.truffle.api.object.DynamicObject;
-import com.oracle.truffle.api.object.DynamicObjectLibrary;
-import com.oracle.truffle.api.object.Shape;
-import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.api.utilities.TriState;
-import com.oracle.truffle.sl.SLLanguage;
+import com.oracle.truffle.api.CompilerDirectives
+import com.oracle.truffle.api.TruffleLanguage
+import com.oracle.truffle.api.dsl.Cached
+import com.oracle.truffle.api.dsl.Fallback
+import com.oracle.truffle.api.dsl.Specialization
+import com.oracle.truffle.api.interop.InteropLibrary
+import com.oracle.truffle.api.interop.InvalidArrayIndexException
+import com.oracle.truffle.api.interop.TruffleObject
+import com.oracle.truffle.api.interop.UnknownIdentifierException
+import com.oracle.truffle.api.library.CachedLibrary
+import com.oracle.truffle.api.library.ExportLibrary
+import com.oracle.truffle.api.library.ExportMessage
+import com.oracle.truffle.api.`object`.DynamicObject
+import com.oracle.truffle.api.`object`.DynamicObjectLibrary
+import com.oracle.truffle.api.`object`.Shape
+import com.oracle.truffle.api.strings.TruffleString
+import com.oracle.truffle.api.utilities.TriState
+import com.oracle.truffle.sl.SLLanguage
 
 /**
  * Represents an SL object.
- * <p>
+ *
+ *
  * This class defines operations that can be performed on SL Objects. While we could define all
  * these operations as individual AST nodes, we opted to define those operations by using
- * {@link com.oracle.truffle.api.library.Library a Truffle library}, or more concretely the
- * {@link InteropLibrary}. This has several advantages, but the primary one is that it allows SL
+ * [a Truffle library][com.oracle.truffle.api.library.Library], or more concretely the
+ * [InteropLibrary]. This has several advantages, but the primary one is that it allows SL
  * objects to be used in the interoperability message protocol, i.e. It allows other languages and
  * tools to operate on SL objects without necessarily knowing they are SL objects.
- * <p>
- * SL Objects are essentially instances of {@link DynamicObject} (objects whose members can be
- * dynamically added and removed). We also annotate the class with {@link ExportLibrary} with value
- * {@link InteropLibrary InteropLibrary.class}. This essentially ensures that the build system and
+ *
+ *
+ * SL Objects are essentially instances of [DynamicObject] (objects whose members can be
+ * dynamically added and removed). We also annotate the class with [ExportLibrary] with value
+ * [InteropLibrary.class][InteropLibrary]. This essentially ensures that the build system and
  * runtime know that this class specifies the interop messages (i.e. operations) that SL can do on
- * {@link SLObject} instances.
+ * [ValkyrieObject] instances.
  *
  * @see ExportLibrary
+ *
  * @see ExportMessage
+ *
  * @see InteropLibrary
  */
-@SuppressWarnings("static-method")
-@ExportLibrary(InteropLibrary.class)
-public final class SLObject extends DynamicObject implements TruffleObject {
-    protected static final int CACHE_LIMIT = 3;
-
-    public SLObject(Shape shape) {
-        super(shape);
+@ExportLibrary(InteropLibrary::class)
+class ValkyrieObject(shape: Shape?) : DynamicObject(shape), TruffleObject {
+    @ExportMessage
+    fun hasLanguage(): Boolean {
+        return true
     }
 
-    @ExportMessage
-    boolean hasLanguage() {
-        return true;
-    }
+    @get:ExportMessage
+    val language: Class<out TruffleLanguage<*>?>
+        get() = SLLanguage::class.java
 
     @ExportMessage
-    Class<? extends TruffleLanguage<?>> getLanguage() {
-        return SLLanguage.class;
-    }
-
-    @ExportMessage
-    @SuppressWarnings("unused")
-    static final class IsIdenticalOrUndefined {
+    @Suppress("unused")
+    internal object IsIdenticalOrUndefined {
+        @JvmStatic
         @Specialization
-        static TriState doSLObject(SLObject receiver, SLObject other) {
-            return TriState.valueOf(receiver == other);
+        fun doSLObject(receiver: ValkyrieObject, other: ValkyrieObject): TriState {
+            return TriState.valueOf(receiver == other)
         }
 
+        @JvmStatic
         @Fallback
-        static TriState doOther(SLObject receiver, Object other) {
-            return TriState.UNDEFINED;
+        fun doOther(receiver: ValkyrieObject?, other: Any?): TriState {
+            return TriState.UNDEFINED
         }
     }
 
     @ExportMessage
-    @TruffleBoundary
-    int identityHashCode() {
-        return System.identityHashCode(this);
+    @CompilerDirectives.TruffleBoundary
+    fun identityHashCode(): Int {
+        return System.identityHashCode(this)
     }
 
     @ExportMessage
-    boolean hasMetaObject() {
-        return true;
+    fun hasMetaObject(): Boolean {
+        return true
+    }
+
+    @get:ExportMessage
+    val metaObject: Any
+        get() = SLType.OBJECT
+
+    @ExportMessage
+    @CompilerDirectives.TruffleBoundary
+    fun toDisplayString(@Suppress("unused") allowSideEffects: Boolean): Any {
+        return "Object"
     }
 
     @ExportMessage
-    Object getMetaObject() {
-        return SLType.OBJECT;
+    fun hasMembers(): Boolean {
+        return true
     }
 
     @ExportMessage
-    @TruffleBoundary
-    Object toDisplayString(@SuppressWarnings("unused") boolean allowSideEffects) {
-        return "Object";
-    }
-
-    @ExportMessage
-    boolean hasMembers() {
-        return true;
-    }
-
-    @ExportMessage
-    void removeMember(String member,
-                      @Cached @Shared("fromJavaStringNode") TruffleString.FromJavaStringNode fromJavaStringNode,
-                      @CachedLibrary("this") DynamicObjectLibrary objectLibrary) throws UnknownIdentifierException {
-        TruffleString memberTS = fromJavaStringNode.execute(member, SLLanguage.STRING_ENCODING);
+    @Throws(UnknownIdentifierException::class)
+    fun removeMember(
+        member: String?,
+        @Cached @Cached.Shared("fromJavaStringNode") fromJavaStringNode: TruffleString.FromJavaStringNode,
+        @CachedLibrary("this") objectLibrary: DynamicObjectLibrary,
+    ) {
+        val memberTS = fromJavaStringNode.execute(member, SLLanguage.STRING_ENCODING)
         if (objectLibrary.containsKey(this, memberTS)) {
-            objectLibrary.removeKey(this, memberTS);
+            objectLibrary.removeKey(this, memberTS)
         } else {
-            throw UnknownIdentifierException.create(member);
+            throw UnknownIdentifierException.create(member)
         }
     }
 
     @ExportMessage
-    Object getMembers(@SuppressWarnings("unused") boolean includeInternal,
-                      @CachedLibrary("this") DynamicObjectLibrary objectLibrary) {
-        return new Keys(objectLibrary.getKeyArray(this));
+    fun getMembers(
+        @Suppress("unused") includeInternal: Boolean,
+        @CachedLibrary("this") objectLibrary: DynamicObjectLibrary,
+    ): Any {
+        return Keys(objectLibrary.getKeyArray(this))
     }
 
     @ExportMessage(name = "isMemberReadable")
     @ExportMessage(name = "isMemberModifiable")
     @ExportMessage(name = "isMemberRemovable")
-    boolean existsMember(String member,
-                         @Cached @Shared("fromJavaStringNode") TruffleString.FromJavaStringNode fromJavaStringNode,
-                         @CachedLibrary("this") DynamicObjectLibrary objectLibrary) {
-        return objectLibrary.containsKey(this, fromJavaStringNode.execute(member, SLLanguage.STRING_ENCODING));
+    fun existsMember(
+        member: String?,
+        @Cached @Cached.Shared("fromJavaStringNode") fromJavaStringNode: TruffleString.FromJavaStringNode,
+        @CachedLibrary("this") objectLibrary: DynamicObjectLibrary,
+    ): Boolean {
+        return objectLibrary.containsKey(this, fromJavaStringNode.execute(member, SLLanguage.STRING_ENCODING))
     }
 
     @ExportMessage
-    boolean isMemberInsertable(String member,
-                               @CachedLibrary("this") InteropLibrary receivers) {
-        return !receivers.isMemberExisting(this, member);
+    fun isMemberInsertable(
+        member: String?,
+        @CachedLibrary("this") receivers: InteropLibrary,
+    ): Boolean {
+        return !receivers.isMemberExisting(this, member)
     }
 
-    @ExportLibrary(InteropLibrary.class)
-    static final class Keys implements TruffleObject {
-
-        private final Object[] keys;
-
-        Keys(Object[] keys) {
-            this.keys = keys;
-        }
-
+    @ExportLibrary(InteropLibrary::class)
+    internal class Keys(private val keys: Array<Any>) : TruffleObject {
         @ExportMessage
-        Object readArrayElement(long index) throws InvalidArrayIndexException {
+        @Throws(InvalidArrayIndexException::class)
+        fun readArrayElement(index: Long): Any {
             if (!isArrayElementReadable(index)) {
-                throw InvalidArrayIndexException.create(index);
+                throw InvalidArrayIndexException.create(index)
             }
-            return keys[(int) index];
+            return keys[index.toInt()]
         }
 
         @ExportMessage
-        boolean hasArrayElements() {
-            return true;
+        fun hasArrayElements(): Boolean {
+            return true
         }
 
-        @ExportMessage
-        long getArraySize() {
-            return keys.length;
-        }
+        @get:ExportMessage
+        val arraySize: Long
+            get() = keys.size.toLong()
 
         @ExportMessage
-        boolean isArrayElementReadable(long index) {
-            return index >= 0 && index < keys.length;
+        fun isArrayElementReadable(index: Long): Boolean {
+            return index >= 0 && index < keys.size
         }
     }
 
     /**
-     * {@link DynamicObjectLibrary} provides the polymorphic inline cache for reading properties.
+     * [DynamicObjectLibrary] provides the polymorphic inline cache for reading properties.
      */
     @ExportMessage
-    Object readMember(String name,
-                      @Cached @Shared("fromJavaStringNode") TruffleString.FromJavaStringNode fromJavaStringNode,
-                      @CachedLibrary("this") DynamicObjectLibrary objectLibrary) throws UnknownIdentifierException {
-        Object result = objectLibrary.getOrDefault(this, fromJavaStringNode.execute(name, SLLanguage.STRING_ENCODING), null);
-        if (result == null) {
-            /* Property does not exist. */
-            throw UnknownIdentifierException.create(name);
-        }
-        return result;
+    @Throws(UnknownIdentifierException::class)
+    fun readMember(
+        name: String?,
+        @Cached @Cached.Shared("fromJavaStringNode") fromJavaStringNode: TruffleString.FromJavaStringNode,
+        @CachedLibrary("this") objectLibrary: DynamicObjectLibrary,
+    ): Any {
+        val result =
+            objectLibrary.getOrDefault(this, fromJavaStringNode.execute(name, SLLanguage.STRING_ENCODING), null)
+                ?: /* Property does not exist. */
+                throw UnknownIdentifierException.create(name)
+        return result
     }
 
     /**
-     * {@link DynamicObjectLibrary} provides the polymorphic inline cache for writing properties.
+     * [DynamicObjectLibrary] provides the polymorphic inline cache for writing properties.
      */
     @ExportMessage
-    void writeMember(String name, Object value,
-                     @Cached @Shared("fromJavaStringNode") TruffleString.FromJavaStringNode fromJavaStringNode,
-                     @CachedLibrary("this") DynamicObjectLibrary objectLibrary) {
-        objectLibrary.put(this, fromJavaStringNode.execute(name, SLLanguage.STRING_ENCODING), value);
+    fun writeMember(
+        name: String?, value: Any?,
+        @Cached @Cached.Shared("fromJavaStringNode") fromJavaStringNode: TruffleString.FromJavaStringNode,
+        @CachedLibrary("this") objectLibrary: DynamicObjectLibrary,
+    ) {
+        objectLibrary.put(this, fromJavaStringNode.execute(name, SLLanguage.STRING_ENCODING), value)
+    }
+
+    companion object {
+        protected const val CACHE_LIMIT: Int = 3
     }
 }

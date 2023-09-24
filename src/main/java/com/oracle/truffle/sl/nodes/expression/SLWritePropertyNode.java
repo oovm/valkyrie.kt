@@ -52,8 +52,8 @@ import com.oracle.truffle.api.object.DynamicObjectLibrary;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.util.SLToMemberNode;
 import com.oracle.truffle.sl.nodes.util.SLToTruffleStringNode;
-import com.oracle.truffle.sl.runtime.SLObject;
 import com.oracle.truffle.sl.runtime.SLUndefinedNameException;
+import com.oracle.truffle.sl.runtime.ValkyrieObject;
 
 /**
  * The node for writing a property of an object. When executed, this node:
@@ -87,7 +87,7 @@ public abstract class SLWritePropertyNode extends SLExpressionNode {
     }
 
     @Specialization(limit = "LIBRARY_LIMIT")
-    protected static Object writeSLObject(SLObject receiver, Object name, Object value,
+    protected static Object writeSLObject(ValkyrieObject receiver, Object name, Object value,
                                           @Bind("this") Node node,
                                           @CachedLibrary("receiver") DynamicObjectLibrary objectLibrary,
                                           @Cached SLToTruffleStringNode toTruffleStringNode) {
@@ -110,6 +110,6 @@ public abstract class SLWritePropertyNode extends SLExpressionNode {
     }
 
     static boolean isSLObject(Object receiver) {
-        return receiver instanceof SLObject;
+        return receiver instanceof ValkyrieObject;
     }
 }

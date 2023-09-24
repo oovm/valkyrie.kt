@@ -23,7 +23,7 @@ import com.oracle.truffle.sl.nodes.local.SLReadArgumentNode
 import com.oracle.truffle.sl.parser.SimpleLanguageParser
 import com.oracle.truffle.sl.runtime.SLContext
 import com.oracle.truffle.sl.runtime.SLLanguageView
-import com.oracle.truffle.sl.runtime.SLObject
+import com.oracle.truffle.sl.runtime.ValkyrieObject
 import com.oracle.truffle.sl.runtime.ValkyrieString
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
@@ -294,16 +294,16 @@ class SLLanguage : TruffleLanguage<SLContext>() {
      * Allocate an empty object. All new objects initially have no properties. Properties are added
      * when they are first stored, i.e., the store triggers a shape change of the object.
      */
-    fun createObject(reporter: AllocationReporter): SLObject {
+    fun createObject(reporter: AllocationReporter): ValkyrieObject {
         reporter.onEnter(null, 0, AllocationReporter.SIZE_UNKNOWN)
-        val `object` = SLObject(rootShape)
+        val `object` = ValkyrieObject(rootShape)
         reporter.onReturnValue(`object`, 0, AllocationReporter.SIZE_UNKNOWN)
         return `object`
     }
 
     init {
         counter++
-        rootShape = Shape.newBuilder().layout(SLObject::class.java).build()
+        rootShape = Shape.newBuilder().layout(ValkyrieObject::class.java).build()
     }
 
     override fun exitContext(context: SLContext, exitMode: ExitMode, exitCode: Int) {

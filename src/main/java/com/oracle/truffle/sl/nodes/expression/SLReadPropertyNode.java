@@ -56,8 +56,8 @@ import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.util.SLToMemberNode;
 import com.oracle.truffle.sl.nodes.util.SLToTruffleStringNode;
-import com.oracle.truffle.sl.runtime.SLObject;
 import com.oracle.truffle.sl.runtime.SLUndefinedNameException;
+import com.oracle.truffle.sl.runtime.ValkyrieObject;
 
 /**
  * The node for reading a property of an object. When executed, this node:
@@ -87,7 +87,7 @@ public abstract class SLReadPropertyNode extends SLExpressionNode {
     }
 
     @Specialization(limit = "LIBRARY_LIMIT")
-    protected static Object readSLObject(SLObject receiver, Object name,
+    protected static Object readSLObject(ValkyrieObject receiver, Object name,
                                          @Bind("this") Node node,
                                          @CachedLibrary("receiver") DynamicObjectLibrary objectLibrary,
                                          @Cached SLToTruffleStringNode toTruffleStringNode) {
@@ -114,7 +114,7 @@ public abstract class SLReadPropertyNode extends SLExpressionNode {
     }
 
     static boolean isSLObject(Object receiver) {
-        return receiver instanceof SLObject;
+        return receiver instanceof ValkyrieObject;
     }
 
 }
