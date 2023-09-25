@@ -83,7 +83,7 @@ graalvmNative {
             mainClass.set("Main")
             sharedLibrary.set(false)
 //            pgoInstrument.set(true)
-            useFatJar.set(true)
+//            useFatJar.set(true)
         }
     }
 }
