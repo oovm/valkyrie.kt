@@ -31,7 +31,13 @@ dependencies {
 }
 configurations {
     runtimeOnly {
-
+        isCanBeResolved = true
+    }
+    implementation {
+        isCanBeResolved = true
+    }
+    language {
+        isCanBeResolved = true
     }
 }
 tasks.test {

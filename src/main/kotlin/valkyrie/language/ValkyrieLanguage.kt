@@ -26,6 +26,7 @@ import valkyrie.language.file_type.ValkyrieFileDetector
 import valkyrie.runtime.SLLanguageView
 import valkyrie.runtime.ValkyrieObject
 import valkyrie.runtime.ValkyrieString
+import java.io.InputStreamReader
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.concurrent.Volatile
@@ -139,9 +140,10 @@ class ValkyrieLanguage : TruffleLanguage<SLContext>() {
 
     val rootShape: Shape
 
-    override fun createContext(env: Env): SLContext {
+    override fun createContext(env: Env?): SLContext {
         return SLContext(this, env, ArrayList(EXTERNAL_BUILTINS))
     }
+
 
     override fun patchContext(context: SLContext, newEnv: Env): Boolean {
         context.patchContext(newEnv)
@@ -342,6 +344,12 @@ class ValkyrieLanguage : TruffleLanguage<SLContext>() {
         private val REFERENCE: LanguageReference<ValkyrieLanguage> = LanguageReference.create(
             ValkyrieLanguage::class.java
         )
+
+        fun createRunner(initialize: String): org.graalvm.polyglot.Source? {
+            val options: MutableMap<String, String> = HashMap()
+            options["engine.WarnInterpreterOnly"] = "false";
+            return org.graalvm.polyglot.Source.newBuilder(ID, initialize, "<stdin>").build()
+        }
 
         @JvmStatic
         fun get(node: Node?): ValkyrieLanguage {
