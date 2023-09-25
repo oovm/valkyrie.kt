@@ -49,7 +49,7 @@ import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.nodes.SLBinaryNode;
-import com.oracle.truffle.sl.nodes.SLTypes;
+import com.oracle.truffle.sl.nodes.ValkyrieTypes;
 import com.oracle.truffle.sl.nodes.util.SLToTruffleStringNode;
 import valkyrie.language.ValkyrieLanguage;
 import valkyrie.runtime.exceptions.ValkyrieException;
@@ -97,7 +97,7 @@ public abstract class SLAddNode extends SLBinaryNode {
      * This specialization is automatically selected by the Truffle DSL if both the left and right
      * operand are {@link ValkyrieInteger} values. Because the type system defines an
      * {@link ImplicitCast implicit conversion} from {@code long} to {@link ValkyrieInteger} in
-     * {@link SLTypes#castBigNumber(long)}, this specialization is also taken if the left or the
+     * {@link ValkyrieTypes#castBigNumber(long)}, this specialization is also taken if the left or the
      * right operand is a {@code long} value. Because the {@link #add(long, long) long}
      * specialization} has the {@code rewriteOn} attribute, this specialization is also taken if
      * both input values are {@code long} values but the primitive addition overflows.

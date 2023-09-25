@@ -42,7 +42,7 @@ package com.oracle.truffle.sl.builtins;
 
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.runtime.ValkyrieNull;
 
 /**
@@ -53,7 +53,7 @@ public abstract class SLExitBuiltin extends SLBuiltinNode {
 
     @Specialization
     protected Object doDefault(long exitCode) {
-        SLContext.get(this).getEnv().getContext().closeExited(this, (int) exitCode);
+        ValkyrieVM.get(this).getEnv().getContext().closeExited(this, (int) exitCode);
         return ValkyrieNull.SINGLETON;
     }
 }

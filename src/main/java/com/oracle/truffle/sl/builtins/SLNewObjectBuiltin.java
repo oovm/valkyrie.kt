@@ -50,7 +50,7 @@ import com.oracle.truffle.api.interop.UnsupportedMessageException;
 import com.oracle.truffle.api.interop.UnsupportedTypeException;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.language.ValkyrieLanguage;
 import valkyrie.runtime.ValkyrieNull;
 import valkyrie.runtime.exceptions.ValkyrieUndefinedNameException;
@@ -59,7 +59,7 @@ import valkyrie.runtime.exceptions.ValkyrieUndefinedNameException;
  * Built-in function to create a new object. Objects in SL are simply made up of name/value pairs.
  */
 @NodeInfo(shortName = "new")
-@ImportStatic(SLContext.class)
+@ImportStatic(ValkyrieVM.class)
 public abstract class SLNewObjectBuiltin extends SLBuiltinNode {
 
     @Specialization
@@ -70,7 +70,7 @@ public abstract class SLNewObjectBuiltin extends SLBuiltinNode {
     }
 
     final AllocationReporter lookup() {
-        return SLContext.get(this).getAllocationReporter();
+        return ValkyrieVM.get(this).getAllocationReporter();
     }
 
     @Specialization(guards = "!values.isNull(obj)", limit = "3")

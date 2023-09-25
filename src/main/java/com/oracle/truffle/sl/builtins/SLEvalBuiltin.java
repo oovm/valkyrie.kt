@@ -48,7 +48,7 @@ import com.oracle.truffle.api.nodes.DirectCallNode;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.language.ValkyrieLanguage;
 
 /**
@@ -82,7 +82,7 @@ public abstract class SLEvalBuiltin extends SLBuiltinNode {
 
     protected CallTarget parse(TruffleString id, TruffleString code) {
         final Source source = Source.newBuilder(id.toJavaStringUncached(), code.toJavaStringUncached(), "(eval)").build();
-        return SLContext.get(this).parse(source);
+        return ValkyrieVM.get(this).parse(source);
     }
 
     /* Work around findbugs warning in generate code. */

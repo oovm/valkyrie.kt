@@ -60,7 +60,7 @@ import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
 import com.oracle.truffle.sl.nodes.SLRootNode;
 import com.oracle.truffle.sl.nodes.controlflow.SLBlockNode;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.language.ValkyrieLanguage;
 import valkyrie.runtime.ValkyrieNull;
 import valkyrie.runtime.ValkyrieString;
@@ -122,7 +122,7 @@ public abstract class SLScopedNode extends Node {
 
     /**
      * Test if a function of that name exists. The functions are context-dependent, therefore do a
-     * context lookup via {@link SLContext#getCurrent(Node)}.
+     * context lookup via {@link ValkyrieVM#getCurrent(Node)}.
      */
     @ExportMessage
     final boolean hasRootInstance(@SuppressWarnings("unused") Frame frame) {
@@ -132,12 +132,12 @@ public abstract class SLScopedNode extends Node {
     @TruffleBoundary
     private boolean hasRootInstanceSlowPath() {
         // The instance of the current RootNode is a function of the same name.
-        return SLContext.get(this).getFunctionRegistry().getFunction(ValkyrieString.getSLRootName(getRootNode())) != null;
+        return ValkyrieVM.get(this).getFunctionRegistry().getFunction(ValkyrieString.getSLRootName(getRootNode())) != null;
     }
 
     /**
      * Provide function instance of that name. The function is context-dependent, therefore do a
-     * context lookup via {@link SLContext#getCurrent(Node)}.
+     * context lookup via {@link ValkyrieVM#getCurrent(Node)}.
      */
     @ExportMessage
     final Object getRootInstance(@SuppressWarnings("unused") Frame frame) throws UnsupportedMessageException {
@@ -147,7 +147,7 @@ public abstract class SLScopedNode extends Node {
     @TruffleBoundary
     private Object getRootInstanceSlowPath() throws UnsupportedMessageException {
         // The instance of the current RootNode is a function of the same name.
-        Object function = SLContext.get(this).getFunctionRegistry().getFunction(ValkyrieString.getSLRootName(getRootNode()));
+        Object function = ValkyrieVM.get(this).getFunctionRegistry().getFunction(ValkyrieString.getSLRootName(getRootNode()));
         if (function != null) {
             return function;
         } else {

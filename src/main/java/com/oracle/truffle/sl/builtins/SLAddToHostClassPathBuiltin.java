@@ -47,7 +47,7 @@ import com.oracle.truffle.api.dsl.Cached;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.runtime.ValkyrieNull;
 
 /**
@@ -65,7 +65,7 @@ public abstract class SLAddToHostClassPathBuiltin extends SLBuiltinNode {
 
     @CompilerDirectives.TruffleBoundary
     private void addToHostClassPath(String classPath) {
-        TruffleLanguage.Env env = SLContext.get(this).getEnv();
+        TruffleLanguage.Env env = ValkyrieVM.get(this).getEnv();
         TruffleFile file = env.getPublicTruffleFile(classPath);
         env.addToHostClassPath(file);
     }

@@ -48,7 +48,7 @@ import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.DirectCallNode;
 import com.oracle.truffle.api.nodes.RootNode;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.language.ValkyrieLanguage;
 import valkyrie.runtime.ValkyrieNull;
 import valkyrie.runtime.ValkyrieString;
@@ -140,7 +140,7 @@ public final class SLEvalRootNode extends RootNode {
             /* Conversion of arguments to types understood by SL. */
             Object[] arguments = frame.getArguments();
             for (int i = 0; i < arguments.length; i++) {
-                arguments[i] = SLContext.fromForeignValue(arguments[i]);
+                arguments[i] = ValkyrieVM.fromForeignValue(arguments[i]);
             }
             return mainCallNode.call(arguments);
         }
@@ -148,7 +148,7 @@ public final class SLEvalRootNode extends RootNode {
 
     @TruffleBoundary
     private void registerFunctions() {
-        SLContext.get(this).getFunctionRegistry().register(functions);
+        ValkyrieVM.get(this).getFunctionRegistry().register(functions);
     }
 
 }

@@ -58,7 +58,7 @@ import java.math.BigInteger;
  * generated ones would not be sufficient.
  */
 @TypeSystem({long.class, boolean.class})
-public abstract class SLTypes {
+public abstract class ValkyrieTypes {
 
     /**
      * Example of a manually specified type check that replaces the automatically generated type

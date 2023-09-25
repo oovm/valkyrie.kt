@@ -45,11 +45,11 @@ import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.interop.InteropLibrary;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.runtime.SLLanguageView;
 
 /**
- * Builtin function to write a value to the {@link SLContext#getOutput() standard output}. The
+ * Builtin function to write a value to the {@link ValkyrieVM#getOutput() standard output}. The
  * different specialization leverage the typed {@code println} methods available in Java, i.e.,
  * primitive values are printed without converting them to a {@link String} first.
  * <p>
@@ -64,7 +64,7 @@ public abstract class SLPrintlnBuiltin extends SLBuiltinNode {
     @TruffleBoundary
     public Object println(Object value,
                           @CachedLibrary(limit = "3") InteropLibrary interop) {
-        SLContext.get(this).getOutput().println(interop.toDisplayString(SLLanguageView.forValue(value)));
+        ValkyrieVM.get(this).getOutput().println(interop.toDisplayString(SLLanguageView.forValue(value)));
         return value;
     }
 

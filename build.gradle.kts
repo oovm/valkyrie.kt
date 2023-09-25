@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "valkyrie.language"
@@ -7,12 +8,11 @@ val graalVM = "23.1.0"
 
 plugins {
     antlr
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "1.9.10"
     id("org.graalvm.buildtools.native") version "0.9.27"
     id("org.graalvm.plugin.truffle-language") version "0.1.0-alpha2"
     application
 }
-
 
 
 repositories {
@@ -22,13 +22,14 @@ repositories {
 dependencies {
     antlr("org.antlr:antlr4:${antlrVersion}")
     implementation("org.graalvm.truffle:truffle-api:${graalVM}")
+    implementation("org.graalvm.sdk:graal-sdk:${graalVM}")
     annotationProcessor("org.graalvm.truffle:truffle-dsl-processor:${graalVM}")
 
     testImplementation(kotlin("test"))
     testImplementation("junit:junit:4.13.1")
     testImplementation("org.graalvm.truffle:truffle-tck:${graalVM}")
-//    testImplementation("org.junit.platform:junit-platform-launcher")
 }
+
 configurations {
     runtimeOnly {
         isCanBeResolved = true

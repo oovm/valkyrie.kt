@@ -46,14 +46,14 @@ import com.oracle.truffle.api.dsl.UnsupportedSpecializationException;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.runtime.exceptions.ValkyrieException;
 import valkyrie.runtime.functions.ValkyrieFunctionRegistry;
 
 /**
  * Base class for all builtin functions. It contains the Truffle DSL annotation {@link NodeChild}
  * that defines the function arguments.<br>
- * The builtin functions are registered in {@link SLContext#installBuiltins}. Every builtin node
+ * The builtin functions are registered in {@link ValkyrieVM#installBuiltins}. Every builtin node
  * subclass is instantiated there, wrapped into a function, and added to the
  * {@link ValkyrieFunctionRegistry}. This ensures that builtin functions can be called like user-defined
  * functions; there is no special function lookup or call node for builtin functions.

@@ -42,7 +42,7 @@ package com.oracle.truffle.sl.builtins;
 
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.runtime.ValkyrieNull;
 import valkyrie.runtime.functions.ValkyrieFunction;
 
@@ -55,7 +55,7 @@ public abstract class SLRegisterShutdownHookBuiltin extends SLBuiltinNode {
 
     @Specialization
     protected Object doDefault(ValkyrieFunction shutdownHook) {
-        SLContext.get(this).registerShutdownHook(shutdownHook);
+        ValkyrieVM.get(this).registerShutdownHook(shutdownHook);
         return ValkyrieNull.SINGLETON;
     }
 }

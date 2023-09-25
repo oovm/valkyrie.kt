@@ -48,7 +48,7 @@ import com.oracle.truffle.api.interop.UnsupportedMessageException;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.runtime.ValkyrieNull;
 import valkyrie.runtime.exceptions.ValkyrieException;
 
@@ -63,7 +63,7 @@ public abstract class SLImportBuiltin extends SLBuiltinNode {
                                @Cached TruffleString.ToJavaStringNode toJavaStringNode,
                                @CachedLibrary(limit = "3") InteropLibrary arrays) {
         try {
-            return arrays.readMember(SLContext.get(this).getPolyglotBindings(), toJavaStringNode.execute(symbol));
+            return arrays.readMember(ValkyrieVM.get(this).getPolyglotBindings(), toJavaStringNode.execute(symbol));
         } catch (UnsupportedMessageException | UnknownIdentifierException e) {
             return ValkyrieNull.SINGLETON;
         } catch (SecurityException e) {

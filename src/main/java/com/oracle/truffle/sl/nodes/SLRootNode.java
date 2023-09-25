@@ -52,7 +52,7 @@ import com.oracle.truffle.sl.nodes.controlflow.SLBlockNode;
 import com.oracle.truffle.sl.nodes.controlflow.SLFunctionBodyNode;
 import com.oracle.truffle.sl.nodes.local.SLReadArgumentNode;
 import com.oracle.truffle.sl.nodes.local.SLWriteLocalVariableNode;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.language.ValkyrieLanguage;
 
 import java.util.ArrayList;
@@ -98,7 +98,7 @@ public class SLRootNode extends RootNode {
 
     @Override
     public Object execute(VirtualFrame frame) {
-        assert SLContext.get(this) != null;
+        assert ValkyrieVM.get(this) != null;
         return bodyNode.executeGeneric(frame);
     }
 

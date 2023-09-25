@@ -21,12 +21,11 @@ import com.oracle.truffle.sl.nodes.SLRootNode
 import com.oracle.truffle.sl.nodes.SLUndefinedFunctionRootNode
 import com.oracle.truffle.sl.nodes.local.SLReadArgumentNode
 import com.oracle.truffle.sl.parser.SimpleLanguageParser
-import com.oracle.truffle.sl.runtime.SLContext
+import com.oracle.truffle.sl.runtime.ValkyrieVM
 import valkyrie.language.file_type.ValkyrieFileDetector
 import valkyrie.runtime.SLLanguageView
 import valkyrie.runtime.ValkyrieObject
 import valkyrie.runtime.ValkyrieString
-import java.io.InputStreamReader
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.concurrent.Volatile
@@ -93,17 +92,17 @@ import kotlin.concurrent.Volatile
  * actions that build the AST for a method. To keep these semantic actions short, they are mostly
  * calls to the [SLNodeFactory] that performs the actual node creation. All functions found in
  * the SL source are added to the [SLFunctionRegistry], which is accessible from the
- * [SLContext].
+ * [ValkyrieVM].
  *
  *
  *
  * **Builtin functions:**<br></br>
  * Library functions that are available to every SL source without prior definition are called
- * builtin functions. They are added to the [SLFunctionRegistry] when the [SLContext] is
+ * builtin functions. They are added to the [SLFunctionRegistry] when the [ValkyrieVM] is
  * created. Some of the current builtin functions are
  *
- *  * [readln][SLReadlnBuiltin]: Read a String from the [standard][SLContext.getInput].
- *  * [println][SLPrintlnBuiltin]: Write a value to the [standard][SLContext.getOutput].
+ *  * [readln][SLReadlnBuiltin]: Read a String from the [standard][ValkyrieVM.getInput].
+ *  * [println][SLPrintlnBuiltin]: Write a value to the [standard][ValkyrieVM.getOutput].
  *  * [nanoTime][SLNanoTimeBuiltin]: Returns the value of a high-resolution time, in
  * nanoseconds.
  *  * [defineFunction][SLDefineFunctionBuiltin]: Parses the functions provided as a String
@@ -132,20 +131,20 @@ import kotlin.concurrent.Volatile
     StandardTags.ReadVariableTag::class,
     StandardTags.WriteVariableTag::class
 )
-class ValkyrieLanguage : TruffleLanguage<SLContext>() {
-    private val singleContext: Assumption = Truffle.getRuntime().createAssumption("Single SL context.")
+class ValkyrieLanguage : TruffleLanguage<ValkyrieVM>() {
+    private val rootShape: Shape
+    private val singleContext: Assumption = Truffle.getRuntime().createAssumption("Valkyrie Runtime Context.")
 
     private val builtinTargets: MutableMap<NodeFactory<out SLBuiltinNode>, RootCallTarget> = ConcurrentHashMap()
     private val undefinedFunctions: MutableMap<TruffleString, RootCallTarget?> = ConcurrentHashMap()
 
-    val rootShape: Shape
 
-    override fun createContext(env: Env?): SLContext {
-        return SLContext(this, env, ArrayList(EXTERNAL_BUILTINS))
+    override fun createContext(env: Env?): ValkyrieVM {
+        return ValkyrieVM(this, env, ArrayList(EXTERNAL_BUILTINS))
     }
 
 
-    override fun patchContext(context: SLContext, newEnv: Env): Boolean {
+    override fun patchContext(context: ValkyrieVM, newEnv: Env): Boolean {
         context.patchContext(newEnv)
         return true
     }
@@ -180,7 +179,7 @@ class ValkyrieLanguage : TruffleLanguage<SLContext>() {
          * Builtin functions are like normal functions, i.e., the arguments are passed in as an
          * Object[] array encapsulated in SLArguments. A SLReadArgumentNode extracts a parameter
          * from this array.
-         */for (i in 0 until argumentCount) {
+         */for (i in 0..<argumentCount) {
             argumentNodes[i] = SLReadArgumentNode(i)
         }
         /* Instantiate the builtin node. This node performs the actual functionality. */
@@ -281,15 +280,15 @@ class ValkyrieLanguage : TruffleLanguage<SLContext>() {
         return singleContext.isValid
     }
 
-    public override fun getLanguageView(context: SLContext, value: Any): Any {
+    public override fun getLanguageView(context: ValkyrieVM, value: Any): Any {
         return SLLanguageView.create(value)
     }
 
-    override fun isVisible(context: SLContext, value: Any): Boolean {
+    override fun isVisible(context: ValkyrieVM, value: Any): Boolean {
         return !InteropLibrary.getFactory().getUncached(value).isNull(value)
     }
 
-    override fun getScope(context: SLContext): Any {
+    override fun getScope(context: ValkyrieVM): Any {
         return context.functionRegistry.functionsObject
     }
 
@@ -309,7 +308,7 @@ class ValkyrieLanguage : TruffleLanguage<SLContext>() {
         rootShape = Shape.newBuilder().layout(ValkyrieObject::class.java).build()
     }
 
-    override fun exitContext(context: SLContext, exitMode: ExitMode, exitCode: Int) {
+    override fun exitContext(context: ValkyrieVM, exitMode: ExitMode, exitCode: Int) {
         /*
          * Runs shutdown hooks during explicit exit triggered by TruffleContext#closeExit(Node, int)
          * or natural exit triggered during natural context close.

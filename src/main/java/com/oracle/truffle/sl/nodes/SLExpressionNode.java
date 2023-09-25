@@ -54,7 +54,7 @@ import com.oracle.truffle.api.nodes.UnexpectedResultException;
  * The annotation {@link TypeSystemReference} specifies the SL types. Specifying it here defines the
  * type system for all subclasses.
  */
-@TypeSystemReference(SLTypes.class)
+@TypeSystemReference(ValkyrieTypes.class)
 @NodeInfo(description = "The abstract base node for all expressions")
 @GenerateWrapper
 public abstract class SLExpressionNode extends SLStatementNode {
@@ -103,10 +103,10 @@ public abstract class SLExpressionNode extends SLStatementNode {
      */
 
     public long executeLong(VirtualFrame frame) throws UnexpectedResultException {
-        return SLTypesGen.expectLong(executeGeneric(frame));
+        return ValkyrieTypesGen.expectLong(executeGeneric(frame));
     }
 
     public boolean executeBoolean(VirtualFrame frame) throws UnexpectedResultException {
-        return SLTypesGen.expectBoolean(executeGeneric(frame));
+        return ValkyrieTypesGen.expectBoolean(executeGeneric(frame));
     }
 }

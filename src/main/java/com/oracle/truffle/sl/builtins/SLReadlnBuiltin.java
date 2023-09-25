@@ -45,7 +45,7 @@ import com.oracle.truffle.api.dsl.Cached;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.language.ValkyrieLanguage;
 import valkyrie.runtime.ValkyrieString;
 import valkyrie.runtime.exceptions.ValkyrieException;
@@ -54,14 +54,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
- * Builtin function that reads a String from the {@link SLContext#getInput() standard input}.
+ * Builtin function that reads a String from the {@link ValkyrieVM#getInput() standard input}.
  */
 @NodeInfo(shortName = "readln")
 public abstract class SLReadlnBuiltin extends SLBuiltinNode {
 
     @Specialization
     public TruffleString readln(@Cached TruffleString.FromJavaStringNode fromJavaStringNode) {
-        TruffleString result = fromJavaStringNode.execute(doRead(SLContext.get(this).getInput()), ValkyrieLanguage.STRING_ENCODING);
+        TruffleString result = fromJavaStringNode.execute(doRead(ValkyrieVM.get(this).getInput()), ValkyrieLanguage.STRING_ENCODING);
         if (result == null) {
             /*
              * We do not have a sophisticated end of file handling, so returning an empty string is

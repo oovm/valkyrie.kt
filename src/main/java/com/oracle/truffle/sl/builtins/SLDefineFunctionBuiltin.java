@@ -45,7 +45,7 @@ import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.language.ValkyrieLanguage;
 
 /**
@@ -63,7 +63,7 @@ public abstract class SLDefineFunctionBuiltin extends SLBuiltinNode {
             build();
         // @formatter:on
         /* The same parsing code as for parsing the initial source. */
-        SLContext.get(this).getFunctionRegistry().register(source);
+        ValkyrieVM.get(this).getFunctionRegistry().register(source);
 
         return code;
     }

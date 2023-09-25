@@ -48,7 +48,7 @@ import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.strings.TruffleString;
 import com.oracle.truffle.sl.nodes.SLExpressionNode;
-import com.oracle.truffle.sl.runtime.SLContext;
+import com.oracle.truffle.sl.runtime.ValkyrieVM;
 import valkyrie.language.ValkyrieLanguage;
 import valkyrie.runtime.functions.ValkyrieFunction;
 import valkyrie.runtime.functions.ValkyrieFunctionRegistry;
@@ -69,7 +69,7 @@ public final class SLFunctionLiteralNode extends SLExpressionNode {
 
     /**
      * The resolved function. During parsing (in the constructor of this node), we do not have the
-     * {@link SLContext} available yet, so the lookup can only be done at {@link #executeGeneric
+     * {@link ValkyrieVM} available yet, so the lookup can only be done at {@link #executeGeneric
      * first execution}. The {@link CompilationFinal} annotation ensures that the function can still
      * be constant folded during compilation.
      */
@@ -92,7 +92,7 @@ public final class SLFunctionLiteralNode extends SLExpressionNode {
                 /* We are about to change a @CompilationFinal field. */
                 CompilerDirectives.transferToInterpreterAndInvalidate();
                 /* First execution of the node: lookup the function in the function registry. */
-                this.cachedFunction = function = SLContext.get(this).getFunctionRegistry().lookup(functionName, true);
+                this.cachedFunction = function = ValkyrieVM.get(this).getFunctionRegistry().lookup(functionName, true);
             }
         } else {
             /*
@@ -104,7 +104,7 @@ public final class SLFunctionLiteralNode extends SLExpressionNode {
             }
             // in the multi-context case we are not allowed to store
             // SLFunction objects in the AST. Instead we always perform the lookup in the hash map.
-            function = SLContext.get(this).getFunctionRegistry().lookup(functionName, true);
+            function = ValkyrieVM.get(this).getFunctionRegistry().lookup(functionName, true);
         }
         return function;
     }

@@ -48,7 +48,7 @@ import com.oracle.truffle.api.interop.UnsupportedMessageException;
 import com.oracle.truffle.api.library.CachedLibrary;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.strings.TruffleString;
-import com.oracle.truffle.sl.nodes.SLTypes;
+import com.oracle.truffle.sl.nodes.ValkyrieTypes;
 import valkyrie.language.ValkyrieLanguage;
 import valkyrie.runtime.ValkyrieNull;
 import valkyrie.runtime.ValkyrieString;
@@ -61,7 +61,7 @@ import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
  * The node to normalize any value to an SL value. This is useful to reduce the number of values
  * expression nodes need to expect.
  */
-@TypeSystemReference(SLTypes.class)
+@TypeSystemReference(ValkyrieTypes.class)
 @GenerateUncached
 @GenerateInline
 @GenerateCached(false)

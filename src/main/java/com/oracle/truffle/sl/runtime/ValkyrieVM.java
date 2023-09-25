@@ -77,7 +77,7 @@ import static com.oracle.truffle.api.CompilerDirectives.shouldNotReachHere;
  * However, if two separate scripts run in one Java VM at the same time, they have a different
  * context. Therefore, the context is not a singleton.
  */
-public final class SLContext {
+public final class ValkyrieVM {
 
     private final ValkyrieLanguage language;
     @CompilationFinal
@@ -88,7 +88,7 @@ public final class SLContext {
     private final AllocationReporter allocationReporter;
     private final List<ValkyrieFunction> shutdownHooks = new ArrayList<>();
 
-    public SLContext(ValkyrieLanguage language, TruffleLanguage.Env env, List<NodeFactory<? extends SLBuiltinNode>> externalBuiltins) {
+    public ValkyrieVM(ValkyrieLanguage language, TruffleLanguage.Env env, List<NodeFactory<? extends SLBuiltinNode>> externalBuiltins) {
         this.env = env;
         this.input = new BufferedReader(new InputStreamReader(env.in()));
         this.output = new PrintWriter(env.out(), true);
@@ -102,7 +102,7 @@ public final class SLContext {
     }
 
     /**
-     * Patches the {@link SLContext} to use a new {@link Env}. The method is called during the
+     * Patches the {@link ValkyrieVM} to use a new {@link Env}. The method is called during the
      * native image execution as a consequence of {@link Context#create(java.lang.String...)}.
      *
      * @param newEnv the new {@link Env} to use.
@@ -194,7 +194,7 @@ public final class SLContext {
             return fromForeignNumber(a);
         } else if (a instanceof TruffleObject) {
             return a;
-        } else if (a instanceof SLContext) {
+        } else if (a instanceof ValkyrieVM) {
             return a;
         }
         throw shouldNotReachHere("Value is not a truffle value.");
@@ -222,9 +222,9 @@ public final class SLContext {
         return (TruffleObject) env.getPolyglotBindings();
     }
 
-    private static final ContextReference<SLContext> REFERENCE = ContextReference.create(ValkyrieLanguage.class);
+    private static final ContextReference<ValkyrieVM> REFERENCE = ContextReference.create(ValkyrieLanguage.class);
 
-    public static SLContext get(Node node) {
+    public static ValkyrieVM get(Node node) {
         return REFERENCE.get(node);
     }
 
